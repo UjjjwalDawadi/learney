@@ -1,26 +1,23 @@
 // src/App.jsx
 
 import React from 'react';
-import { AuthProvider } from './authentication/AuthContext'; 
+// import { AuthProvider } from './authentication/AuthContext'; 
 // import AdminDashboard from './components/AdminDashboard/AdminDashboard';
-import HomePage from './components/HomePage/HomePage';
 
-import UserForm from './components/UserForm/UserForm';
+import HomePage from './components/Home/HomePage';
 
-
+// import UserForm from './components/UserForm/UserForm';
 
 function App() {
   return (
-    <AuthProvider>
+    // <AuthProvider>
       <div className="App">
 
 
-        <UserForm />
+        {/* <UserForm /> */}
         <HomePage/>
-
-        {/* Add other components/containers as needed */}
       </div>
-    </AuthProvider>
+    // </AuthProvider>
   );
 }
 

@@ -1,11 +1,14 @@
 // src/components/HomePage/HomePage.jsx
 import React from 'react';
+import Header from './Header'; // Check the correct path based on your structure
+import Body from './Body';
 
 const HomePage = () => {
   return (
     <div>
-      <h1>Welcome to the Homepage!</h1>
-      <p>This is a simple homepage component.</p>
+      <Header/>
+      <Body/>
+      
     </div>
   );
 };
