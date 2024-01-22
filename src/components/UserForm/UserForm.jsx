@@ -1,9 +1,12 @@
-// src/components/UserForm/UserForm.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaGoogle, FaFacebook, FaLinkedin, FaGithub} from "react-icons/fa";
+// import SocialLogin from '../Social/SocialLogin';
 import './UserForm.css';
 
 const UserForm = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+  const navigate = useNavigate();
 
   const toggleForm = () => {
     setIsSignIn((prev) => !prev);
@@ -11,28 +14,46 @@ const UserForm = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Your login logic...
+
+    const hardcodedUsername = "ujjwal";
+    const hardcodedPassword = "12";
+ 
+    const enteredUsername = e.target.elements.username.value;
+    const enteredPassword = e.target.elements.password.value;
+
+  // Check if entered credentials match the hardcoded credentials
+  if (enteredUsername === hardcodedUsername && enteredPassword === hardcodedPassword) {
+    // Simulating a successful login
     console.log('Logging in');
+    navigate('/homepage');
+  } else {
+    // Simulating a failed login
+    console.log('Login failed');
+    // You can add error handling or display an error message to the user
+  }
+    
+    // Simulating a successful login
+    navigate('/homepage');
   };
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    // Your signup logic...
 
-    // Simulating a successful registration
     console.log('Registration successful');
+    
+    // Navigate to the home page after successful registration
+    navigate('/homepage');
   };
+  
 
   return (
     <div className={`container ${isSignIn ? '' : 'active'}`}>
       <div className="form-container sign-in">
         <form onSubmit={handleLogin}>
           <h1>Sign In</h1>
-          <div className="social-icons">
-            {/* Add your social icons here */}
-          </div>
-          <input type="username" placeholder="Username" required />
-          <input type="password" placeholder="Password" required />
+          
+          <input type="username" name="username" placeholder="Username" required />
+          <input type="password" name="password" placeholder="Password" required />
           <a href="#">Forget Your Password?</a>
           <button type="submit">Sign In</button>
           <button className="hidden" onClick={toggleForm}>
@@ -43,9 +64,6 @@ const UserForm = () => {
       <div className="form-container sign-up">
         <form onSubmit={handleSignUp}>
           <h1>Create Account</h1>
-          <div className="social-icons">
-            {/* Add your social icons here */}
-          </div>
           <input type="text" placeholder="Username" required />
           <input type="email" placeholder="Email" required />
           <input type="password" placeholder="Password" required />
@@ -53,6 +71,14 @@ const UserForm = () => {
           <button className="hidden" onClick={toggleForm}>
             Sign In
           </button>
+          <h1>Or continue with </h1>
+          <div className="social-icons">
+            {/* <SocialLogin/> */}
+            <li><FaGoogle /></li>
+            <li><FaFacebook /></li>
+            <li><FaLinkedin /></li>
+            <li><FaGithub /></li>
+          </div>
         </form>
       </div>
       <div className="toggle-container">

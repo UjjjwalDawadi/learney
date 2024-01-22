@@ -3,15 +3,17 @@
 .header {
   display: flex;
   justify-content: space-between;
-  height: 60px;
+  height: 70px;
   align-items: center;
   padding: 10px 20px;
   background-color: #f1f1f1;
-  border-radius: 20px;
+  width: 100%;
+  
+
 }
 
 .header-left, .header-right {
-  display: flex;
+  display: absolute;
   align-items: center;
 }
 
@@ -28,22 +30,26 @@
 .header-middle {
   flex-grow: 1;
   margin: 0 20px;
-  width: 30%;
+  width: 50%;
 }
 
 .header-middle input {
-  height: 30px;
+  margin-left: 40px;
+  height: 40px;
+  width: 70%;
   padding: 8px;
   font-size: 1em; /* Adjusted the font size */
-  border-radius: 5px;
+  border-radius: 15px;
 }
 
 .header-right {
-  width: 40%; /* Increased the width of the right section */
+  width: 40%; 
+  margin-right: 30px;/* Increased the width of the right section */
 }
 
 .header-right ul {
   list-style: none;
+  transition: color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: flex-end; /* Aligned to the right */
@@ -54,15 +60,35 @@
   margin-right: 35px;
 }
 
+
 .header-right li {
   cursor: pointer;
   font-size: 1.5em; /* Increased the font size */
   transition: color 0.3s ease; /* Added a transition effect */
 }
-
-/* Additional styles for the account icon */
-.header-right .account-icon {
-  font-size: 2.5em; /* Increased the font size */
+.header-right ul li a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit color from the parent (or apply your custom color) */
 }
 
-/* Add more styles as needed */
+.header-right ul li:hover,
+.header-right ul li a:hover {
+  color: #c4390e; /* Change the color on hover to your desired color */
+}
+/* Additional styles for the account icon */
+.header-right .account-icon {
+  list-style: none;
+  vertical-align: middle;
+  
+}
+.cart-icon {
+  list-style: none; 
+  margin-right: 15px;
+  
+}
+
+.heart-icon {
+  list-style: none; 
+  margin-right: 15px; 
+}
+

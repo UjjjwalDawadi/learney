@@ -4,6 +4,7 @@
 
 * {
   margin: 0;
+  top: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
@@ -13,22 +14,27 @@ body {
   background-color: #c9d6ff;
   background: linear-gradient(to right, #e2e2e2, #c9d6ff);
   display: flex;
-  align-items: center;
-  justify-content: center;
+
   flex-direction: column;
   height: 100vh;
 }
+
 
 .container {
   background-color: #fff;
   border-radius: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-  position: relative;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   overflow: hidden;
   width: 768px;
   max-width: 100%;
   min-height: 480px;
 }
+
+
 
 .container p {
   font-size: 14px;
@@ -131,18 +137,25 @@ body {
 }
 
 .social-icons {
-  margin: 20px 0;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  font-size: 25px;
+  justify-content: center;
+  margin-top: 20px; 
+
+
 }
 
-.social-icons a {
-  border: 1px solid #ccc;
-  border-radius: 20%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 3px;
-  width: 40px;
-  height: 40px;
+.social-icons li {
+  margin: 0 15px; 
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.social-icons li:hover {
+  transform: scale(1.2);
+  color: #512da8; 
 }
 
 .toggle-container {
@@ -165,7 +178,6 @@ body {
 .toggle {
   background-color: #512da8;
   height: 100%;
-  background: linear-gradient(to right, #5c6bc0, #512da8);
   color: #fff;
   position: relative;
   left: -100%;

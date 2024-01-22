@@ -1,8 +1,9 @@
 import React from 'react';
-import './Header.css'
+import './Header.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { MdAccountCircle } from 'react-icons/md';
-
+import { RiAccountCircleLine } from "react-icons/ri";
+import { MdOutlineShoppingCart } from 'react-icons/md';
+import { FaRegHeart } from "react-icons/fa";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -17,25 +18,19 @@ const Header = () => {
         <span className="header-brand">Learney</span>
       </div>
       <div className="header-middle">
-        {/* Add your search bar component here */}
-        <input type="text" placeholder="Search for " />
+        <input type="text" placeholder="Search anything " />
       </div>
       <div className="header-right">
         <ul>
           <li>
-            <Link to="/HomePage">Home</Link>
+            <Link to="/homepage">Home</Link>
           </li>
-          <li onClick={() => handleNavigation('/')}>
-            Dashboard
-          </li>
-          <li onClick={() => handleNavigation('/')}>
+          <li onClick={() => handleNavigation('/courses')}>
             Courses
           </li>
-          {/* Add more navigation links here */}
-          <li>
-            {/* Add your account icon component here */}
-            <span><MdAccountCircle /></span>
-          </li>
+          <li className="cart-icon"><MdOutlineShoppingCart/></li>
+          <li className="heart-icon"><FaRegHeart/></li>
+          <li><Link to="/userform"><RiAccountCircleLine /></Link></li>
         </ul>
       </div>
     </nav>

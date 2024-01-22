@@ -1,30 +1,34 @@
-// Body.jsx
-
 import React from 'react';
-import './Body.css'; // Import your CSS file
+import './Body.css';
+import { useNavigate } from 'react-router-dom';
+import Video from '../../resources/Home.mp4'
+import { FaArrowRight } from "react-icons/fa6";
 
-const Body = () => {
+const BodySection = () => {
+  const navigate = useNavigate();
+
+  const handleExploreCourses = () => {
+    // Navigate to the Courses page
+    navigate('/courses');
+  };
   return (
-    <div className="container">
-      <div className="text-container">
-        <h2>Your Text Title</h2>
-        <p>
-          Your text content goes here. You can add more paragraphs, format the text, and customize it as needed.
+    <div className="body-section">
+      <div className="content">
+        <h1 className="title">A broad selection of courses</h1>
+        <p className="subtitle">
+        Choose from a diverse range of courses tailored to meet your learning goals 
         </p>
+        <button className="button start" onClick={handleExploreCourses}>Explore courses
+        <FaArrowRight style={{ marginLeft: '10px', fontSize: '24px', verticalAlign: 'middle' }} />
+        </button>
       </div>
       <div className="video-container">
-        {/* Replace the src attribute with your video source */}
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/yourvideoid"
-          title="Your Video Title"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <video className="video" autoPlay loop muted>
+          <source src={Video} type="video/mp4" />
+        </video>
       </div>
     </div>
   );
 };
 
-export default Body;
+export default BodySection;

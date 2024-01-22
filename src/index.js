@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom'; // Import BrowserRouter alias
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom';
+import App from './App.jsx';
 
-import App from './App.jsx'; // Update the correct path
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
 
-ReactDOM.render(
-  <Router>
+root.render(
+  <StrictMode>
     <App />
-  </Router>,
-  document.getElementById('root')
+  </StrictMode>
 );
