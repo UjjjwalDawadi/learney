@@ -22,7 +22,7 @@
 }
 
 .button.start {
-  background-color: #512da8;
+  background-color: #4e2828;
   color: #fff;
   font-size: 16px;
   padding: 10px 45px;
@@ -31,11 +31,11 @@
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin-top: 30px;
+  margin-top: 70px;
   justify-content: space-between;
   margin-left: 15%;
   cursor: pointer;
-  height: 50px;
+  height: 55px;
 }
 
 

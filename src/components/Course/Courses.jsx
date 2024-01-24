@@ -13,84 +13,75 @@ const imageFiles = images.keys().map(images);
 const courses = [
   {
     title: 'Course 1 Title',
-    instructor: 'Instructor 1',
+    teacher: 'teacher ',
     rating: 4.5,
     reviews: 100,
     price: 49.99,
-    bestseller: true,
     imageSrc: imageFiles[0],
   },
   {
     title: 'Course 2 Title',
-    instructor: 'Instructor 2',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
 
   {
     title: 'Course 3 Title',
-    instructor: 'Instructor 3',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
   {
     title: 'Course 4 Title',
-    instructor: 'Instructor 4',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
   {
     title: 'Course 5 Title',
-    instructor: 'Instructor 5',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
   {
     title: 'Course 6 Title',
-    instructor: 'Instructor 6',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
   {
     title: 'Course 7 Title',
-    instructor: 'Instructor 7',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
   {
     title: 'Course 8 Title',
-    instructor: 'Instructor 8',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
   {
     title: 'Course 9 Title',
-    instructor: 'Instructor 9',
+    teacher: 'teacher ',
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    bestseller: false,
     imageSrc: imageFiles[0],
   },
 ];
@@ -100,7 +91,7 @@ function Courses() {
     <div>
       <Header/>
     <div className="courses-container">
-      <h1>Learners are viewing</h1>
+      <h1>Available Courses</h1>
       <div className="courses-list">
         {courses.map((course, index) => (
           <Course key={index} {...course} />

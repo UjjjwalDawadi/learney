@@ -1,17 +1,15 @@
-/* Course.css */
-
 .course-card {
+  position: relative;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
   margin: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out;
-  max-width: 400px; /* Set maximum width for the container */
-  margin: 0 auto; /* Center the container */
+  max-width: 400px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   text-align: center;
 }
 
@@ -26,20 +24,47 @@
   border-radius: 8px 8px 0 0;
 }
 
-.bestseller-label {
-  color: #ff6600; /* Bestseller label color */
-  font-weight: bold;
-}
-
-/* Responsive styles */
 @media (max-width: 768px) {
   .course-card {
-    max-width: 100%; /* Full width on smaller screens */
+    max-width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .course-image {
-    max-height: 150px; /* Adjust image height on even smaller screens */
+    max-height: 150px;
   }
+
+  .course-card {
+    padding: 12px;
+  }
+}
+
+.description-dialog {
+  display: none;
+  position: absolute;
+  top: 10%;
+  left: 43%;
+  transform: translate(0, -50%);
+  width: 300px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  z-index: 1;
+}
+
+
+.course-card.hovered .description-dialog {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .description-dialog {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
 }

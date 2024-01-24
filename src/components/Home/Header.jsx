@@ -28,9 +28,13 @@ const Header = () => {
           <li onClick={() => handleNavigation('/courses')}>
             Courses
           </li>
-          <li className="cart-icon"><MdOutlineShoppingCart/></li>
-          <li className="heart-icon"><FaRegHeart/></li>
-          <li><Link to="/userform"><RiAccountCircleLine /></Link></li>
+
+          <li onClick={() => handleNavigation('/')}>
+            My progress
+          </li>
+          <span className="cart-icon"><MdOutlineShoppingCart/></span>
+          <span className="heart-icon"><FaRegHeart/></span>
+          <span className="account-icon"><RiAccountCircleLine /></span>
         </ul>
       </div>
     </nav>
