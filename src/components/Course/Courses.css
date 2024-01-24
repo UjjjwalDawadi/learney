@@ -1,24 +1,29 @@
 /* Courses.css */
 
 .courses-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin-right: 25px;
+  display: flex;
+  background-color: #73737323;
 }
 
 h1 {
-  margin-top: 20px;
-  text-align: center;
+  width: 100%;
+  margin-top: 10px;
+ text-align: center;
+ margin-bottom: 20px;
+ font-size: 1.3rem;
+
 }
 
 .courses-list {
-  margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+
 }
 
 .course-card {
-  flex: 0 0 calc(33.333% - 16px); /* Three columns with some margin */
+  flex: 0 0 calc(25% - 16px); 
   margin: 0 8px 16px;
   box-sizing: border-box;
 }
@@ -36,20 +41,14 @@ h1 {
   margin-bottom: 8px; /* Add margin between individual text elements */
 }
 
-.course-actions {
-  margin-top: 10px; /* Add margin between course details and actions */
-  justify-content: center;
-}
-
 .course-card .course-actions {
-  display: flex; /* Ensure buttons are displayed in a row */
-  justify-content: space-between; /* Add space between buttons */
-  margin-top: 8px; /* Add space between buttons and other elements */
+  justify-content: flex-start; 
+  margin-top: 8px; 
+  display:flex;
 }
 
 .course-card .add-to-cart-btn,
 .course-card .wishlist-btn {
-  padding: 10px;
   font-size: 16px;
   border: none;
   border-radius: 4px;
@@ -58,23 +57,56 @@ h1 {
 }
 
 .course-card .add-to-cart-btn {
-  background-color: #4e2828; /* Green color for Add to Cart button */
+  background-color: #3a333a; /* Green color for Add to Cart button */
   color: #fff;
-  margin-left: 15%;
-    width: 50%;
+  margin-left: 15px;
+  width: 60%;
+  height: 40px;
+  padding: 10px;
 }
 
 .course-card .wishlist-btn {
-  background-color:#ccc8c8; /* Blue color for Wishlist button */
-  border-radius: 50%; /* Make it a circle */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 15%;
+  background-color:rgba(78, 40, 40, 0.356);
+  border-radius: 50%; 
+  margin-left: 15px;
+  padding: 10px;
+  padding-top: 10px;
+  padding-right: 9px;
+  padding-bottom: 7px;
+
+  
 }
 
 .course-card .wishlist-btn svg {
-  width: 24px; /* Adjust the heart icon size */
+  width: 24px; 
   height: 24px;
-  fill: #0f0e0e; /* Heart icon color */
+  fill: #1d181d; 
 }
+
+.sidebar {
+  width: 55%;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  border-bottom-left-radius: 25px;
+  background-color: #73737300;
+  /* Add other styles as needed */
+}
+
+button{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.arrow{
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  height: 100vh;
+  position: sticky;
+  background-color: #73737380;
+  fill: #252323;
+  font-size: 30px;
+}
+
+

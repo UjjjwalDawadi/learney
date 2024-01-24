@@ -1,10 +1,11 @@
 // Courses.jsx
 
-import React from 'react';
+import React, { useState } from 'react';
 import Course from './Course';
 import './Courses.css';
 import '../../components/Home/Header'
 import Header from '../Home/Header';
+import { TbArrowBadgeLeftFilled, TbArrowBadgeRightFilled } from "react-icons/tb";
 
 // Import all PNG images from the images folder
 const images = require.context('../../resources/Images', false, /\.(png)$/);
@@ -87,17 +88,39 @@ const courses = [
 ];
 
 function Courses() {
+  const [filter, setFilter] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const filteredCourses = courses.filter(course =>
+    course.title.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <div>
       <Header/>
-    <div className="courses-container">
-      <h1>Available Courses</h1>
-      <div className="courses-list">
-        {courses.map((course, index) => (
-          <Course key={index} {...course} />
-        ))}
+      <div className="courses-container">
+        
+        {sidebarOpen && (
+          <div className="sidebar">
+            <h1>Filter Courses</h1>
+            <input type="text" placeholder="Search..." onChange={handleFilterChange} />
+          </div> 
+        )}
+        <button className="arrow "  onClick={() => setSidebarOpen(!sidebarOpen)}>
+        {sidebarOpen ? <span title='Hide Sidebar'><TbArrowBadgeLeftFilled /></span> : <span title='Show Sidebar'><TbArrowBadgeRightFilled /></span>}
+        </button>
+
+        <div className="courses-list">
+        <h1>Available Courses</h1>
+          {filteredCourses.map((course, index) => (
+            <Course key={index} {...course} />
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 }

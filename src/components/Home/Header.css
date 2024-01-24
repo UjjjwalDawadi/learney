@@ -2,7 +2,7 @@
 
 .header {
   display: flex;
-  height: 100px;
+  height: 70px;
   align-items: center;
   background-color: #f1f1f1;
   width: 100%;
@@ -10,12 +10,12 @@
 }
 
 .header-left {
-  margin-right: 40px; 
-  margin-left: 80px;
+  margin-right: 40px;
+  margin-left: 60px;
 }
 
 .header-brand {
-  font-size: 2.5em;
+  font-size: 2.3em;
   text-decoration: none;
   background: linear-gradient(45deg, #153aef, #e10040);
   color: transparent;
@@ -28,14 +28,16 @@
 }
 
 .header-middle input {
-  height: 40px;
-  width: 100%; 
-  font-size: 1em;
+  height: 38px;
+  border: #333;
+  width: 100%;
+  font-size: .8em;
+  padding-left: 10px;
   border-radius: 15px;
 }
 
 .header-right {
-  flex-grow: 1; 
+  flex-grow: 1;
   display: flex;
   justify-content: space-around;
 }
@@ -50,7 +52,7 @@
 .header-right li {
   cursor: pointer;
   margin-left: 20px;
-  font-size: 1.3em;
+  font-size: 1.1em;
   font-weight: 300;
   transition: color 0.3s ease;
   white-space: nowrap;
@@ -67,14 +69,42 @@
   color: #c4390e;
 }
 
+/* Tooltip styles */
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+  z-index: 1; /* Ensure the tooltips appear above other elements */
+}
+
+.cart-icon:hover .tooltip,
+.heart-icon:hover .tooltip,
+.account-icon:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.cart-icon{
+margin-left: 80px;
+position: relative;
+font-size: 25px;
+cursor: pointer;
+vertical-align: middle;
+}
 /* Additional styles for the account icon */
 .account-icon,
-.cart-icon,
 .heart-icon {
-  margin-left: 20px;
-  font-size: 25px;
-  cursor: pointer;
+margin-left: 30px;
+position: relative;
+font-size: 25px;
+cursor: pointer;
 }
+
 .account-icon:hover,
 .cart-icon:hover,
 .heart-icon:hover {

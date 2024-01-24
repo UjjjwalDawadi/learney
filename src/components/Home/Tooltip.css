@@ -1,0 +1,25 @@
+/* Tooltip.css */
+
+.tooltip {
+  position: absolute;
+  background-color: #fff;
+  color: #4e4b4b;
+  padding: 8px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  font-size: medium;
+  width: 250px;
+  transition: visibility 0s, opacity 0.5s linear;
+  z-index: 1;
+  top:100%; /* Position the tooltip just above the icon */
+  left: -150%; /* Center the tooltip horizontally */
+  transform: translateX(-50%); /* Center the tooltip horizontally */
+}
+
+.cart-icon:hover .tooltip,
+.heart-icon:hover .tooltip,
+.account-icon:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}

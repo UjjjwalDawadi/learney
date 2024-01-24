@@ -25,19 +25,19 @@ function Course({ title, teacher, rating, reviews, price, imageSrc }) {
           <h2>{title}</h2>
           <h3>{teacher}</h3>
           <p>
-            {rating} ★ ({reviews})
+            {rating}<span style={{ color: '#ff9413', fontSize: '19px' }}> ★ </span>({reviews})
           </p>
           <p>${price}</p>
         </div>
         <div className="course-actions">
           <button className="add-to-cart-btn">Add to Cart</button>
           <button className="wishlist-btn">
-            <FaRegHeart />
+          <span title='Add to wishlist'><FaRegHeart /></span>
           </button>
         </div>
       </div>
       <div className="description-dialog">
-        <p>Course Description Goes Here</p>
+        <p>Course <br/>Description <br/> Goes <br/>Here</p>
       </div>
     </div>
   );
