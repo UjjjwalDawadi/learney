@@ -1,0 +1,64 @@
+.sidebar {
+    width: 70%;
+    max-width: 23%;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    border-bottom-left-radius: 25px;
+    background-color: #73737300;
+  }
+
+  .sidebar h1{
+    color: #9f00ff;
+    margin-top: 20px;
+  }
+
+  .sidebar label {
+    margin-left: 10px;
+    margin-right: 20px;
+    display: flex;
+    font-size: 1rem;
+    font-weight: 100;
+    justify-content: space-between;
+  }
+
+  .sidebar h2{
+    font-size: 1rem;
+    font-weight: 400;
+    color: #a113fa;
+  }
+  .sort-course{
+    display: flex;
+    margin-top: 15px;
+    padding-left: 10px;
+    justify-content: space-between;
+    margin-right: 20px;
+  }
+  .dropdown-box{
+    width: 150px;
+  }
+  .price-input{
+    width: 65px;
+    border: none;
+    background-color: #fff;
+    border-radius: 15px;
+    height: 35px;
+    margin-top: 5px;
+    padding-left: 10px;
+  }
+
+  .rating{
+    width: 80px;
+    height: 35px;
+    border: none;
+    background-color: #fff;
+    border-radius: 15px;
+    margin-top: 5px;
+    padding-left: 10px;
+  }
+
+
+  .no-courses {
+    text-align: center;
+    margin-top: 20px;
+  }

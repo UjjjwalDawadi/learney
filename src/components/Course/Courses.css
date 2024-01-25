@@ -2,14 +2,14 @@
 
 .courses-container {
   max-width: 100%;
-  margin-right: 25px;
   display: flex;
   background-color: #73737323;
 }
 
-h1 {
+
+.courses-container h1 {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 20px;
  text-align: center;
  margin-bottom: 20px;
  font-size: 1.3rem;
@@ -19,11 +19,12 @@ h1 {
 .courses-list {
   display: flex;
   flex-wrap: wrap;
+margin-left: 4%;
 
 }
 
 .course-card {
-  flex: 0 0 calc(25% - 16px); 
+  flex: 0 0 calc(33.33% - 16px); 
   margin: 0 8px 16px;
   box-sizing: border-box;
 }
@@ -83,16 +84,6 @@ h1 {
   fill: #1d181d; 
 }
 
-.sidebar {
-  width: 55%;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  border-bottom-left-radius: 25px;
-  background-color: #73737300;
-  /* Add other styles as needed */
-}
-
 button{
   background: none;
   border: none;
@@ -102,11 +93,22 @@ button{
 .arrow{
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  height: 100vh;
-  position: sticky;
   background-color: #73737380;
-  fill: #252323;
-  font-size: 30px;
+  height: 100vh;
+  width: 50px;
+  position: sticky;
+  top: 0;
 }
+.arrow svg{
+  color:#3a333a6b ;
+  font-weight: 1000;
+  top: 50vh;
+  font-size: 30px;
+
+
+
+}
+
+
 
 
