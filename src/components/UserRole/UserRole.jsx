@@ -1,55 +1,32 @@
-// src/components/UserRole/UserRole.jsx
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './UserRole.css'
+import studentGif from '../../resources/Images/Student.gif';
+import teacherGif from '../../resources/Images/Teacher.gif';
 
 const UserRole = () => {
-  const [selectedRole, setSelectedRole] = useState('');
-  const history = useHistory();
-
-  const handleRoleSelection = (role) => {
-    setSelectedRole(role);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Your logic to handle the selected role
-
-    // Redirect to the appropriate page based on the selected role
-    if (selectedRole === 'student') {
-      history.push('/student-dashboard');
-    } else if (selectedRole === 'teacher') {
-      history.push('/teacher-dashboard');
-    } else {
-      console.error('Invalid role selected');
+    const navigate = useNavigate();
+    const handleRoleSelection = (role) => {
+        alert(`You have chosen to join Learney as a ${role}!`);
+        navigate('/homepage');
     }
-  };
 
-  return (
-    <div>
-      <h1>Choose Your Role</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input
-            type="radio"
-            value="student"
-            checked={selectedRole === 'student'}
-            onChange={() => handleRoleSelection('student')}
-          />
-          Student
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="teacher"
-            checked={selectedRole === 'teacher'}
-            onChange={() => handleRoleSelection('teacher')}
-          />
-          Teacher
-        </label>
-        <button type="submit">Continue</button>
-      </form>
+    return (
+        <div className='role-container'>
+            <h1>What will be your role?</h1>
+    <div className='roles'>
+    <div className='student-role'>
+        <img src={studentGif} alt="Student" />
+        <button className='role-button' onClick={() => handleRoleSelection('Student')}>Join as a Student</button>
     </div>
-  );
-};
+    <div className='teacher-role'>
+        <img src= {teacherGif} alt="Teacher" />
+        <button className='role-button' onClick={() => handleRoleSelection('Teacher')}>Join as a Teacher</button>
+    </div>
+    </div>
+</div>
+
+    );
+}
 
 export default UserRole;

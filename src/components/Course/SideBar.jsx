@@ -12,14 +12,14 @@ function SideBar({ sidebarOpen, handleRatingChange, handleMinPriceChange, handle
         <h1>Filter Courses</h1>
         <div>
         <label>
-          <h2>Minimum Rating</h2>
-          <input className='rating' type="number" min="0" max="5" step="0.1" onChange={handleRatingChange} placeholder="Rating" />
+          <h2>Rating</h2>
+          <input className='rating' type="number" min="0" max="5" step="0.1" onChange={handleRatingChange} placeholder="Min-Rating.." />
         </label>
         <label>
-        <h2>Price From</h2>
-          <input className='price-input' type="number" min="0" step="1" onChange={handleMinPriceChange} placeholder="Price" />
+        <h2>Price Range </h2>
+          <input className='price-input' type="number" min="0" step="1" onChange={handleMinPriceChange} placeholder="Min.." />
         <h2>To</h2>
-          <input className='price-input' type="number" min="0" step="1" onChange={handleMaxPriceChange} placeholder="Price" />
+          <input className='price-input' type="number" min="0" step="1" onChange={handleMaxPriceChange} placeholder="Max.." />
         </label>
         </div>
 

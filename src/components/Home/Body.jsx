@@ -1,8 +1,8 @@
 import React from 'react';
 import './Body.css';
 import { useNavigate } from 'react-router-dom';
-import Video from '../../resources/Home.mp4'
 import { FaArrowRight } from "react-icons/fa6";
+import homeImage from '../../resources/Images/Home.jpg';
 
 const BodySection = () => {
   const navigate = useNavigate();
@@ -22,10 +22,10 @@ const BodySection = () => {
         <FaArrowRight style={{ marginLeft: '10px', fontSize: '24px', verticalAlign: 'middle' }} />
         </button>
       </div>
-      <div className="video-container">
-        <video className="video" autoPlay loop muted>
-          <source src={Video} type="video/mp4" />
-        </video>
+      <div className="image-container">
+        <div className="image" >
+        <img src={homeImage} alt="Home" />
+        </div>
       </div>
     </div>
   );

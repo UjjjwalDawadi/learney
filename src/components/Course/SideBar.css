@@ -5,7 +5,7 @@
     position: sticky;
     top: 0;
     border-bottom-left-radius: 25px;
-    background-color: #73737300;
+    background-color: #ff8f11ab;
   }
 
   .sidebar h1{
@@ -48,7 +48,7 @@
   }
 
   .rating{
-    width: 80px;
+    width: 110px;
     height: 35px;
     border: none;
     background-color: #fff;

@@ -31,9 +31,7 @@ const UserForm = () => {
     console.log('Login failed');
     // You can add error handling or display an error message to the user
   }
-    
-    // Simulating a successful login
-    navigate('/homepage');
+
   };
 
   const handleSignUp = (e) => {
@@ -42,9 +40,8 @@ const UserForm = () => {
     console.log('Registration successful');
     
     // Navigate to the home page after successful registration
-    navigate('/homepage');
+    navigate('/userrole');
   };
-  
 
   return (
     <div className={`container ${isSignIn ? '' : 'active'}`}>

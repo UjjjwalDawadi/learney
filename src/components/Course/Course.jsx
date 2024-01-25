@@ -38,6 +38,7 @@ function Course({ title, teacher, rating, reviews, price, imageSrc }) {
       </div>
       <div className="description-dialog">
         <p>Course <br/>Description <br/> Goes <br/>Here</p>
+        <button className="enroll-button">Enroll Course</button>
       </div>
     </div>
   );

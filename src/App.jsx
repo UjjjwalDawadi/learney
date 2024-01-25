@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/Home/HomePage';
 import UserForm from './components/UserForm/UserForm';
 import Courses from './components/Course/Courses'
+import UserRole from './components/UserRole/UserRole';
 
 function App() {
   return (
@@ -16,10 +17,11 @@ function App() {
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/userform" element={<UserForm />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/userrole" element={<UserRole />} />
         {/* Add more routes as needed */}
 
         {/* Default route (optional): Redirect to /homepage when the root URL is accessed */}
-        <Route index element={<HomePage />} />
+        <Route index element={<UserForm />} />
       </Routes>
     </Router>
   );

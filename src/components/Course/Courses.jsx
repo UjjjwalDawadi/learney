@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Course from './Course';
 import './Courses.css';
-import '../../components/Home/Header'
+import '../Home/Header'
 import Header from '../Home/Header';
 import { TbArrowBadgeLeftFilled, TbArrowBadgeRightFilled } from "react-icons/tb";
 import SideBar from './SideBar'; // import the SideBar component
@@ -181,7 +181,7 @@ function Courses() {
               <Course key={index} {...course} />
             ))
           ) : (
-            <p className="no-courses">No courses available</p>
+            <p className="no-courses">No courses found!</p>
           )}
         </div>
       </div>
