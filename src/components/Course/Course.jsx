@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import './Course.css';
 import { FaRegHeart } from 'react-icons/fa';
 
-function Course({ title, teacher, rating, reviews, price, imageSrc }) {
+function Course({ title, teacher, rating, reviews, price, imageSrc, role }) {
   const [isHovered, setIsHovered] = useState(false);
+  const userRole = 'Teacher';
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -29,16 +30,17 @@ function Course({ title, teacher, rating, reviews, price, imageSrc }) {
           </p>
           <p>${price}</p>
         </div>
-        <div className="course-actions">
-          <button className="add-to-cart-btn">Add to Cart</button>
-          <button className="wishlist-btn">
-          <span title='Add to wishlist'><FaRegHeart /></span>
-          </button>
-        </div>
+        {userRole === 'student' && (
+          <div className="course-actions">
+            <button className="add-to-cart-btn">Add to Cart</button>
+            <button className="wishlist-btn">
+              <span title='Add to wishlist'><FaRegHeart /></span>
+            </button>
+          </div>
+        )}
       </div>
       <div className="description-dialog">
         <p>Course <br/>Description <br/> Goes <br/>Here</p>
-        <button className="enroll-button">Enroll Course</button>
       </div>
     </div>
   );
