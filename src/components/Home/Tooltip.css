@@ -16,10 +16,45 @@
   left: -150%; /* Center the tooltip horizontally */
   transform: translateX(-50%); /* Center the tooltip horizontally */
 }
-
 .cart-icon:hover .tooltip,
-.heart-icon:hover .tooltip,
-.account-icon:hover .tooltip {
+.heart-icon:hover .tooltip
+ {
   visibility: visible;
   opacity: 1;
+}
+.account-icon:hover .tooltip{
+  top: 100%;
+  left: -95%;
+  width: 175px;
+  padding: 0%;
+  text-align: start;
+  background-color: #fffffffd;
+  color: black;
+  visibility: visible;
+  opacity: 1;
+  font-size: 13px;
+}
+
+.tooltip ul {
+  list-style-type: none; 
+  padding: 0; 
+  display: block;
+}
+
+.tooltip li {
+  display: flex;
+  padding: 8px; 
+  border-bottom: 1px solid #ddd; 
+  margin-left: 10px;
+  align-items: center
+  ;
+
+}
+.account-icon:hover .tooltip li a{
+  font-weight: 400;
+  align-items: center;
+}
+.account-icon:hover .tooltip li a:hover{
+  color: rgb(250, 22, 6);
+  
 }

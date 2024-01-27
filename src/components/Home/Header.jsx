@@ -1,11 +1,19 @@
+
 // Header.js
 import React, { useState } from 'react';
 import './Header.css';
 import Tooltip from './Tooltip';
 import { Link, useNavigate } from 'react-router-dom';
 import { RiAccountCircleLine } from 'react-icons/ri';
-import { MdOutlineShoppingCart } from 'react-icons/md';
+import Account from '../../resources/Images/Account.png';
+import UserManagement from '../../resources/Images/UserManagement.png'
+import { MdOutlineShoppingCart, MdOutlineKeyboardDoubleArrowDown, MdOutlineLogout} from 'react-icons/md';
 import { FaRegHeart } from 'react-icons/fa';
+import { TbReport } from "react-icons/tb";
+import { GiProgression } from "react-icons/gi";
+import CourseGif from '../../resources/Images/Course.gif'
+const userRole = 'Teacher';
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -23,7 +31,7 @@ const Header = () => {
         <span className="header-brand">Learney</span>
       </div>
       <div className="header-middle">
-        <input type="text" placeholder ="Search anything... "  />
+        <input type="text" placeholder="Search anything... " />
       </div>
       <div className="header-right">
         <ul>
@@ -34,32 +42,74 @@ const Header = () => {
             Courses
           </li>
           <li onClick={() => handleNavigation('/')}>
-            My progress
+            Community
           </li>
-          <span
-            className="cart-icon"
-            onMouseEnter={() => setShowCartTooltip(true)}
-            onMouseLeave={() => setShowCartTooltip(false)}
-          >
-            <MdOutlineShoppingCart />
-            {showCartTooltip && <Tooltip text="Cart Information" />}
-          </span>
-          <span
-            className="heart-icon"
-            onMouseEnter={() => setShowHeartTooltip(true)}
-            onMouseLeave={() => setShowHeartTooltip(false)}
-          >
-            <FaRegHeart />
-            {showHeartTooltip && <Tooltip text="Wishlist Information" />}
-          </span>
-          <span
-            className="account-icon"
-            onMouseEnter={() => setShowAccountTooltip(true)}
-            onMouseLeave={() => setShowAccountTooltip(false)}
-          >
-            <RiAccountCircleLine />
-            {showAccountTooltip && <Tooltip text="Account Info" />}
-          </span>
+          {userRole === 'Student' && (
+            <>
+              <span
+                className="cart-icon"
+                onMouseEnter={() => setShowCartTooltip(true)}
+                onMouseLeave={() => setShowCartTooltip(false)}
+              >
+                <MdOutlineShoppingCart />
+                {showCartTooltip && <Tooltip>Cart Info</Tooltip>}
+              </span>
+              <span
+                className="heart-icon"
+                onMouseEnter={() => setShowHeartTooltip(true)}
+                onMouseLeave={() => setShowHeartTooltip(false)}
+              >
+                <FaRegHeart />
+                {showHeartTooltip && <Tooltip>Wishlist Info</Tooltip>}
+              </span>
+            </>
+          )}
+          
+          <div className='account-icon' onMouseEnter={() => setShowAccountTooltip(true)}
+              onMouseLeave={() => setShowAccountTooltip(false)}>
+          <span className='icon-1'><img src={Account} alt="Account" /></span>
+          {userRole === 'Student' ? (
+            
+            <li className='account-tooltip'>
+               <span className='down-arrow'><MdOutlineKeyboardDoubleArrowDown/></span>
+               {showAccountTooltip && <Tooltip>
+    <ul>
+          <li><span className='icon'><RiAccountCircleLine /></span><a href="/profile">Profile</a></li>
+          <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
+          <a href="/enrolled-courses">Enrolled Courses</a></li>
+          <li><span className='icon'><GiProgression /></span><a href="/track-progress">My Progress</a></li>
+          <li><span className='icon'><MdOutlineLogout /></span><a href="/logout">Logout</a></li>
+    </ul>
+  </Tooltip>}
+            </li>
+          ) : userRole === 'Admin' ? (
+            <li className='account-tooltip'>
+               <span className='down-arrow'><MdOutlineKeyboardDoubleArrowDown/></span>
+               {showAccountTooltip && <Tooltip>
+    <ul>
+          <li><span className='icon'><RiAccountCircleLine /></span><a href="/profile">Profile</a></li>
+          <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
+          <a href="/enrolled-courses">Manage Courses</a></li>
+          <li><span className='icon'><img src= {UserManagement} alt="User management" /></span><a href="/manage-user">Manage Users</a></li>
+          <li><span className='icon'><MdOutlineLogout /></span><a href="/logout">Logout</a></li>
+    </ul>
+  </Tooltip>}
+            </li>
+          ) : (
+            <li className='account-tooltip'>
+               <span className='down-arrow'><MdOutlineKeyboardDoubleArrowDown/></span>
+               {showAccountTooltip && <Tooltip>
+    <ul>
+          <li><span className='icon'><RiAccountCircleLine /></span><a href="/profile">Profile</a></li>
+          <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
+          <a href="/enrolled-courses">Manage Courses</a></li>
+          <li><span className='icon'><TbReport /></span><a href="/reports">Reports</a></li>
+          <li><span className='icon'><MdOutlineLogout /></span><a href="/logout">Logout</a></li>
+    </ul>
+  </Tooltip>}
+            </li>
+          )}
+          </div>
         </ul>
       </div>
     </nav>

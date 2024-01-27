@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Course from './Course';
 import './Courses.css';
-import '../Home/Header'
 import Header from '../Home/Header';
 import { TbArrowBadgeLeftFilled, TbArrowBadgeRightFilled } from "react-icons/tb";
 import SideBar from './SideBar'; // import the SideBar component
@@ -25,7 +24,7 @@ const courses = [
     rating: 4.8,
     reviews: 350,
     price: 79.99,
-    imageSrc: imageFiles[0], // Assuming you have more than one image in the array
+    imageSrc: imageFiles[1], // Assuming you have more than one image in the array
     type: 'Science', // Course type
     difficultyLevel: 'Advanced', // Difficulty level
     duration: 'Long', // Duration
@@ -39,7 +38,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
 
   {
@@ -48,7 +47,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
   {
     title: 'Course 4 Title',
@@ -56,7 +55,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
   {
     title: 'Course 5 Title',
@@ -64,7 +63,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
   {
     title: 'Course 6 Title',
@@ -72,7 +71,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
   {
     title: 'Course 7 Title',
@@ -80,7 +79,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
   {
     title: 'Course 8 Title',
@@ -88,7 +87,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
   {
     title: 'Course 9 Title',
@@ -96,7 +95,7 @@ const courses = [
     rating: 4.7,
     reviews: 120,
     price: 59.99,
-    imageSrc: imageFiles[0],
+    imageSrc: imageFiles[1],
   },
 ];
 
