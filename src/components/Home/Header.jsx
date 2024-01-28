@@ -12,7 +12,7 @@ import { FaRegHeart } from 'react-icons/fa';
 import { TbReport } from "react-icons/tb";
 import { GiProgression } from "react-icons/gi";
 import CourseGif from '../../resources/Images/Course.gif'
-const userRole = 'Teacher';
+const userRole = 'Student';
 
 
 const Header = () => {
@@ -41,7 +41,7 @@ const Header = () => {
           <li onClick={() => handleNavigation('/courses')}>
             Courses
           </li>
-          <li onClick={() => handleNavigation('/')}>
+          <li onClick={() => handleNavigation('/community')}>
             Community
           </li>
           {userRole === 'Student' && (
@@ -78,7 +78,7 @@ const Header = () => {
           <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
           <a href="/enrolled-courses">Enrolled Courses</a></li>
           <li><span className='icon'><GiProgression /></span><a href="/track-progress">My Progress</a></li>
-          <li><span className='icon'><MdOutlineLogout /></span><a href="/logout">Logout</a></li>
+          <li><span className='icon'><MdOutlineLogout /></span><a href="/userform">Logout</a></li>
     </ul>
   </Tooltip>}
             </li>
@@ -91,7 +91,7 @@ const Header = () => {
           <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
           <a href="/enrolled-courses">Manage Courses</a></li>
           <li><span className='icon'><img src= {UserManagement} alt="User management" /></span><a href="/manage-user">Manage Users</a></li>
-          <li><span className='icon'><MdOutlineLogout /></span><a href="/logout">Logout</a></li>
+          <li><span className='icon'><MdOutlineLogout /></span><a href="/userform">Logout</a></li>
     </ul>
   </Tooltip>}
             </li>
@@ -104,7 +104,7 @@ const Header = () => {
           <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
           <a href="/enrolled-courses">Manage Courses</a></li>
           <li><span className='icon'><TbReport /></span><a href="/reports">Reports</a></li>
-          <li><span className='icon'><MdOutlineLogout /></span><a href="/logout">Logout</a></li>
+          <li><span className='icon'><MdOutlineLogout /></span><a href="/userform">Logout</a></li>
     </ul>
   </Tooltip>}
             </li>

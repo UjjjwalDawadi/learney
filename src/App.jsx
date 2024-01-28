@@ -9,8 +9,9 @@ import UserForm from './components/UserForm/UserForm';
 import Courses from './components/Course/Courses';
 import UserRole from './components/UserRole/UserRole';
 import Student from './components/Accounts/Student';
-// import TeacherDashboard from './components/Accounts/TeacherDashboard';
-// import AdminDashboard from './components/Accounts/Adminbashboard';
+import Community from './components/Community/Community';
+// import Teacher from './components/Accounts/Teacher';
+// import Admin from './components/Accounts/Admin';
 
 
 function App() {
@@ -23,12 +24,13 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/userrole" element={<UserRole />} />
         <Route path="/student-account" element={<Student />} />
+        <Route path="/community" element={<Community />} />
         {/* <Route path="/teacher-account" element={<TeacherDashboard />} />
         <Route path="/admin-account" element={<AdminDashboard />} /> */}
         {/* Add more routes as needed */}
 
         {/* Default route (optional): Redirect to /homepage when the root URL is accessed */}
-        <Route index element={<UserForm />} />
+        <Route index element={<HomePage />} />
       </Routes>
     </Router>
   );
