@@ -8,11 +8,10 @@ import HomePage from './components/Home/HomePage';
 import UserForm from './components/UserForm/UserForm';
 import Courses from './components/Course/Courses';
 import UserRole from './components/UserRole/UserRole';
-import Student from './components/Accounts/Student';
+// import Student from './components/Accounts/Student';
 import Community from './components/Community/Community';
 // import Teacher from './components/Accounts/Teacher';
 // import Admin from './components/Accounts/Admin';
-
 
 function App() {
   return (
@@ -23,7 +22,7 @@ function App() {
         <Route path="/userform" element={<UserForm />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/userrole" element={<UserRole />} />
-        <Route path="/student-account" element={<Student />} />
+        {/* <Route path="/student-account" element={<Student />} /> */}
         <Route path="/community" element={<Community />} />
         {/* <Route path="/teacher-account" element={<TeacherDashboard />} />
         <Route path="/admin-account" element={<AdminDashboard />} /> */}

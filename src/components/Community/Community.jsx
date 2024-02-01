@@ -19,7 +19,7 @@ const Sidebar = ({ setGroupName }) => {
 };
 
 const Community = () => {
-  const [posts, setPosts] = useState([]); // This will hold all the posts
+  const [posts, setPosts] = useState({}); // This will hold all the posts for each group
   const role = 'student'; // This will be the role of the user
   const [groupName, setGroupName] = useState(''); // This will be the name of the group
   const messagesEndRef = useRef(null);
@@ -28,9 +28,13 @@ const Community = () => {
     event.preventDefault();
     const text = event.target.elements.postText.value;
     const newPost = { text, role };
-    setPosts((prevPosts) => [...prevPosts, newPost]);
+    setPosts(prevPosts => ({
+      ...prevPosts,
+      [groupName]: [...(prevPosts[groupName] || []), newPost]
+    }));
     event.target.reset();
   };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
@@ -48,7 +52,7 @@ const Community = () => {
               <h2>{groupName}</h2>
             </div>
             <div className='community-field'>
-              {posts.map((post, index) => (
+              {(posts[groupName] || []).map((post, index) => (
                 <div key={index}>
                   <p>{post.text}</p>
                   <p>Posted by: {post.role}</p>
