@@ -4,6 +4,7 @@ import { FaGoogle, FaFacebook, FaLinkedin, FaGithub} from "react-icons/fa";
 import { useAuth } from '../../authentication/AuthContext';
 import './UserForm.css';
 
+
 const UserForm = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const navigate = useNavigate();
@@ -12,40 +13,47 @@ const UserForm = () => {
   const toggleForm = () => {
     setIsSignIn((prev) => !prev);
   };
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
+const [registerErrorMessage, setRegisterErrorMessage] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
   
     const enteredUsername = e.target.elements.username.value;
     const enteredPassword = e.target.elements.password.value;
+    const data = { username: enteredUsername, password: enteredPassword };
   
-    fetch('/login', {
+    fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: enteredUsername, password: enteredPassword }),
+      body: JSON.stringify(data),
     })
     .then(response => {
-      console.log('Response status:', response.status); // Log the status code
-      return response.text(); // Use .text() if the server returns plain text
+      if (!response.ok) {
+        return response.json().then(data => {
+          throw new Error(data.errors.map(error => error.msg).join('\n'));
+        });
+      }
+      return response.json();
     })
     .then(data => {
-      if (data.includes("Login successful")) {
+      if (data.token) {
+        localStorage.setItem('token', data.token);
         login(enteredUsername);
         navigate('/homepage');
       } else {
         console.log('Login failed');
+        setLoginErrorMessage('Login Failed');
       }
     })
     .catch(error => {
       console.error('There has been a problem with your fetch operation:', error);
-      // Here you could update some state to display the error message to the user
+      setLoginErrorMessage(error.message);
     });
   };
   
-  
-
   const handleSignUp = async (e) => {
     e.preventDefault();
   
@@ -54,39 +62,32 @@ const UserForm = () => {
     const enteredPassword = e.target.elements.password.value;
   
     try {
-      const response = await fetch('/signup', {
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username: enteredUsername, email: enteredEmail, password: enteredPassword }),
       });
-    
+  
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        const data = await response.json();
+        throw new Error(data.errors.map(error => error.msg).join('\n'));
       }
-    
-      let data;
-      try {
-        data = await response.text(); 
-        navigate('/userrole');// Use .text() instead of .json()
-      } catch (error) {
-        console.error('Error parsing response:', error);
-        // Here you could update some state to display the error message to the user
-        return;
-      }
-    
+  
+      const data = await response.text();
+      
       if (data.includes("User registered successfully")) {
         login(enteredUsername);
         navigate('/userrole');
       } else {
-        console.log('Registration failed');
+        setRegisterErrorMessage('Registration failed');
       }
     } catch (error) {
       console.error('Error registering user:', error);
-      // Here you could update some state to display the error message to the user
+      setRegisterErrorMessage(error.message);
     }
-  };    
+  };
   
 
   return (
@@ -94,7 +95,7 @@ const UserForm = () => {
       <div className="form-container sign-in">
         <form onSubmit={handleLogin}>
           <h1>Sign In</h1>
-          
+          <div className="login-message">{loginErrorMessage && <p>{loginErrorMessage}</p>}</div>
           <input type="username" name="username" placeholder="Username"  />
           <input type="password" name="password" placeholder="Password"  />
           <a href="homepage">Forget Your Password?</a>
@@ -107,6 +108,7 @@ const UserForm = () => {
       <div className="form-container sign-up">
         <form onSubmit={handleSignUp}>
           <h1>Create Account</h1>
+          <div className="register-message">{registerErrorMessage && <p>{registerErrorMessage}</p>}</div>
           <input type="text" name="username"  placeholder="Username"  />
           <input type="email" name="email" placeholder="Email"  />
           <input type="password" name="password" placeholder="Password"  />

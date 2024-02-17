@@ -1,5 +1,11 @@
 {
+  
   "dependencies": {
     "body-parser": "^1.20.2"
-  }
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run start --prefix ./client\" \"npx nodemon ./server/App.js\""  }
 }
