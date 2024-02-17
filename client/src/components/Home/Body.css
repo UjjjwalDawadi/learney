@@ -1,6 +1,7 @@
 .body-section {
   display: flex;
   background-color: #edddfa;
+  z-index: 1;
 }
 
 .content {

@@ -5,14 +5,14 @@ import './Header.css';
 import Tooltip from './Tooltip';
 import { Link, useNavigate } from 'react-router-dom';
 import { RiAccountCircleLine } from 'react-icons/ri';
-import Account from '../../resources/Images/Account.png';
+import Defaultprofile from '../../resources/Images/default-profile.png';
 import UserManagement from '../../resources/Images/UserManagement.png'
 import { MdOutlineShoppingCart, MdOutlineKeyboardDoubleArrowDown, MdOutlineLogout} from 'react-icons/md';
-import { FaRegHeart } from 'react-icons/fa';
+import { FaRegHeart, } from 'react-icons/fa';
 import { TbReport } from "react-icons/tb";
 import { GiProgression } from "react-icons/gi";
 import CourseGif from '../../resources/Images/Course.gif'
-const userRole = 'Teacher';
+const userRole = 'Student';
 
 
 const Header = () => {
@@ -67,7 +67,7 @@ const Header = () => {
           
           <div className='account-icon' onMouseEnter={() => setShowAccountTooltip(true)}
               onMouseLeave={() => setShowAccountTooltip(false)}>
-          <span className='icon-1'><img src={Account} alt="Account" /></span>
+          <span className='icon-1'><img src={Defaultprofile}></img></span>
           {userRole === 'Student' ? (
             
             <li className='account-tooltip'>

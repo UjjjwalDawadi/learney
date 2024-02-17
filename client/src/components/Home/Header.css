@@ -6,6 +6,8 @@
   align-items: center;
   background-color: #f1f1f1;
   width: 100%;
+position: fixed;
+
   
 }
 
@@ -101,11 +103,12 @@ cursor: pointer;
 margin-left: 30px;
 position: relative;
 display: flex;
-font-size: 25px;
+font-size: 30px;
 cursor: pointer;
 }
-.account-icon svg{
+.account-icon svg,.heart-icon svg,.cart-icon svg{
 vertical-align:middle;
+
   }
   
 
@@ -127,7 +130,8 @@ margin: 0;
 
   }
 .icon-1 img{
-width: 25px;
+
+width: 28px;
 vertical-align: middle;
 border-radius: 15px;
 }

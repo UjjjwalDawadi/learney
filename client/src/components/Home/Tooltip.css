@@ -24,8 +24,8 @@
 }
 .account-icon:hover .tooltip{
   top: 100%;
-  left: -95%;
-  width: 175px;
+  left: -125px;
+  width: 300px;
   padding: 0%;
   text-align: start;
   background-color: #fffffffd;

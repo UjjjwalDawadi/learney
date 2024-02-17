@@ -13,12 +13,12 @@ const UserForm = () => {
     setIsSignIn((prev) => !prev);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     const enteredUsername = e.target.elements.username.value;
     const enteredPassword = e.target.elements.password.value;
-
+  
     fetch('/login', {
       method: 'POST',
       headers: {
@@ -26,43 +26,68 @@ const UserForm = () => {
       },
       body: JSON.stringify({ username: enteredUsername, password: enteredPassword }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          login(enteredUsername);
-          navigate('/homepage');
-        } else {
-          console.log('Login failed');
-          // You can add error handling or display an error message to the user
-        }
-      });
+    .then(response => {
+      console.log('Response status:', response.status); // Log the status code
+      return response.text(); // Use .text() if the server returns plain text
+    })
+    .then(data => {
+      if (data.includes("Login successful")) {
+        login(enteredUsername);
+        navigate('/homepage');
+      } else {
+        console.log('Login failed');
+      }
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      // Here you could update some state to display the error message to the user
+    });
   };
+  
+  
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
   
     const enteredUsername = e.target.elements.username.value;
     const enteredEmail = e.target.elements.email.value;
     const enteredPassword = e.target.elements.password.value;
   
-    fetch('/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username: enteredUsername, email: enteredEmail, password: enteredPassword }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          login(enteredUsername);
-          navigate('/userrole');
-        } else {
-          console.log('Registration failed');
-          // You can add error handling or display an error message to the user
-        }
+    try {
+      const response = await fetch('/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: enteredUsername, email: enteredEmail, password: enteredPassword }),
       });
-  };
+    
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    
+      let data;
+      try {
+        data = await response.text(); 
+        navigate('/userrole');// Use .text() instead of .json()
+      } catch (error) {
+        console.error('Error parsing response:', error);
+        // Here you could update some state to display the error message to the user
+        return;
+      }
+    
+      if (data.includes("User registered successfully")) {
+        login(enteredUsername);
+        navigate('/userrole');
+      } else {
+        console.log('Registration failed');
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      // Here you could update some state to display the error message to the user
+    }
+  };    
+  
 
   return (
     <div className={`container ${isSignIn ? '' : 'active'}`}>
@@ -70,8 +95,8 @@ const UserForm = () => {
         <form onSubmit={handleLogin}>
           <h1>Sign In</h1>
           
-          <input type="username" name="username" placeholder="Username" required />
-          <input type="password" name="password" placeholder="Password" required />
+          <input type="username" name="username" placeholder="Username"  />
+          <input type="password" name="password" placeholder="Password"  />
           <a href="homepage">Forget Your Password?</a>
           <button type="submit">Sign In</button>
           <button className="hidden" onClick={toggleForm}>
@@ -82,9 +107,9 @@ const UserForm = () => {
       <div className="form-container sign-up">
         <form onSubmit={handleSignUp}>
           <h1>Create Account</h1>
-          <input type="text" name="username"  placeholder="Username" required />
-          <input type="email" name="email" placeholder="Email" required />
-          <input type="password" name="password" placeholder="Password" required />
+          <input type="text" name="username"  placeholder="Username"  />
+          <input type="email" name="email" placeholder="Email"  />
+          <input type="password" name="password" placeholder="Password"  />
           <button type="submit">Sign Up</button>
           <button className="hidden" onClick={toggleForm}>
             Sign In
