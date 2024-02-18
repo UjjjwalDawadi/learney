@@ -24,6 +24,10 @@ const Header = () => {
   const handleNavigation = (path) => {
     navigate(path);
   };
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/userform')
+  }
 
   return (
     <nav className="header">
@@ -67,7 +71,7 @@ const Header = () => {
           
           <div className='account-icon' onMouseEnter={() => setShowAccountTooltip(true)}
               onMouseLeave={() => setShowAccountTooltip(false)}>
-          <span className='icon-1'><img src={Defaultprofile}></img></span>
+          <span className='icon-1'><img src={Defaultprofile}  alt='default profile'></img></span>
           {userRole === 'Student' ? (
             
             <li className='account-tooltip'>
@@ -78,7 +82,7 @@ const Header = () => {
           <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
           <a href="/enrolled-courses">Enrolled Courses</a></li>
           <li><span className='icon'><GiProgression /></span><a href="/track-progress">My Progress</a></li>
-          <li><span className='icon'><MdOutlineLogout /></span><a href="/userform">Logout</a></li>
+          <li onClick={logout}><span className='icon' ><MdOutlineLogout /></span>Logout</li>
     </ul>
   </Tooltip>}
             </li>
@@ -104,7 +108,7 @@ const Header = () => {
           <li><span className='icon'><img src= {CourseGif} alt="Teacher" /></span>
           <a href="/enrolled-courses">Manage Courses</a></li>
           <li><span className='icon'><TbReport /></span><a href="/reports">Reports</a></li>
-          <li><span className='icon'><MdOutlineLogout /></span><a href="/userform">Logout</a></li>
+          <li><span className='icon' onClick={logout}><MdOutlineLogout /></span>Logout</li>
     </ul>
   </Tooltip>}
             </li>

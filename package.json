@@ -1,11 +1,29 @@
 {
   
   "dependencies": {
-    "body-parser": "^1.20.2"
+  
+    
+  "body-parser": "^1.20.2",
+  
+    
+  "react": "^17.0.2",
+  
+    
+  "react-dom": "^17.0.2"
+  
   },
+  
   "devDependencies": {
-    "concurrently": "^8.2.2"
+  
+    
+  "concurrently": "^8.2.2"
+  
   },
+  
   "scripts": {
-    "start": "concurrently \"npm run start --prefix ./client\" \"npx nodemon ./server/App.js\""  }
+  
+    
+  "start": "concurrently \"npm run start --prefix ./client\" \"npx nodemon ./server/App.js\""
+  
+  }
 }

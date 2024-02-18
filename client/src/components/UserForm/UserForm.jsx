@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaLinkedin, FaGithub} from "react-icons/fa";
 import { useAuth } from '../../authentication/AuthContext';
-import SocialLogin from '../Social/SocialLogin';
+// import SocialLogin from '../Social/SocialLogin';
 import './UserForm.css';
 
 
@@ -121,7 +121,7 @@ const [registerErrorMessage, setRegisterErrorMessage] = useState('');
     )}
           <h1>Or continue with </h1>
           <div className="social-icons">
-             <SocialLogin/> 
+             {/* <SocialLogin/>  */}
             <li><FaGoogle /></li>
             <li><FaFacebook /></li>
             <li><FaLinkedin /></li>
