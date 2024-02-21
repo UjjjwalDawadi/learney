@@ -1,12 +1,13 @@
 /* Header.css */
 
 .header {
+  padding-left: 40px;
   display: flex;
-  height: 70px;
+  height: 80px;
   align-items: center;
   background-color: #f1f1f1;
   width: 100%;
-position: fixed;
+
 
   
 }
@@ -17,7 +18,7 @@ position: fixed;
 }
 
 .header-brand {
-  font-size: 2.3em;
+  font-size: 2.5em;
   text-decoration: none;
   background: linear-gradient(45deg, #153aef, #e10040);
   color: transparent;
@@ -25,17 +26,31 @@ position: fixed;
 }
 
 .header-middle {
-  margin-left: 2%; /* Adjusted for responsiveness */
-  width: 30%; /* Set a specific width for the middle container */
+  margin-left: 2%;
+  width: 30%; 
+  
 }
 
 .header-middle input {
-  height: 38px;
-  border: #333;
+ 
+  height: 42px;
   width: 100%;
-  font-size: .8em;
+  font-size: 1em;
+  border: transparent;
   padding-left: 10px;
-  border-radius: 15px;
+  border-radius: 25px;
+  outline: none;
+}
+.search-icon{
+  width: 100%;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 25px;
+}
+.search-icon svg{
+ color: #0a083b;
 }
 
 .header-right {
@@ -51,16 +66,41 @@ position: fixed;
   align-items: center;
 }
 
-
 .header-right li {
   cursor: pointer;
-  margin-left: 20px;
-  font-size: 1.1em;
-  font-weight: 300;
+  margin-left: 16px;
+  font-size: 1.2em;
+  color: #0a083b;
+  font-weight: 350;
   transition: color 0.3s ease;
   white-space: nowrap;
-  margin-right: 10px; /* Add space between items on the right (adjust as needed) */
+  margin-right: 10px;
+  position: relative; /* Added for the pseudo-element */
 }
+
+.header-right li:not(:has(a))::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.header-right li:not(:has(a)):hover::after {
+  width: 100%;
+}
+
+/* Add a class for the active state */
+.header-right li.active {
+  color: #db4444; /* Change the text color for the active state */
+}
+.header-right li.active::after {
+  width: 100%; /* Show the underline for the active page */
+}
+
 
 .header-right ul li a {
   text-decoration: none;
@@ -69,35 +109,7 @@ position: fixed;
 
 .header-right ul li:hover,
 .header-right ul li a:hover {
-  color: #c4390e;
-}
-
-.tooltip {
-  position: absolute;
-  background-color: #333;
-  color: #fff;
-  padding: 8px;
-  border-radius: 4px;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
-  z-index: 1; 
-}
-
-.cart-icon{
-margin-left: 60px;
-position: relative;
-font-size: 25px;
-cursor: pointer;
-vertical-align: middle;
-}
-/* Additional styles for the account icon */
-
-.heart-icon {
-margin-left: 30px;
-position: relative;
-font-size: 25px;
-cursor: pointer;
+  color: #f34009;
 }
 .account-icon{
 margin-left: 30px;
@@ -105,16 +117,9 @@ position: relative;
 display: flex;
 font-size: 30px;
 cursor: pointer;
+align-items: center;
 }
-.account-icon svg,.heart-icon svg,.cart-icon svg{
-vertical-align:middle;
-
-  }
-  
-
-.account-icon:hover,
-.cart-icon:hover,
-.heart-icon:hover
+.account-icon:hover
 {
   color: #c4390e;
 }

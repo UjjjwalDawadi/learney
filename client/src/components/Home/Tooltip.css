@@ -1,38 +1,29 @@
 /* Tooltip.css */
 
 .tooltip {
-  position: absolute;
-  background-color: #fff;
-  color: #4e4b4b;
-  padding: 8px;
   border-radius: 4px;
   visibility: hidden;
   opacity: 0;
   font-size: medium;
-  width: 250px;
   transition: visibility 0s, opacity 0.5s linear;
+  display: flex;
   z-index: 1;
-  top:100%; /* Position the tooltip just above the icon */
-  left: -150%; /* Center the tooltip horizontally */
-  transform: translateX(-50%); /* Center the tooltip horizontally */
+  top:100%; 
+  left: -100%; 
+  transform: translateX(-80%);
 }
-.cart-icon:hover .tooltip,
-.heart-icon:hover .tooltip
- {
-  visibility: visible;
-  opacity: 1;
-}
+
 .account-icon:hover .tooltip{
-  top: 100%;
-  left: -125px;
-  width: 300px;
-  padding: 0%;
+  position: absolute;
+  width: 382px;
+  padding: 20px 30px;
+  outline: none;
   text-align: start;
-  background-color: #fffffffd;
-  color: black;
+  background-color: #eeeeee;
   visibility: visible;
   opacity: 1;
   font-size: 13px;
+  
 }
 
 .tooltip ul {
@@ -43,8 +34,7 @@
 
 .tooltip li {
   display: flex;
-  padding: 8px; 
-  border-bottom: 1px solid #ddd; 
+  padding: 10px; 
   margin-left: 10px;
   align-items: center
   ;

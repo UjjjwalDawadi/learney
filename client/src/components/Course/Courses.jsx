@@ -99,7 +99,7 @@ const courses = [
   },
 ];
 
-function Courses() {
+function Courses( userRole) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [minRating, setMinRating] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
@@ -142,7 +142,7 @@ function Courses() {
 
   return (
     <div>
-      <Header/>
+      <Header userRole={userRole}/>
       <div className="courses-container">
         <SideBar/>
         <SideBar 

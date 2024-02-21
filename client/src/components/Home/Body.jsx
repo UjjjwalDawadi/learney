@@ -2,7 +2,7 @@ import React from 'react';
 import './Body.css';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowRight } from "react-icons/fa6";
-import homeImage from '../../resources/Images/Home.jpg';
+import homeImage from '../../resources/Images/Home.png';
 
 const BodySection = () => {
   const navigate = useNavigate();
@@ -16,9 +16,9 @@ const BodySection = () => {
       <div className="content">
         <h1 className="title">A broad selection of courses</h1>
         <p className="subtitle">
-        Choose from a diverse range of courses tailored to meet your learning goals 
+        Choose from a diverse range of courses tailored <br/>  to meet your learning goals 
         </p>
-        <button className="button start" onClick={handleExploreCourses}>Explore courses
+        <button className="button start" onClick={handleExploreCourses}>Explore Courses
         <FaArrowRight style={{ marginLeft: '10px', fontSize: '24px', verticalAlign: 'middle' }} />
         </button>
       </div>

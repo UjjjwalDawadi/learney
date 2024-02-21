@@ -5,7 +5,7 @@ import studentGif from '../../resources/Images/Student.gif';
 import teacherGif from '../../resources/Images/Teacher.gif';
 import { jwtDecode } from 'jwt-decode'; 
 
-const UserRole = () => {
+const UserRole = ({ setUserRole }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [userId, setUserId] = useState(null); 
@@ -13,6 +13,7 @@ const UserRole = () => {
   useEffect(() => {
     try {
       const token = new URLSearchParams(location.search).get('token');
+      console.log(token);
       if (token) {
         const decoded = jwtDecode(token);
         setUserId(decoded.user.id); // Set userId state
@@ -35,8 +36,8 @@ const UserRole = () => {
     });
   
     if (response.ok) {
-      alert(`You have chosen to join Learney as a ${role}!`);
       navigate('/homepage');
+      setUserRole(role); // Update the userRole state
     } else {
       alert('Role selection failed');
     }

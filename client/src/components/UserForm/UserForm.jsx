@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaLinkedin, FaGithub} from "react-icons/fa";
 import { useAuth } from '../../authentication/AuthContext';
+
+
 // import SocialLogin from '../Social/SocialLogin';
 import './UserForm.css';
 
@@ -17,43 +19,46 @@ const UserForm = () => {
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
 const [registerErrorMessage, setRegisterErrorMessage] = useState('');
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-  
-    const enteredUsername = e.target.elements.username.value;
-    const enteredPassword = e.target.elements.password.value;
-    const data = { username: enteredUsername, password: enteredPassword };
-  
-    fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(response => {
-      if (!response.ok) {
-        return response.json().then(data => {
-          throw new Error(data.errors.map(error => error.msg).join('\n'));
-        });
-      }
-      return response.json();
-    })
-    .then(data => {
-      if (data.token) {
-        localStorage.setItem('token', data.token);
-        login(enteredUsername);
-        navigate('/homepage');
-      } else {
-        console.log('Login failed');
-        setLoginErrorMessage('Login Failed');
-      }
-    })
-    .catch(error => {
-      console.error('There has been a problem with your fetch operation:', error);
-      setLoginErrorMessage(error.message);
-    });
-  };
+const handleLogin = async (e) => {
+  e.preventDefault();
+
+  const enteredUsername = e.target.elements.username.value;
+  const enteredPassword = e.target.elements.password.value;
+  const data = { username: enteredUsername, password: enteredPassword };
+
+  fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => {
+    console.log('Response:', response);
+    if (!response.ok) {
+      return response.json().then(data => {
+        throw new Error(data.errors.map(error => error.msg).join('\n'));
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      login(enteredUsername);
+      navigate('/homepage');
+    } else {
+      console.log('Login failed');
+      setLoginErrorMessage('Login Failed');
+    }
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+    setLoginErrorMessage(error.message);
+  });
+};
+
+
   
   const handleSignUp = async (e) => {
     e.preventDefault();

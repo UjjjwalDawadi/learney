@@ -1,16 +1,12 @@
-
-// src/components/HomePage/HomePage.jsx
 import React from 'react';
 import Header from './Header'; 
 import Body from './Body';
 
-const HomePage = () => {
+const HomePage = ({ userRole }) => { 
   return (
-    
     <div>
-      <Header/>
-      <Body/>
-      
+      <Header userRole={userRole} /> 
+      <Body />
     </div>
   );
 };
