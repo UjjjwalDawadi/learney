@@ -17,10 +17,13 @@ export const AuthProvider = ({ children }) => {
   setLoggedIn(true);
   console.log('Logged in as:', username);
 };
-
-  
-  
-
+const register = async (username,role,userEmail) => {
+  setUsername(username);
+  setUserRole(role);
+  setUserEmail(userEmail);
+  setLoggedIn(true);
+  console.log('Registered in as:', username);
+};
   const logout = () => {
     setUsername('');
     localStorage.removeItem('token');
@@ -35,6 +38,7 @@ export const AuthProvider = ({ children }) => {
     userRole,
     userEmail,
     login,
+    register,
     logout,
   }), [loggedIn, username, userRole,userEmail]);
 

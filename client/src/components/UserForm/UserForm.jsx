@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { useAuth } from '../../authentication/AuthContext';
 
-
 import './UserForm.css';
 
 const UserForm = () => {
@@ -85,17 +84,21 @@ const UserForm = () => {
       }
 
       const data = await response.text();
+      
 
       if (data.includes('token')) {
 
         const parsedData = JSON.parse(data);
-  const token = parsedData.token;
+
+        const token = parsedData.token;
+
         console.log('token is ',token)
         localStorage.setItem('token', token);
         navigate('/userrole');
       } else {
         setRegisterErrorMessage('Registration failed');
       }
+      
     } catch (error) {
       console.error('Error registering user:', error);
       setRegisterErrorMessage(error.message);

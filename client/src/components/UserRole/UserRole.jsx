@@ -1,12 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './UserRole.css'
+import {jwtDecode} from 'jwt-decode';
+
+import './UserRole.css';
+import { useAuth } from '../../authentication/AuthContext';
 import studentGif from '../../resources/Images/Student.gif';
 import teacherGif from '../../resources/Images/Teacher.gif';
 
 
 const UserRole = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleRoleSelection = async (role) => {
     const token = localStorage.getItem('token');
@@ -33,8 +37,13 @@ const UserRole = () => {
         navigate('/homepage');
       } else {
         console.error('Error');
-      
       }
+
+      const decodedToken = jwtDecode(token);
+      const { username, email } = decodedToken.user;
+    const userEmail = email;
+      console.log('username.',username,'email',userEmail);
+      register(username,role,userEmail);
     } catch (err) {
       console.error('Error selecting role:', err);
       
