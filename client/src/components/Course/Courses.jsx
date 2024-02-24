@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Course from './Course';
 import './Courses.css';
-import Header from '../Home/Header';
 import { TbArrowBadgeLeftFilled, TbArrowBadgeRightFilled } from "react-icons/tb";
 import SideBar from './SideBar'; // import the SideBar component
 
@@ -99,7 +98,7 @@ const courses = [
   },
 ];
 
-function Courses( userRole) {
+function Courses() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [minRating, setMinRating] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
@@ -142,8 +141,6 @@ function Courses( userRole) {
 
   return (
     <div>
-      <Header userRole={userRole}/>
-      <div className="courses-container">
         <SideBar/>
         <SideBar 
           sidebarOpen={sidebarOpen} 
@@ -184,7 +181,6 @@ function Courses( userRole) {
           )}
         </div>
       </div>
-    </div>
   );
 }
 

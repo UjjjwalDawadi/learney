@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './Course.css';
 import { FaRegHeart } from 'react-icons/fa';
 
-function Course({ title, teacher, rating, reviews, price, imageSrc, userRole }) {
+function Course({ title, teacher, rating, reviews, price, imageSrc }) {
   const [isHovered, setIsHovered] = useState(false);
+  
+  const userRole = "Student";
   
 
 

@@ -1,47 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './UserRole.css'
 import studentGif from '../../resources/Images/Student.gif';
 import teacherGif from '../../resources/Images/Teacher.gif';
-import { jwtDecode } from 'jwt-decode'; 
 
-const UserRole = ({ setUserRole }) => {
+
+const UserRole = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [userId, setUserId] = useState(null); 
-
-  useEffect(() => {
-    try {
-      const token = new URLSearchParams(location.search).get('token');
-      console.log(token);
-      if (token) {
-        const decoded = jwtDecode(token);
-        setUserId(decoded.user.id); // Set userId state
-      }
-    } catch (err) {
-      console.error('Failed to decode token:', err);
-    }
-  }, [location.search]); // Run whenever location.search changes
-
-  console.log('User ID:', userId); // Moved outside of useEffect
 
   const handleRoleSelection = async (role) => {
+    const token = localStorage.getItem('token');
+    console.log(token);
 
-    const response = await fetch('/api/userRole', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId, role }),
-    });
-  
-    if (response.ok) {
-      navigate('/homepage');
-      setUserRole(role); // Update the userRole state
-    } else {
-      alert('Role selection failed');
+    try {
+      const response = await fetch('/api/selectRole', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ role }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.errors.map((error) => error.msg).join('\n'));
+      }
+
+      const data = await response.text();
+
+      if (data.includes('Role updated successfully')) {
+        navigate('/homepage');
+      } else {
+        console.error('Error');
+      
+      }
+    } catch (err) {
+      console.error('Error selecting role:', err);
+      
     }
   }
+  
 
   return (
     <div className='role-container'>

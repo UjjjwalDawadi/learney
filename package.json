@@ -23,7 +23,7 @@
   "scripts": {
   
     
-  "start": "concurrently \"npm run start --prefix ./client\" \"npx nodemon ./server/App.js\""
+  "start": "concurrently \"npm run start --prefix ./client/\" \"npx nodemon ./server/App.js\""
   
   }
 }

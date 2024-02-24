@@ -1,67 +1,27 @@
-import React, { useState, useEffect, useContext } from 'react';
-import './Header.css';
-import Tooltip from './Tooltip';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+
+import './Header.css';
+import Tooltip from '../Tooltip/Tooltip';
+import { useAuth } from '../authentication/AuthContext';
+
 import { RiAccountCircleLine } from 'react-icons/ri';
-import Defaultprofile from '../../resources/Images/default-profile.png';
-import UserManagement from '../../resources/Images/UserManagement.png';
+import Defaultprofile from '../resources/Images/default-profile.png';
+import UserManagement from '../resources/Images/UserManagement.png';
 import { MdOutlineShoppingCart, MdOutlineSettings, MdOutlineDashboardCustomize, MdOutlineLogout } from 'react-icons/md';
 import { FaRegHeart, FaSearch, FaCaretDown } from 'react-icons/fa';
 import { TbReport } from 'react-icons/tb';
-import CourseGif from '../../resources/Images/Course.gif';
-import { UserContext } from '../../UserContext'; // Import UserContext as a named export
-
+import CourseGif from '../resources/Images/Course.gif';
 
 const Header = () => {
-  const { userRole } = useContext(UserContext);
+  const { userRole,loggedIn,logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [showAccountTooltip, setShowAccountTooltip] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleNavigation = (path) => {
     navigate(path);
   };
-
-  useEffect(() => {
-    // Get the JWT token from local storage
-    const token = localStorage.getItem('token');
-    // Fetch the user role using the JWT token
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/userRole/', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-    
-        if (!response.ok) {
-          throw new Error('Unauthorized');
-        }
-    
-        const data = await response.json();
-        console.log('Response:', data);
-     // Log the response data
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error:', error);
-        // Handle unauthorized error
-        if (error.message === 'Unauthorized') {
-          // Redirect to login page or show an error message
-          navigate('/homepage');
-        }
-      }
-    };
-  
-    fetchData();
-  }, [navigate]);
-    
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    navigate('/userform');
-  };
-  
 
   return (
     <nav className="header">
@@ -85,8 +45,10 @@ const Header = () => {
           <li className={location.pathname === '/community' ? 'active' : ''} onClick={() => handleNavigation('/community')}>
             Community
           </li>
-          {isLoading ? (
-            <div>Loading...</div>
+          {!loggedIn ? (
+            <div className="get-started">
+              <a href="/userform">Get Started</a>
+            </div>
           ) : (
             <div className="account-icon" onMouseEnter={() => setShowAccountTooltip(true)} onMouseLeave={() => setShowAccountTooltip(false)}>
               <span className="icon-1">

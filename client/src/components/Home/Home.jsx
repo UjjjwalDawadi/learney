@@ -1,10 +1,10 @@
 import React from 'react';
-import './Body.css';
+import './Home.css';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowRight } from "react-icons/fa6";
 import homeImage from '../../resources/Images/Home.png';
 
-const BodySection = () => {
+const Home = () => {
   const navigate = useNavigate();
 
   const handleExploreCourses = () => {
@@ -12,6 +12,8 @@ const BodySection = () => {
     navigate('/courses');
   };
   return (
+    <div className="home">
+    
     <div className="body-section">
       <div className="content">
         <h1 className="title">A broad selection of courses</h1>
@@ -27,8 +29,9 @@ const BodySection = () => {
         <img src={homeImage} alt="Home" />
         </div>
       </div>
+      </div>
     </div>
   );
 };
 
-export default BodySection;
+export default Home;

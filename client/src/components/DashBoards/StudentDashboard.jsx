@@ -1,6 +1,6 @@
 import React from 'react';
 import './StudentDashboard.css';
-import Header from '../Home/Header'; 
+import Header from '../../Header/Header'; 
 
 const Dashboard = () => {
   return (

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Community.css';
-import Header from '../Home/Header'
 import { IoSend } from "react-icons/io5";
 
 const Sidebar = ({ setGroupName }) => {
@@ -43,7 +42,6 @@ const Community = () => {
 
   return (
     <div>
-      <Header/>
       <div className='community-container'>
         <Sidebar setGroupName={setGroupName} />
         {groupName ? (

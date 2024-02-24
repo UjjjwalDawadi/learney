@@ -1,24 +1,45 @@
-// src/authentication/AuthContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [userEmail, setUserEmail] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
-  const login = (user) => {
-    setUsername(user);
-    setLoggedIn(true);
-  };
+
+
+  const login = async (username,userRole,userEmail) => {
+  setUsername(username);
+  setUserRole(userRole);
+  setUserEmail(userEmail);
+  setLoggedIn(true);
+  console.log('Logged in as:', username);
+};
+
+  
+  
 
   const logout = () => {
     setUsername('');
+    localStorage.removeItem('token');
     setLoggedIn(false);
+    setUserRole(null); // Reset userRole when logging out
+    console.log('Logged out');
   };
 
+  const contextValue = useMemo(() => ({
+    loggedIn,
+    username,
+    userRole,
+    userEmail,
+    login,
+    logout,
+  }), [loggedIn, username, userRole,userEmail]);
+
   return (
-    <AuthContext.Provider value={{ loggedIn, username, login, logout }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
