@@ -10,10 +10,10 @@
   z-index: 1;
   top:100%; 
   left: -100%; 
-  transform: translateX(-80%);
+  transform: translateX(-90%);
 }
 
-.account-icon:hover .tooltip{
+.user-container:hover .tooltip{
   position: absolute;
   width: 382px;
   padding: 20px 30px;
@@ -40,11 +40,11 @@
   ;
 
 }
-.account-icon:hover .tooltip li a{
+.user-container:hover .tooltip li a{
   font-weight: 400;
   align-items: center;
 }
-.account-icon:hover .tooltip li a:hover{
+.user-container:hover .tooltip li a:hover{
   color: rgb(250, 22, 6);
   
 }

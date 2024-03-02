@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import './Header.css';
-import Tooltip from '../Tooltip/Tooltip';
-import { useAuth } from '../authentication/AuthContext';
+import Tooltip from '../../Tooltip/Tooltip';
+import { useAuth } from '../../authentication/AuthContext';
 
 import { RiAccountCircleLine } from 'react-icons/ri';
-import Defaultprofile from '../resources/Images/default-profile.png';
-import UserManagement from '../resources/Images/UserManagement.png';
+import Defaultprofile from '../../resources/Images/default-profile.png';
+import UserManagement from '../../resources/Images/UserManagement.png';
 import { MdOutlineShoppingCart, MdOutlineSettings, MdOutlineDashboardCustomize, MdOutlineLogout } from 'react-icons/md';
-import { FaRegHeart, FaSearch, FaCaretDown } from 'react-icons/fa';
+import { FaRegHeart, FaSearch } from 'react-icons/fa';
 import { TbReport } from 'react-icons/tb';
-import CourseGif from '../resources/Images/Course.gif';
+import CourseGif from '../../resources/Images/Course.gif';
 
 const Header = () => {
-  const { userRole,loggedIn,logout } = useAuth();
+  const { username, userRole, loggedIn, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [showAccountTooltip, setShowAccountTooltip] = useState(false);
@@ -50,15 +50,18 @@ const Header = () => {
               <a href="/userform">Get Started</a>
             </div>
           ) : (
-            <div className="account-icon" onMouseEnter={() => setShowAccountTooltip(true)} onMouseLeave={() => setShowAccountTooltip(false)}>
-              <span className="icon-1">
-                <img src={Defaultprofile} alt="default profile"></img>
-              </span>
+            <div className="user-container" onMouseEnter={() => setShowAccountTooltip(true)} onMouseLeave={() => setShowAccountTooltip(false)}>
+              <img src={Defaultprofile} alt="default profile"></img>
+              <div className="user-details">
+                <span className="user-name">
+                  {username}
+                </span>
+                <span className="user-role">
+                  {userRole}
+                </span>
+              </div>
               {userRole === 'Student' ? (
                 <li className="account-tooltip">
-                  <span className="down-arrow">
-                    <FaCaretDown />
-                  </span>
                   {showAccountTooltip && (
                     <Tooltip>
                       <ul>
@@ -114,17 +117,20 @@ const Header = () => {
                 </li>
               ) : userRole === 'Admin' ? (
                 <li className="account-tooltip">
-                  <span className="down-arrow">
-                    <FaCaretDown />
-                  </span>
                   {showAccountTooltip && (
                     <Tooltip>
                       <ul>
                         <li>
                           <span className="icon">
+                            <MdOutlineDashboardCustomize />
+                          </span>
+                          <a href="/student-dashboard">DashBoard</a>
+                        </li>
+                        <li>
+                          <span className="icon">
                             <RiAccountCircleLine />
                           </span>
-                          <a href="/profile">Profile</a>
+                          <a href="/profile">My Profile</a>
                         </li>
                         <li>
                           <span className="icon">
@@ -138,29 +144,43 @@ const Header = () => {
                           </span>
                           <a href="/manage-user">Manage Users</a>
                         </li>
-                        <li>
-                          <span className="icon">
-                            <MdOutlineLogout />
-                          </span>
-                          <a href="/userform">Logout</a>
-                        </li>
+
                       </ul>
+                      <div className="sub-links">
+                        <ul>
+                          <li>
+                            <span className="icon">
+                              <MdOutlineSettings />
+                            </span>
+                            <a href="/settings"> Settings</a>
+                          </li>
+                          <li onClick={logout}>
+                            <span className="icon">
+                              <MdOutlineLogout />
+                            </span>
+                            <a href="/userform"> Logout</a>
+                          </li>
+                        </ul>
+                      </div>
                     </Tooltip>
                   )}
                 </li>
-              ) : (
+              ) : userRole === 'Teacher' ? (
                 <li className="account-tooltip">
-                  <span className="down-arrow">
-                    <FaCaretDown />
-                  </span>
                   {showAccountTooltip && (
                     <Tooltip>
                       <ul>
                         <li>
                           <span className="icon">
+                            <MdOutlineDashboardCustomize />
+                          </span>
+                          <a href="/student-dashboard">DashBoard</a>
+                        </li>
+                        <li>
+                          <span className="icon">
                             <RiAccountCircleLine />
                           </span>
-                          <a href="/profile">Profile</a>
+                          <a href="/profile"> My Profile</a>
                         </li>
                         <li>
                           <span className="icon">
@@ -174,19 +194,72 @@ const Header = () => {
                           </span>
                           <a href="/reports">Reports</a>
                         </li>
+                      </ul>
+                      <div className="sub-links">
+                        <ul>
+                          <li>
+                            <span className="icon">
+                              <MdOutlineSettings />
+                            </span>
+                            <a href="/settings"> Settings</a>
+                          </li>
+                          <li onClick={logout}>
+                            <span className="icon">
+                              <MdOutlineLogout />
+                            </span>
+                            <a href="/userform"> Logout</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </Tooltip>
+                  )}
+                </li>
+              ) : (
+                <li className="account-tooltip">
+                  {showAccountTooltip && (
+                    <Tooltip>
+                      <ul>
                         <li>
                           <span className="icon">
-                            <MdOutlineSettings />
+                            <MdOutlineDashboardCustomize />
                           </span>
-                          Settings
+                          <a href="/student-dashboard">DashBoard</a>
                         </li>
                         <li>
-                          <span className="icon" onClick={logout}>
-                            <MdOutlineLogout />
+                          <span className="icon">
+                            <RiAccountCircleLine />
                           </span>
-                          Logout
+                          <a href="/profile"> My Profile</a>
+                        </li>
+                        <li>
+                          <span className="icon">
+                            <img src={CourseGif} alt="Teacher" />
+                          </span>
+                          <a href="/enrolled-courses">Manage Courses</a>
+                        </li>
+                        <li>
+                          <span className="icon">
+                            <TbReport />
+                          </span>
+                          <a href="/reports">Reports</a>
                         </li>
                       </ul>
+                      <div className="sub-links">
+                        <ul>
+                          <li>
+                            <span className="icon">
+                              <MdOutlineSettings />
+                            </span>
+                            <a href="/settings"> Settings</a>
+                          </li>
+                          <li onClick={logout}>
+                            <span className="icon">
+                              <MdOutlineLogout />
+                            </span>
+                            <a href="/userform"> Logout</a>
+                          </li>
+                        </ul>
+                      </div>
                     </Tooltip>
                   )}
                 </li>

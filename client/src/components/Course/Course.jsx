@@ -5,7 +5,7 @@ import { FaRegHeart } from 'react-icons/fa';
 function Course({ title, teacher, rating, reviews, price, imageSrc }) {
   const [isHovered, setIsHovered] = useState(false);
   
-  const userRole = "Student";
+  const userRole = localStorage.getItem('userRole');
   
 
 

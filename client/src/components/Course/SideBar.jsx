@@ -50,11 +50,11 @@ function SideBar({ sidebarOpen, handleRatingChange, handleMinPriceChange, handle
             </div>
             <div className='sort-course'>
                 <h2>Duration</h2>
-                <Select className='dropdown-box'
+                {/* <Select className='dropdown-box'
                     isMulti
                     options={durations.map(duration => ({value: duration, label: duration}))}
                     onChange={handleDurationChange}
-                />
+                /> */}
             </div>
             <div className='sort-course'>
                 <h2>Upload Date</h2>

@@ -21,6 +21,11 @@
 margin-left: 4%;
 
 }
+.courses-list h1 {
+width: 100%;
+text-align: center;
+
+}
 
 .course-card {
   flex: 0 0 calc(33.33% - 16px); 

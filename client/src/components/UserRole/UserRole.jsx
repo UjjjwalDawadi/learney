@@ -14,7 +14,6 @@ const UserRole = () => {
 
   const handleRoleSelection = async (role) => {
     const token = localStorage.getItem('token');
-    console.log(token);
 
     try {
       const response = await fetch('/api/selectRole', {
@@ -42,15 +41,16 @@ const UserRole = () => {
       const decodedToken = jwtDecode(token);
       const { username, email } = decodedToken.user;
     const userEmail = email;
-      console.log('username.',username,'email',userEmail);
+      localStorage.setItem('username', username);
+      localStorage.setItem('userRole', role);
+      localStorage.setItem('userEmail', userEmail);
       register(username,role,userEmail);
     } catch (err) {
       console.error('Error selecting role:', err);
       
     }
   }
-  
-
+   
   return (
     <div className='role-container'>
       <h1>What will be your role?</h1>

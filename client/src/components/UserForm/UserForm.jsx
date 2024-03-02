@@ -43,15 +43,19 @@ const UserForm = () => {
         return response.json();
       })
       .then((data) => {
-        if (data.token) {
+        const userRole = data.userRole; 
+        const userEmail = data.userEmail;
+
+        if (data) {
+    localStorage.setItem('username', enteredUsername);
+    localStorage.setItem('userRole', userRole);
+    localStorage.setItem('userEmail', userEmail);
           navigate('/homepage');
         } else {
           console.log('Login failed');
           setLoginErrorMessage('Login Failed');
         }
-        const userRole = data.userRole; 
-        
-        const userEmail = data.userEmail;
+
         login(enteredUsername,userRole,userEmail);
         console.log('userrole ',userRole);
         console.log('email',userEmail);
@@ -156,6 +160,7 @@ const UserForm = () => {
           <div className="toggle-panel toggle-left">
             <h1>Join Us!</h1>
             <p>Register and begin your journey of learning and discovery.</p>
+            <p >Already have an account?</p>
             <button className="hidden" onClick={toggleForm}>
               Sign In
             </button>
@@ -163,6 +168,7 @@ const UserForm = () => {
           <div className="toggle-panel toggle-right">
             <h1>Welcome Back!</h1>
             <p>Sign in and continue your journey of learning and discovery.</p>
+            <p style={{marginBottom : '8px'}}>New to Learney? </p>
             <button className="hidden" onClick={toggleForm}>
               Sign Up
             </button>
