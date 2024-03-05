@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './Course.css';
 import { FaRegHeart } from 'react-icons/fa';
 
-function Course({ title, teacher, rating, reviews, price, imageSrc }) {
+function Course({ title,price,duration}) {
+
   const [isHovered, setIsHovered] = useState(false);
+  const rating = 4.5;
   
   const userRole = localStorage.getItem('userRole');
   
@@ -24,12 +26,11 @@ function Course({ title, teacher, rating, reviews, price, imageSrc }) {
       onMouseLeave={handleMouseLeave}
     >
       <div className="course-card-inner">
-        <img src={imageSrc} alt={title} className="course-image" />
+        {/* <img src={imageSrc} alt='' className="course-image" /> */}
         <div className="course-details">
           <h2>{title}</h2>
-          <h3>{teacher}</h3>
           <p>
-            {rating}<span style={{ color: '#ff9413', fontSize: '19px' }}> ★ </span>({reviews})
+            {rating}<span style={{ color: '#ff9413', fontSize: '19px' }}> ★ </span>[{duration}]
           </p>
           <p>${price}</p>
         </div>

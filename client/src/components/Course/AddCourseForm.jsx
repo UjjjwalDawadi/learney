@@ -8,6 +8,8 @@ function AddCourseForm({ onClose }) {
   const [courseDuration, setCourseDuration] = useState('');
   const [coursePrice, setCoursePrice] = useState(0);
   const [videoFile, setVideoFile] = useState(null);
+  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [difficultyLevel, setDifficultyLevel] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,10 @@ function AddCourseForm({ onClose }) {
     formData.append('category', courseType);
     formData.append('duration', courseDuration);
     formData.append('price', coursePrice);
+    formData.append('thumbnailFile', thumbnailFile);
     formData.append('videoFile', videoFile);
+    formData.append('difficultyLevel', difficultyLevel);
+
 
     // Send formData to backend
     try {
@@ -45,6 +50,12 @@ function AddCourseForm({ onClose }) {
   const handleVideoUpload = (e) => {
     const file = e.target.files[0];
     setVideoFile(file);
+  };
+
+  const handleThumbnailUpload = (e) => {
+    const file = e.target.files[0];
+    setThumbnailFile(file);
+    // Add additional logic here if needed
   };
 
   return (
@@ -95,15 +106,44 @@ function AddCourseForm({ onClose }) {
             onChange={(e) => setCoursePrice(e.target.value)}
           />
         </label>
+        <div style={{display: 'flex'}}>
         <label className="form-label">
-          <span className="course-fields">Upload Video </span>
-          <input
+          <span className="course-fields">Difficulty Level</span>
+          <select
             className="form-input"
-            type="file"
-            accept="video/*"
-            onChange={handleVideoUpload}
-          />
+            value={difficultyLevel}
+            onChange={(e) => setDifficultyLevel(e.target.value)}
+          >
+            <option value="">All level</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
         </label>
+        </div>
+        <div>
+  <label className="form-label">
+    <span className="course-fields">Upload Video</span>
+    <input
+      className="form-input"
+      type="file"
+      accept="video/*"
+      onChange={handleVideoUpload}
+    />
+  </label>
+</div>
+<div>
+  <label className="form-label">
+    <span className="course-fields">Upload Thumbnail Image</span>
+    <input
+      className="form-input"
+      type="file"
+      accept="image/*"
+      onChange={handleThumbnailUpload}
+    />
+  </label>
+</div>
+
         <button className="form-button" type="submit">Add Course</button>
         <button className="form-button" onClick={onClose}>Close</button>
       </form>

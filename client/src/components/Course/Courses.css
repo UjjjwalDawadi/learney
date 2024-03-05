@@ -17,6 +17,7 @@
 
 .courses-list {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
 margin-left: 4%;
 
@@ -24,7 +25,12 @@ margin-left: 4%;
 .courses-list h1 {
 width: 100%;
 text-align: center;
+height: 30px;
 
+}
+.course-items{
+  text-align: center;
+  width: 100%;
 }
 
 .course-card {

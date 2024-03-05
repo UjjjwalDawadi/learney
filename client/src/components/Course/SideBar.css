@@ -16,6 +16,7 @@
   .sidebar label {
     margin-left: 10px;
     margin-right: 20px;
+    margin-top: 20px;
     display: flex;
     font-size: 1rem;
     font-weight: 100;
@@ -29,7 +30,7 @@
   }
   .sort-course{
     display: flex;
-    margin-top: 15px;
+    margin-top: 25px;
     padding-left: 10px;
     justify-content: space-between;
     margin-right: 20px;
@@ -61,4 +62,21 @@
   .no-courses {
     text-align: center;
     margin-top: 20px;
+  }
+  .filter-buttons{
+    justify-content: space-around;
+    display: flex;
+  }
+  .filter-button{
+    height: 40px;
+    background: linear-gradient(45deg, #025a7c, #c52f59); 
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 6px 20px;
+  border-radius: 40px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-top: 20px;
+  justify-content: space-between;
   }
