@@ -2,15 +2,11 @@
   position: relative;
   border-radius: 8px;
   padding: 15px;
-  margin: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out;
   max-width: 285px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  text-align: center;
-  font-size: small;
   background-color: #ece9e92f;
 }
 
@@ -20,7 +16,7 @@
 
 .course-image {
   width: 100%;
-  max-height: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
 }
@@ -41,41 +37,3 @@
   }
 }
 
-.description-dialog {
-  display: none;
-  position: absolute;
-  top: 10%;
-  left: 25%;
-  transform: translate(0, -50%);
-  width: 260px;
-  background-color: #ffffffa1;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  opacity: 20;
-  z-index: 1;
-}
-
-
-.course-card.hovered .description-dialog {
-  display: block;
-}
-
-@media (max-width: 768px) {
-  .description-dialog {
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-
-}
-.enroll-button{
-background-color: #3a333a; 
-  color: #fff;
-  justify-content: center;
-  width: 70%;
-  height: 40px;
-  padding: 10px;
-  border-radius: 10px;
-}

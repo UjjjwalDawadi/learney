@@ -1,0 +1,33 @@
+.course-sidebar{
+    width: 30%;
+    float: left;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    font-size: 22px;
+    padding: 50px 35px;
+}
+.course-sidebar ul{
+    list-style: none;
+}
+
+.course-sidebar ul li{
+    margin-bottom: inherit;
+    cursor: pointer;
+    
+}
+.course-sidebar ul li.active {
+    position: relative; 
+    color: crimson;
+  }
+  
+  .course-sidebar ul li.active::before {
+    content: '';
+    position: absolute;
+    left: -10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px; 
+    height: 100%;
+    background-color: crimson;
+  }

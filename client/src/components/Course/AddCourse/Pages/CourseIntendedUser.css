@@ -1,0 +1,13 @@
+.input-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .add-field {
+    font-size: 42px; 
+    margin-left: 10px; 
+  }
+  .delete-field{
+    font-size: 32px;
+
+  }

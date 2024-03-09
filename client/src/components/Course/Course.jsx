@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+import { SiTimescale } from "react-icons/si";
+
 import './Course.css';
-import { FaRegHeart } from 'react-icons/fa';
+import { FaRegBookmark,FaBookmark } from 'react-icons/fa';
 
-function Course({ title,price,duration}) {
-
+function Course({ title,price,duration,thumbnailPath}) {
+  // const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const rating = 4.5;
+  const review = 500;
   
   const userRole = localStorage.getItem('userRole');
-  
 
-
+  // const handleCourseClick = () => {
+  //   navigate(`/video-player/${filePath}`);
+  // };
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -18,6 +24,10 @@ function Course({ title,price,duration}) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+  const handleWishlistClick = () => {
+    setIsBookmarked(!isBookmarked);
+  };
+
 
   return (
     <div
@@ -26,25 +36,27 @@ function Course({ title,price,duration}) {
       onMouseLeave={handleMouseLeave}
     >
       <div className="course-card-inner">
-        {/* <img src={imageSrc} alt='' className="course-image" /> */}
+      {userRole === 'Student' && (
+      <button className="wishlist-btn" onClick={handleWishlistClick}>
+      <span title='Add to wishlist'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
+    </button>)}
+        <img src={thumbnailPath} alt='' className="course-image"  />
         <div className="course-details">
           <h2>{title}</h2>
-          <p>
-            {rating}<span style={{ color: '#ff9413', fontSize: '19px' }}> ★ </span>[{duration}]
+          <div style={{display:'flex'}}>
+          <p style={{ color: '#ff4a12'}}>
+            {rating}<span style={{ color: '#ff9413', fontSize: '19px' }}> ★ </span>
+            <span style={{ color: '#ff6811b2', fontSize: '19px' }}>({review})</span>
           </p>
+          <p ><SiTimescale style={{ fontSize: '19px' ,verticalAlign: 'middle', marginLeft:'30px', marginRight:'5px'}}/>{duration} hr</p>
+          </div>
           <p>${price}</p>
         </div>
         {userRole === 'Student' && (
-          <div className="course-actions">
             <button className="add-to-cart-btn">Add to Cart</button>
-            <button className="wishlist-btn">
-              <span title='Add to wishlist'><FaRegHeart /></span>
-            </button>
-          </div>
         )}
       </div>
     </div>
   );
 }
-
 export default Course;
