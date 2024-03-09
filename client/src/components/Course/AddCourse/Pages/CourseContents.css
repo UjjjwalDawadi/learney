@@ -1,0 +1,68 @@
+.content-section{
+    display: flex;
+}
+.image-container{
+    padding: 0%;
+    width: 40%;
+    overflow: hidden;
+}
+.image-container img {
+height: 300px;
+}
+.activity-item{
+    border: 1px solid;
+    width: 92%;
+}
+.activity-item h2{
+    padding-left: 20PX;
+}
+.add-video{
+    font-size:20px;
+    margin-left: 30px;
+    align-items:center;
+
+}
+.activity-item .delete-field{
+    position: absolute;
+    top: 57%;
+    right: 8%;
+}
+
+.info-container{
+    margin-right: 30px;
+    padding-top: 25px;
+}
+.info-container input{
+    width: 500px;
+}
+
+.course-content-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .sections {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .section-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    width: calc(90% - 20px);
+  }
+  
+  .section-box h2 {
+    margin-bottom: 10px;
+  }
+  
+  .lectures {
+    margin-top: 20px;
+  }
+  
+  .lectures h3 {
+    margin-bottom: 5px;
+  }
+  
