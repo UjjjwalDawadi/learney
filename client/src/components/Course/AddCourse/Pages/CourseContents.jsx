@@ -68,9 +68,7 @@ const CourseContent = ({ nextStep }) => {
             <h1>Course Content</h1>
             <div className='add-course'> 
         <h2>Upload Course Thumbnail</h2>
-      <div className="content-section">
-      
-        
+      <div className="content-section"> 
         <div className="image-container">
           {imageFile && (
             <img src={typeof imageFile === 'string' ? imageFile : URL.createObjectURL(imageFile)} alt="Course Thumbnail" />

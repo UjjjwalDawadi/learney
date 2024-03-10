@@ -1,12 +1,12 @@
 .content-section{
     display: flex;
 }
-.image-container{
+.content-section .image-container{
     padding: 0%;
     width: 40%;
     overflow: hidden;
 }
-.image-container img {
+.content-section .image-container img {
 height: 300px;
 }
 .activity-item{

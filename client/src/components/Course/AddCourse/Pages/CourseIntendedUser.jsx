@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MdDeleteForever, MdAdd } from "react-icons/md";
-import './CourseIntendedUser.css'
+import './CourseIntendedUser.css';
 
 const IntendedUser = ({ nextStep }) => {
   const initialObjectives = ['', '']; // Initialize learning objectives with two empty fields
@@ -44,6 +44,16 @@ const IntendedUser = ({ nextStep }) => {
     setLearnerRequirements(updatedRequirements);
   };
 
+  // Function to handle form submission and log the data
+  const handleSubmit = () => {
+    const data = {
+      learningObjectives,
+      learnerRequirements,
+    };
+    console.log('Intended User Data:', data);
+    nextStep(data); // Pass the data to the next step
+  };
+
   return (
     <div className="course-form-container">
       <h1>Intended Users</h1>
@@ -85,7 +95,7 @@ const IntendedUser = ({ nextStep }) => {
           </div>
         ))}
       </div>
-      <button className='add-course-btn' onClick={() => nextStep()}>Next</button>
+      <button className='add-course-btn' onClick={handleSubmit}>Next</button>
     </div>
   );
 };

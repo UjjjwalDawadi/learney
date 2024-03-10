@@ -7,20 +7,19 @@ const BasicInfo = ({ nextStep }) => {
   const [difficulty, setDifficulty] = useState('');
   const [description, setDescription] = useState('');
 
-
   const categoryOptions = [
     { value: 'default', label: 'Choose a category' },
-    { value: '1', label: 'Development' },
-    { value: '2', label: 'Business' },
-    { value: '3', label: 'Finance & Accounting' },
-    { value: '4', label: 'IT & Software' },
-    { value: '5', label: 'Health & Fitness' },
-    { value: '6', label: 'Personal Development' },
-    { value: '7', label: 'Design' },
-    { value: '8', label: 'Marketing' },
-    { value: '9', label: 'Lifestyle' },
-    { value: '10', label: 'Photography & Video' },
-    { value: '-1', label: "I don't know yet" }
+    { value: 'Development', label: 'Development' },
+    { value: 'Business', label: 'Business' },
+    { value: 'Finance & Accounting', label: 'Finance & Accounting' },
+    { value: 'IT & Software', label: 'IT & Software' },
+    { value: 'Health & Fitness', label: 'Health & Fitness' },
+    { value: 'Personal Development', label: 'Personal Development' },
+    { value: 'Design', label: 'Design' },
+    { value: 'Marketing', label: 'Marketing' },
+    { value: 'Lifestyle', label: 'Lifestyle' },
+    { value: 'Photography & Video', label: 'Photography & Video' },
+    { value: 'Unknown', label: "I don't know yet" }
   ];
   const difficultyOptions = [
     { value: 'default', label: 'Choose difficulty level' },
@@ -37,6 +36,19 @@ const BasicInfo = ({ nextStep }) => {
   // Function to calculate remaining characters
   const remainingChars = (text, limit) => {
     return limit - text.length;
+  };
+
+  // Function to handle form submission and send values to the next step
+  const handleSubmit = () => {
+    const formData = {
+      title: title,
+      category: category,
+      difficulty: difficulty,
+      description: description
+    };
+    console.log('Basic Info Data:', formData);
+
+    nextStep(formData);
   };
 
   return (
@@ -81,7 +93,7 @@ const BasicInfo = ({ nextStep }) => {
           ))}
         </select>
       </div>
-      <button className='add-course-btn' onClick={() =>nextStep()}>Next</button>
+      <button className='add-course-btn' onClick={handleSubmit}>Next</button>
     </div>
   );
 };
