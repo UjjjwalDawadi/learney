@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SiTimescale } from "react-icons/si";
 
 import './Course.css';
 import { FaRegBookmark,FaBookmark } from 'react-icons/fa';
 
-function Course({ title,price,duration,uploadedBy,thumbnailPath}) {
-  // const navigate = useNavigate();
+function Course({ title,price,duration,uploadedBy,thumbnailPath,courseId}) {
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const rating = 4.5;
   const review = 500;
-  
   const userRole = localStorage.getItem('userRole');
 
-  // const handleCourseClick = () => {
-  //   navigate(`/video-player/${filePath}`);
-  // };
+
+
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -40,7 +38,7 @@ function Course({ title,price,duration,uploadedBy,thumbnailPath}) {
       <button className="wishlist-btn" onClick={handleWishlistClick}>
       <span title='Add to wishlist'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
     </button>)}
-        <img src={thumbnailPath} alt='' className="course-image"  />
+        <img src={thumbnailPath} alt='' className="course-image" onClick={() => navigate(`/courses/${courseId}`)}  />
         <div className="course-details">
           <h2>{title}</h2>
           <div style={{display:'flex'}}>

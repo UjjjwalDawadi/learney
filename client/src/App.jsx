@@ -11,8 +11,7 @@ import CourseCreationPage from './components/Course/AddCourse/CourseCreationPage
 import UserRole from './components/UserRole/UserRole';
 import Community from './components/Community/Community';
 import StudentDashboard from './components/Subpages/Student/StudentDashboard';
-import VideoPlayer from './components/VideoPlayer/VideoPlayer'; // Import VideoPlayer component
-
+import CourseDetails from './components/Course/CourseDetails';
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
@@ -32,7 +31,7 @@ function App() {
         <Route path="/userrole" element={<UserRole />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/video-player/:filePath" element={<VideoPlayer />} /> 
+        <Route path="/courses/:courseId" element={<CourseDetails />} /> 
         <Route path="/" element={<Home />} />
       </Routes>
     </>

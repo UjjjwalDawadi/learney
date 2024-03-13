@@ -1,0 +1,48 @@
+/* CourseDetailsPage.css */
+.course-details-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .banner {
+    background-color: #f0f0f0; /* Background color for the banner */
+    padding: 20px;
+    display: flex;
+  }
+  
+  .banner-content {
+    flex: 1;
+  }
+  
+  .intro-video {
+    margin: 20px;
+    max-width: 50%;
+  }
+  
+  .course-content {
+    display: flex;
+    margin: 20px auto;
+    max-width: 800px;
+  }
+  
+  .sections {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .objectives-requirements {
+    flex: 1;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .section h3 {
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    padding-left: 20px;
+  }
+  
