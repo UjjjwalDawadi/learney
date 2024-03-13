@@ -5,7 +5,7 @@ import { SiTimescale } from "react-icons/si";
 import './Course.css';
 import { FaRegBookmark,FaBookmark } from 'react-icons/fa';
 
-function Course({ title,price,duration,thumbnailPath}) {
+function Course({ title,price,duration,uploadedBy,thumbnailPath}) {
   // const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -51,6 +51,7 @@ function Course({ title,price,duration,thumbnailPath}) {
           <p ><SiTimescale style={{ fontSize: '19px' ,verticalAlign: 'middle', marginLeft:'30px', marginRight:'5px'}}/>{duration} hr</p>
           </div>
           <p>${price}</p>
+          <p>Uploaded by: {uploadedBy}</p>
         </div>
         {userRole === 'Student' && (
             <button className="add-to-cart-btn">Add to Cart</button>

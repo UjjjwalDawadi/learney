@@ -6,13 +6,15 @@ const Pricing = ({ formData, setFormData }) => {
   const navigate = useNavigate();
   const [price, setPrice] = useState('');
   const storage = getStorage();
+  const uploadedBy = localStorage.getItem('username');
+
 
   const handlePriceChange = (e) => {
     let value = e.target.value;
-    value = value.replace(/[^0-9.]/g, ''); // Limit to numeric characters and dot
+    value = value.replace(/[^0-9.]/g, ''); 
     const parts = value.split('.');
     if (parts.length > 1) {
-      parts[1] = parts[1].slice(0, 2); // Limit to 2 decimal places
+      parts[1] = parts[1].slice(0, 2); 
       value = parts[0].slice(0, 3) + '.' + parts[1];
     } else {
       value = value.slice(0, 3);
@@ -21,7 +23,6 @@ const Pricing = ({ formData, setFormData }) => {
   };
 
   const handleSubmit = async () => {
-    // Get course image from form data
     const courseImage = formData.imageFile;
 
     // Upload course image to Firebase Storage
@@ -36,7 +37,6 @@ const Pricing = ({ formData, setFormData }) => {
       // Iterate through each section
       const videos = section.videos || [];
       const updatedVideos = await Promise.all(videos.map(async (video) => {
-        // Iterate through each video in the section
         const videoFile = video.file;
         console.log('Processing video:', videoFile); // Log the video file being processed
         let videoUrl = '';
@@ -49,27 +49,22 @@ const Pricing = ({ formData, setFormData }) => {
         } else {
           throw new Error("Video file is missing or invalid.");
         }
-        // Check if videoUrl is an array or an object
     if (Array.isArray(videoUrl)) {
-      // If videoUrl is an array, extract the URL from it
-      videoUrl = videoUrl[0]; // Adjust this line based on the structure of the array
+      videoUrl = videoUrl[0]; 
     } else if (typeof videoUrl === 'object' && videoUrl !== null) {
-      // If videoUrl is an object, extract the URL from it
-      videoUrl = videoUrl.url; // Adjust this line based on the structure of the object
+      videoUrl = videoUrl.url;
     }
     
     // Ensure that videoUrl is a string
     videoUrl = String(videoUrl);
-        return { ...video, url: videoUrl }; // Update the video object with the video URL
+        return { ...video, url: videoUrl }; 
       }));
-      // Update the section with the updated videos
       return { ...section, videos: updatedVideos };
     });
   
-  // Wait for all section updates to complete
-  const updatedFormData = { ...formData, price: price, thumbnailPath: courseImageUrl, sections: await Promise.all(updatedSections) };
+  const updatedFormData = { ...formData,
+     price: price, thumbnailPath: courseImageUrl, uploadedBy: uploadedBy, sections: await Promise.all(updatedSections) };
   setFormData(updatedFormData);
-  // Proceed with storing updatedFormData in your database
     
     try {
       // Send form data to the backend
@@ -81,7 +76,6 @@ const Pricing = ({ formData, setFormData }) => {
         body: JSON.stringify(updatedFormData)
       });
   
-      // Check if the request was successful
       if (!response.ok) {
         throw new Error('Failed to add course');
       }
@@ -90,7 +84,6 @@ const Pricing = ({ formData, setFormData }) => {
       navigate('/courses');
     } catch (error) {
       console.error('Error adding course:', error);
-      // Handle error accordingly, e.g., display an error message to the user
     }
   };
   const makeFree = () => {

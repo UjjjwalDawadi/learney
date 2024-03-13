@@ -50,10 +50,11 @@ height: 30px;
 .course-details h2,
 .course-details p {
   font-size: large; 
-  font-weight: 700;
-  margin-left: 15px;
-
-
+  font-weight: 500;
+  margin: 0px 15px;
+}
+.course-details p {
+  margin: 8px 15px;
 }
 
 

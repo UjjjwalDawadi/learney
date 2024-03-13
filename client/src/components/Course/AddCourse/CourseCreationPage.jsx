@@ -38,7 +38,7 @@ const CourseCreationPage = () => {
       formComponent = <IntendedUser nextStep={nextStep} />;
       break;
     case 'courseContent':
-      formComponent = <CourseContent nextStep={nextStep} />;
+      formComponent = <CourseContent nextStep={nextStep} /> ;
       break;
     case 'pricing':
       formComponent = <Pricing formData={formData} setFormData={setFormData} nextStep={handleFinalSubmit} />;

@@ -46,7 +46,7 @@ function Courses() {
           {(filteredCourses === null ? courses : filteredCourses).length > 0 ? (
             (filteredCourses === null ? courses : filteredCourses).map((course) => {
               return (
-                <Course key={course.id} title={course.title} duration={course.duration} price={course.price} thumbnailPath={course.thumbnailPath}  />
+                <Course key={course.id} title={course.title} duration={course.duration} price={course.price} thumbnailPath={course.thumbnailPath} uploadedBy={course.uploadedBy}  />
               );
             })
           ) : (
