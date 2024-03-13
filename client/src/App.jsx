@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { initializeApp } from "firebase/app";
+import {firebaseConfig}from "./FireBase"; // Import your Firebase configuration object
 
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
@@ -11,6 +13,8 @@ import Community from './components/Community/Community';
 import StudentDashboard from './components/Subpages/Student/StudentDashboard';
 import VideoPlayer from './components/VideoPlayer/VideoPlayer'; // Import VideoPlayer component
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 function App() {
   const location = useLocation();

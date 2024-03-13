@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import CourseSidebar from './CourseSidebar';
-import BasicInfo from './Pages/CourseBasicInfo';
-import IntendedUser from './Pages/CourseIntendedUser';
-import CourseContent from './Pages/CourseContents';
-import Pricing from './Pages/CoursePricing';
-
-import './CourseCreationPage.css'
+import BasicInfo from './Pages/BasicInfo';
+import IntendedUser from './Pages/IntendedUser';
+import CourseContent from './Pages/Contents';
+import Pricing from './Pages/Pricing';
 
 const CourseCreationPage = () => {
   const [activeTab, setActiveTab] = useState('basicInfo');
+  const [formData, setFormData] = useState({});
 
-  const nextStep = () => {
-    // Logic to handle navigation to the next step
-    // For example, you can change the activeTab state
-    // to move to the next tab/page
+  const nextStep = (data) => {
+    setFormData({ ...formData, ...data });
+
     if (activeTab === 'basicInfo') {
       setActiveTab('intendedUser');
     } else if (activeTab === 'intendedUser') {
@@ -21,10 +19,16 @@ const CourseCreationPage = () => {
     } else if (activeTab === 'courseContent') {
       setActiveTab('pricing');
     }
-    // You can add more logic as needed for navigating to other steps
   };
 
-  // Render the form based on the active tab
+  const handleFinalSubmit = (data) => {
+    setFormData({ ...formData, ...data });
+
+    // Now formData contains all the data from all steps
+    console.log('All form data:', formData);
+    // Handle final submission logic here
+  };
+
   let formComponent;
   switch (activeTab) {
     case 'basicInfo':
@@ -37,17 +41,18 @@ const CourseCreationPage = () => {
       formComponent = <CourseContent nextStep={nextStep} />;
       break;
     case 'pricing':
-      formComponent = <Pricing nextStep={nextStep} />;
+      formComponent = <Pricing formData={formData} setFormData={setFormData} nextStep={handleFinalSubmit} />;
       break;
     default:
       formComponent = <BasicInfo nextStep={nextStep} />;
       break;
   }
+  console.log('Final Form Data:', formData);
 
   return (
-    <div className="course-creation-page">
+    <div className="course-creation-page" style={{display:'flex'}}>
       <CourseSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        {formComponent}
+      {formComponent}
     </div>
   );
 };

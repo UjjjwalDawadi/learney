@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CourseBasicInfo.css'
+import './BasicInfo.css'
 
 const BasicInfo = ({ nextStep }) => {
   const [title, setTitle] = useState('');
@@ -43,9 +43,9 @@ const BasicInfo = ({ nextStep }) => {
     const formData = {
       title: title,
       category: category,
-      difficulty: difficulty,
+      difficultyLevel: difficulty,
       description: description
-    };
+    };  
     console.log('Basic Info Data:', formData);
 
     nextStep(formData);
