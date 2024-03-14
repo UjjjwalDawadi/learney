@@ -1,48 +1,167 @@
 /* CourseDetailsPage.css */
 .course-details-container {
     display: flex;
-    flex-direction: column;
+  }
+  .course-details-left{
+    width: 100%;
+  }
+  .banner{
+    background-color: #1c1a4a;
+    padding-top: 1px;
+    margin: 20px;
+    height: 320px;
+    color: #ffffff;
   }
   
-  .banner {
-    background-color: #f0f0f0; /* Background color for the banner */
-    padding: 20px;
-    display: flex;
-  }
-  
-  .banner-content {
-    flex: 1;
-  }
-  
+  .course-details-container .course-details {
+    margin: 40px 0px 0px 98px;
+    width: 53%;
+}
+.course-details-container .course-details h1 {
+    font-size: 40px;
+    font-weight: 700;
+    
+}
+.course-details-container .course-details h2 {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 10px 0px ;
+    
+}
+
+.course-details-container p{
+    margin: 20px 0px;
+    font-size: 19px;
+}
+.learning-objectives {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 19px;
+
+}
+
+.learning-objective {
+  margin-top: 20px;
+  width: 50%;
+ 
+}
+.learning-objective svg{
+  vertical-align: bottom;
+  margin-right: 10px;
+}
+
+.course-details-right{
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  position: absolute;
+  padding: 30px;
+  width: 30%;
+  top: 250px;
+  right: 100px;
+  background-color: white;
+}
+.course-details-right .upper-right h2{
+  text-align: center;
+  font-size: 25px;
+  color: #373b08;
+
+
+}
+.course-details-right .btn-1{
+  width: 80%;
+  font-size: 17px;
+  height: 40px;
+}
+
+.course-details-right .btn-2{
+  border: 0.5px solid #08080826;
+margin-left: 2px;
+height: 40px;
+width: 18%;
+}
+.btn-2 svg{
+  font-size: 16px;
+}
+
+.course-details-right .btn-3{
+width: 99%;
+height: 40px;
+margin-top: 2px;
+font-size: 17px;
+}
+.course-details-right .btn-1,.course-details-right .btn-3{
+  background-color: #fff;
+  border: 0.5px solid #08080826;
+}
+.course-details-right .btn-1:hover,.course-details-right .btn-3:hover{
+  background-color: #1c1a4a;
+  color: white;
+}
+
+
   .intro-video {
     margin: 20px;
-    max-width: 50%;
+    max-width: 30%;
   }
   
-  .course-content {
-    display: flex;
-    margin: 20px auto;
-    max-width: 800px;
+  .section-wrapper {
+    border: 1px solid #ccc; 
+    margin-bottom: 10px; 
   }
   
-  .sections {
-    flex: 1;
+  .section-header {
+    font-size: 17px;
+    cursor: pointer; 
+    padding: 0 20px;
+ 
+  }
+  .section-header h3 svg {
+    transition: transform 0.3s ease;
+    vertical-align: bottom;
+    position: relative;
+    margin-left: 62%;
+    font-size: 20px;
+  }
+  
+  .rotate {
+    transform: rotate(180deg); 
+  }
+  
+  .video-list li {
+    font-size: 17px;
+    cursor: pointer; 
+    padding: 5px; 
+    list-style: none;
+  }
+  .video-list li svg{
+    vertical-align: bottom;
+    margin-right: 10px;
+  }
+
+  .right-icons{
+    vertical-align: sub;
     margin-right: 20px;
+    font-size: 22px;
   }
+  
   
   .objectives-requirements {
     flex: 1;
   }
   
-  .section {
-    margin-bottom: 20px;
-  }
+.course-dtls-rt{
+  margin-top: 20px;
+  padding: 0 20px;
+  border: 1px solid #ccc;
+}
+
+.course-dtls-rt li{
+  padding-left: 10px;
+  font-size: 20px;
+}
+
+.course-dtls-rt li{
+  margin-bottom: 15px;
+}
   
-  .section h3 {
-    margin-bottom: 10px;
-  }
-  
-  ul {
-    padding-left: 20px;
-  }
   
