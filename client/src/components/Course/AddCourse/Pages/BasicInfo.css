@@ -56,3 +56,18 @@
     top: -58px;
     right: 38px;
 }
+.error-msg{
+    color: red;
+    margin-bottom: 5px;
+}
+  .add-course {
+    margin-bottom: 20px;
+  }
+  
+  .add-course.error input,
+  .add-course.error textarea,
+  .add-course.error select {
+    border: 1px solid red;
+  }
+  
+  

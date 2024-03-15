@@ -5,11 +5,13 @@ import './IntendedUser.css';
 const IntendedUser = ({ nextStep }) => {
   const initialObjectives = ['', '']; // Initialize learning objectives with two empty fields
   const [learningObjectives, setLearningObjectives] = useState(initialObjectives);
+  const [learningObjectivesError, setLearningObjectivesError] = useState('');
   const initialRequirements = ['']; // Initialize learner requirements with one empty field
   const [learnerRequirements, setLearnerRequirements] = useState(initialRequirements);
+  const [learnerRequirementsError, setLearnerRequirementsError] = useState('');
 
   const handleAddObjective = () => {
-    if (learningObjectives.length < 4) {
+    if (learningObjectives.length < 6) {
       setLearningObjectives([...learningObjectives, '']);
     }
   };
@@ -46,6 +48,23 @@ const IntendedUser = ({ nextStep }) => {
 
   // Function to handle form submission and log the data
   const handleSubmit = () => {
+    // Validate learning objectives
+    if (learningObjectives.length < 2 || learningObjectives.some(objective => objective.trim() === '')) {
+      setLearningObjectivesError('Please fill at least two objectives');
+      return;
+    } else {
+      setLearningObjectivesError('');
+    }
+  
+    // Validate learner requirements
+    if (learnerRequirements.length < 1 || learnerRequirements.some(requirement => requirement.trim() === '')) {
+      setLearnerRequirementsError('Please fill at least one requirement');
+      return;
+    } else {
+      setLearnerRequirementsError('');
+    }
+  
+    // If all validations pass, proceed to the next step
     const formData = {
       learningObjectives,
       learnerRequirements,
@@ -53,12 +72,16 @@ const IntendedUser = ({ nextStep }) => {
     console.log('Intended User Data:', formData);
     nextStep(formData); // Pass the data to the next step
   };
+  
+  
 
   return (
     <div className="course-form-container">
       <h1>Intended Users</h1>
       <div className="add-course">
         <h2>Learning Objectives</h2>
+        <span className="error-msg">{learningObjectivesError}</span>
+
         {learningObjectives.map((objective, index) => (
           <div className='input-row' key={index}>
             <input
@@ -67,7 +90,7 @@ const IntendedUser = ({ nextStep }) => {
               value={objective}
               onChange={e => handleObjectiveChange(index, e.target.value)}
             />
-            {index === learningObjectives.length - 1 && index < 3 && (
+            {index === learningObjectives.length - 1 && index < 5 && (
               <button className='add-field' onClick={handleAddObjective}><MdAdd/></button>
             )}
             {index > 1 && (
@@ -78,6 +101,7 @@ const IntendedUser = ({ nextStep }) => {
       </div>
       <div className="add-course">
         <h2>Learner Requirements</h2>
+        <span className="error-msg">{learnerRequirementsError}</span>
         {learnerRequirements.map((requirement, index) => (
           <div className='input-row' key={index}>
             <input
@@ -86,7 +110,7 @@ const IntendedUser = ({ nextStep }) => {
               value={requirement}
               onChange={e => handleRequirementChange(index, e.target.value)}
             />
-            {index === learnerRequirements.length - 1 && index < 2 && (
+            {index === learnerRequirements.length - 1 && index < 3 && (
               <button className='add-field' onClick={handleAddRequirement}><MdAdd/></button>
             )}
             {index > 0 && (

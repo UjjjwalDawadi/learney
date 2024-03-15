@@ -112,14 +112,14 @@ button{
 .arrow{
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  background-color: #ff9011e5;
+  background-color: #0a083be0;
   height: 100vh;
   width: 50px;
   position: sticky;
   top: 0;
 }
 .arrow svg{
-  color:#3a333a6b ;
+  color:#fff ;
   font-weight: 1000;
   top: 50vh;
   font-size: 30px;

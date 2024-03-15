@@ -46,8 +46,8 @@ const Header = () => {
             Community
           </li>
           {!loggedIn ? (
-            <div className="get-started">
-              <a href="/userform">Get Started</a>
+            <div className="get-started" onClick={() => handleNavigation('/userform')}>
+              <a >Get Started</a>
             </div>
           ) : (
             <div className="user-container" onMouseEnter={() => setShowAccountTooltip(true)} onMouseLeave={() => setShowAccountTooltip(false)}>

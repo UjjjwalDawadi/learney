@@ -9,15 +9,21 @@ const CourseContent = ({ nextStep }) => {
   const maxSections = 10;
   const [sections, setSections] = useState([]);
   const [sectionTitle, setSectionTitle] = useState('');
+  const [imageError, setImageError] = useState('');
+  const [sectionError, setSectionError] = useState('');
+  const [videoError, setVideoError] = useState('');
 
   const handleAddSection = () => {
     if (sectionTitle.trim() === '') {
-      alert('Please enter a section title.');
+      setSectionError('Please enter a section title.');
+      return;
     } else if (sections.length >= maxSections) {
-      alert('You have reached the maximum number of sections allowed.');
+      setSectionError('You have reached the maximum number of sections allowed.');
+      return;
     } else {
       setSections([...sections, { title: sectionTitle, videos: [] }]);
       setSectionTitle('');
+      setSectionError('');
     }
   };
 
@@ -57,6 +63,32 @@ const CourseContent = ({ nextStep }) => {
   };
 
   const handleSubmit = () => {
+    // Validate image
+    if (imageFile === initialImageUrl) {
+      setImageError('Please upload a course thumbnail.');
+      return;
+    } else {
+      setImageError('');
+    }
+  
+    // Validate sections
+    if (sections.length === 0) {
+      setSectionError('Please add at least one section.');
+      return;
+    } else {
+      setSectionError('');
+    }
+  
+    // Validate videos in each section
+    const hasVideos = sections.some(section => section.videos.length > 0);
+    if (!hasVideos) {
+      setVideoError('Please add at least one video in the section.');
+      return;
+    } else {
+      setVideoError('');
+    }
+  
+    // If all validations pass, proceed to the next step
     const formData = {
       sections,
       imageFile
@@ -78,26 +110,33 @@ const CourseContent = ({ nextStep }) => {
           </div>
           <div className="info-container">
             <p style={{fontSize:'20px'}}>The course thumbnail provides a visual summary of <br/>the course, helping users quickly grasp its content. </p>
+            <span className="error-msg">{imageError}</span>
+
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>
         </div>
         <div>
-          <div className='add-course'>
+          <div className='add-course' style={{padding:'0'}}>
             <h2>Upload Course Activities</h2>
+            <span className="error-msg">{sectionError}</span>
+            <span className="error-msg">{videoError}</span>
+
             <div className="input-row">
               <input
                 type="text"
                 value={sectionTitle}
                 onChange={(e) => setSectionTitle(e.target.value)}
-                placeholder="Enter section title"
-                style={{width : '92%'}}
+                placeholder="Enter section title    eg. Introduction"
+                style={{width : '85%'}}
               />
-              <button className='add-field' onClick={handleAddSection}><MdAdd /></button>
+              <button className='add-section' onClick={handleAddSection}>Add</button>
             </div>
-            <div style={{display:'flex'}}>
+            <div style={{display:'flex', flexDirection:'column'}}>
               {sections.map((section, sectionIndex) => (
+                
                 <div key={sectionIndex}  className="activity-item">
                   <h2>{`Section ${sectionIndex + 1}: ${section.title}`}</h2>
+                  
                   <button onClick={() => handleAddVideo(sectionIndex)} className='add-video'><MdAdd />Add Video</button>
                   <ul style={{listStyle: 'none'}}>
                     {section.videos.map((video, videoIndex) => (
@@ -106,15 +145,19 @@ const CourseContent = ({ nextStep }) => {
                         {video.fileName && (
                           <>
                             <span>{video.fileName}</span>
-                            <button onClick={() => handleDeleteVideo(sectionIndex, videoIndex)}>Delete Video</button>
                           </>
                         )}
+                        <button style={{fontSize:'35px',verticalAlign:'middle'}} onClick={() => handleDeleteVideo(sectionIndex, videoIndex)}><MdDeleteForever /></button>
+
                       </li>
                     ))}
                   </ul>
-                  <button className='delete-field' onClick={() => handleDeleteSection(sectionIndex)}><MdDeleteForever /></button>
+                  <button className='delete-section' onClick={() => handleDeleteSection(sectionIndex)}><MdDeleteForever/></button>
+
                 </div>
+                
               ))}
+              
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ import UserRole from './components/UserRole/UserRole';
 import Community from './components/Community/Community';
 import StudentDashboard from './components/Subpages/Student/StudentDashboard';
 import CourseDetails from './components/Course/CourseDetails';
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 

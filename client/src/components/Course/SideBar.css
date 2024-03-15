@@ -1,75 +1,80 @@
 .sidebar {
-    width: 70%;
-    max-width: 23%;
-    height: 100vh;
-    position: sticky;
-    top: 0;
-    border-bottom-left-radius: 25px;
-    background-color: #ff8f11ab;
-  }
+  width: 70%;
+  max-width: 23%;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  border-bottom-left-radius: 25px;
+  background-color: #0a083be0;
+}
 
-  .sidebar h1{
-    color: #9f00ff;
-    margin-top: 20px;
-  }
+.sidebar h1 {
+  color: #fff;
+  margin-top: 20px;
+}
 
-  .sidebar label {
-    margin-left: 10px;
-    margin-right: 20px;
-    margin-top: 20px;
-    display: flex;
-    font-size: 1rem;
-    font-weight: 100;
-    justify-content: space-between;
-  }
+.sidebar label {
+  margin-left: 10px;
+  margin-right: 20px;
+  margin-top: 20px;
+  display: flex;
+  font-size: 1rem;
+  font-weight: 100;
+  justify-content: space-between;
+}
 
-  .sidebar h2{
-    font-size: 1rem;
-    font-weight: 400;
-    color: #a113fa;
-  }
-  .sort-course{
-    display: flex;
-    margin-top: 25px;
-    padding-left: 10px;
-    justify-content: space-between;
-    margin-right: 20px;
-  }
-  .dropdown-box{
-    width: 150px;
-  }
-  .price-input{
-    width: 65px;
-    border: none;
-    background-color: #fff;
-    border-radius: 15px;
-    height: 35px;
-    margin-top: 5px;
-    padding-left: 10px;
-  }
+.sidebar h2 {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+}
 
-  .rating{
-    width: 110px;
-    height: 35px;
-    border: none;
-    background-color: #fff;
-    border-radius: 15px;
-    margin-top: 5px;
-    padding-left: 10px;
-  }
+.sort-course {
+  display: flex;
+  margin-top: 25px;
+  padding-left: 10px;
+  justify-content: space-between;
+  margin-right: 20px;
+}
 
+.dropdown-box {
+  width: 150px;
+}
 
-  .no-courses {
-    text-align: center;
-    margin-top: 20px;
-  }
-  .filter-buttons{
-    justify-content: space-around;
-    display: flex;
-  }
-  .filter-button{
-    height: 40px;
-    background: linear-gradient(45deg, #025a7c, #c52f59); 
+.price-input {
+  width: 65px;
+  border: none;
+  background-color: #fff;
+  border-radius: 15px;
+  height: 35px;
+  margin-top: 5px;
+  padding-left: 10px;
+}
+
+.rating {
+  width: 110px;
+  height: 35px;
+  border: none;
+  background-color: #fff;
+  border-radius: 15px;
+  margin-top: 5px;
+  padding-left: 10px;
+}
+
+.no-courses {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.filter-buttons {
+  margin-top: 20px;
+  justify-content: space-around;
+  display: flex;
+}
+
+.filter-button {
+  height: 40px;
+  background: linear-gradient(177deg, #025a7c, #0a083b);
   color: #fff;
   cursor: pointer;
   font-size: 15px;
@@ -78,5 +83,4 @@
   font-weight: 600;
   letter-spacing: 0.5px;
   margin-top: 20px;
-  justify-content: space-between;
-  }
+}

@@ -23,6 +23,12 @@ const Pricing = ({ formData, setFormData }) => {
   };
 
   const handleSubmit = async () => {
+    const numericPrice = parseFloat(price);
+  if (!price || numericPrice < 0 || isNaN(numericPrice)) {
+    alert('Please enter a valid price.');
+    return;
+  }
+
     const courseImage = formData.imageFile;
 
     // Upload course image to Firebase Storage
