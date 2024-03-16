@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { IoTimeOutline } from "react-icons/io5";
+import { IoTimeOutline,IoClose } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
 import { PiStudentDuotone,PiCellSignalHighLight } from "react-icons/pi";
 import { FaRegBookmark,FaBookmark,FaRegHandPointRight,FaArrowAltCircleDown,FaVideo } from 'react-icons/fa';
@@ -16,13 +16,22 @@ const CourseDetailsPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [courseDuration, setCourseDuration] = useState(0); // Initialize courseDuration to 0
+  const [courseDuration, setCourseDuration] = useState(0); 
 
 
 
   const getTotalSectionDuration = (section) => {
-    return section.videos.reduce((total, video) => total + video.duration, 0);
+    const totalMinutes = section.videos.reduce((total, video) => {
+      const [minutes] = video.duration.split(':').map(Number);
+      return total + minutes ;
+    }, 0);
+  
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+  
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
   };
+  
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
@@ -33,8 +42,14 @@ const CourseDetailsPage = () => {
         const data = await response.json();
         setCourseDetails(data);
 
-        setCourseDuration(data.sections.reduce((total, section) => total + getTotalSectionDuration(section), 0));
-      } catch (error) {
+        const totalHours = data.sections.reduce((total, section) => {
+          return total + section.videos.reduce((sectionTotal, video) => {
+            const [minutes] = video.duration.split(':').map(Number);
+            return sectionTotal + minutes / 60; // Convert minutes to hours
+          }, 0);
+        }, 0);
+  
+        setCourseDuration(totalHours.toFixed(1));      } catch (error) {
         console.error('Error:', error);
       }
     };
@@ -97,12 +112,11 @@ const CourseDetailsPage = () => {
     ))}
   </div>
 </div>
-        {/* Video Popup */}
         {selectedVideo && (
           <div className="video-popup">
             <div className="video-popup-content">
               <video src={selectedVideo.url} controls />
-              <button onClick={closeVideoPopup}>Close</button>
+              <button onClick={closeVideoPopup}><span style={{fontSize:'30px'}}><IoClose/></span></button>
             </div>
           </div>
         )}
