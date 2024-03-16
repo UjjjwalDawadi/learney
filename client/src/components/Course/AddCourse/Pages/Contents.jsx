@@ -9,6 +9,7 @@ const CourseContent = ({ nextStep }) => {
   const maxSections = 10;
   const [sections, setSections] = useState([]);
   const [sectionTitle, setSectionTitle] = useState('');
+  const [videoTitle, setVideoTitle] = useState('');
   const [imageError, setImageError] = useState('');
   const [sectionError, setSectionError] = useState('');
   const [videoError, setVideoError] = useState('');
@@ -38,15 +39,26 @@ const CourseContent = ({ nextStep }) => {
   };
 
   const handleVideoUpload = (e, sectionIndex, videoIndex) => {
-    console.log('Event:', e); // Log the event object
-    const updatedSections = [...sections];
-    const file = e.target.files[0];
-    console.log('Selected File:', file); // Log the selected file
-    updatedSections[sectionIndex].videos[videoIndex] = { file };
-    console.log('Updated Sections:', updatedSections); // Log the updated sections array
+  const updatedSections = [...sections];
+  const file = e.target.files[0];
+  const title = updatedSections[sectionIndex].videos[videoIndex].title;
+
+  // Create a video element to load the file
+  const video = document.createElement('video');
+  video.preload = 'metadata'; // Load only metadata (including duration) not the entire video
+
+  // Event listener to get the duration once metadata is loaded
+  video.onloadedmetadata = function() {
+    const duration = video.duration; 
+    const minutes = Math.floor(duration / 60); // Get the number of minutes
+    const seconds = Math.round(duration % 60);
+    const formattedDuration = `${minutes} :${seconds} `; 
+        updatedSections[sectionIndex].videos[videoIndex] = { title, file, duration: formattedDuration }; // Save the duration in the video object
     setSections(updatedSections);
-    console.log('Updated Sections (after setSections):', sections);
+    setVideoTitle(''); 
   };
+};
+
   
   
 
@@ -109,7 +121,7 @@ const CourseContent = ({ nextStep }) => {
             )}
           </div>
           <div className="info-container">
-            <p style={{fontSize:'20px'}}>The course thumbnail provides a visual summary of <br/>the course, helping users quickly grasp its content. </p>
+            <p style={{fontSize:'18px'}}>The course thumbnail provides a visual summary of <br/>the course, helping users quickly grasp its content. </p>
             <span className="error-msg">{imageError}</span>
 
             <input type="file" accept="image/*" onChange={handleImageChange} />
@@ -141,6 +153,16 @@ const CourseContent = ({ nextStep }) => {
                   <ul style={{listStyle: 'none'}}>
                     {section.videos.map((video, videoIndex) => (
                       <li key={videoIndex}>
+                        <input 
+      type="text" 
+      placeholder="Enter video title" 
+      value={video.title || ''} // Set initial value to video title if it exists
+      onChange={(e) => {
+        const updatedSections = [...sections];
+        updatedSections[sectionIndex].videos[videoIndex].title = e.target.value;
+        setSections(updatedSections);
+      }}
+    />
                         <input type="file" accept="video/*" onChange={(e) => handleVideoUpload(e, sectionIndex, videoIndex)} />
                         {video.fileName && (
                           <>

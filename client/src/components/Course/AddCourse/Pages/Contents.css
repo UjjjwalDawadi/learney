@@ -8,6 +8,7 @@
 }
 .content-section .image-container img {
 height: 300px;
+max-width: 400px;
 }
 .activity-item{
     border: 1px solid;
@@ -32,13 +33,11 @@ height: 300px;
 }
 
 .info-container{
-    margin-right: 30px;
     padding-top: 25px;
 }
 .info-container input{
   margin-top: 5px;
-
-    width: 500px;
+  width: 450px;
 }
 
 .course-content-container {

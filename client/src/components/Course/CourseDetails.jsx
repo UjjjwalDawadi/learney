@@ -16,9 +16,13 @@ const CourseDetailsPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [courseDuration, setCourseDuration] = useState(0); // Initialize courseDuration to 0
 
 
 
+  const getTotalSectionDuration = (section) => {
+    return section.videos.reduce((total, video) => total + video.duration, 0);
+  };
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
@@ -28,6 +32,8 @@ const CourseDetailsPage = () => {
         }
         const data = await response.json();
         setCourseDetails(data);
+
+        setCourseDuration(data.sections.reduce((total, section) => total + getTotalSectionDuration(section), 0));
       } catch (error) {
         console.error('Error:', error);
       }
@@ -36,8 +42,6 @@ const CourseDetailsPage = () => {
     fetchCourseDetails();
   }, [courseId]);
 
-  // const { updatedAt } = courseDetails.course.updatedAt;
-  // const dateOnly = new Date(updatedAt).toLocaleDateString();
   const handleWishlistClick = () => {
     setIsBookmarked(!isBookmarked);
   };
@@ -60,9 +64,15 @@ const CourseDetailsPage = () => {
       setSelectedSection(section);
     }
   };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
   
-
-
 
   return (
     <div className="course-details-container">
@@ -101,15 +111,17 @@ const CourseDetailsPage = () => {
   {courseDetails.sections.map((section, index) => (
     <div key={index} className="section-wrapper">
       <div className="section-header" onClick={() => handleSectionClick(section)}>
-        <h3>Module {index + 1}: {section.title}      
-         <FaArrowAltCircleDown className={selectedSection === section ? 'rotate' : ''} />
+        <h3 style={{display:'flex',justifyContent:'space-between'}}>Module {index + 1}: {section.title}    
+        <span className='duration'><FaArrowAltCircleDown style={{color:'black'}} className={selectedSection === section ? 'rotate' : ''} 
+         />
+         {getTotalSectionDuration(section)}</span>
 </h3>
       </div>
       {selectedSection === section && (
         <ul className="video-list">
           {section.videos.map((video, videoIndex) => (
-            <li key={videoIndex} onClick={() => handleVideoClick(video)}>
-              <FaVideo/>{video.title} {/* Display video title */}
+            <li key={videoIndex} onClick={() => handleVideoClick(video)} style={{display:'flex',justifyContent:'space-between',paddingRight:'20px'}}>
+              <span><FaVideo/>{video.title} </span><span className='duration'>{video.duration}</span>
             </li>
           ))}
         </ul>
@@ -141,9 +153,10 @@ const CourseDetailsPage = () => {
         <p><span className="right-icons">
        <PiCellSignalHighLight/></span>{courseDetails.course.difficultyLevel} Level Difficulty </p>
         <p><span className="right-icons">
-       <IoTimeOutline/></span> Duration {courseDetails.course.duration}</p>
+       <IoTimeOutline/></span> Duration {courseDuration}</p>
         <p><span className="right-icons">
-       <GrUpdate/></span>Updated on {courseDetails.course.updatedAt}  </p>
+       <GrUpdate/></span> Updated on {formatDate(courseDetails.course.updatedAt)}
+  </p>
       </div>
       </div>
       <div className="course-dtls-rt">
