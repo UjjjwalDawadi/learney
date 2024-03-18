@@ -9,7 +9,7 @@ import { RiAccountCircleLine } from 'react-icons/ri';
 import Defaultprofile from '../../resources/Images/default-profile.png';
 import UserManagement from '../../resources/Images/UserManagement.png';
 import { MdOutlineShoppingCart, MdOutlineSettings, MdOutlineDashboardCustomize, MdOutlineLogout } from 'react-icons/md';
-import { FaRegHeart, FaSearch } from 'react-icons/fa';
+import {  FaSearch, FaRegBookmark } from 'react-icons/fa';
 import { TbReport } from 'react-icons/tb';
 import CourseGif from '../../resources/Images/Course.gif';
 
@@ -42,8 +42,8 @@ const Header = () => {
           <li className={location.pathname === '/courses' ? 'active' : ''} onClick={() => handleNavigation('/courses')}>
             Courses
           </li>
-          <li className={location.pathname === '/community' ? 'active' : ''} onClick={() => handleNavigation('/community')}>
-            Community
+          <li className={location.pathname === '/forum' ? 'active' : ''} onClick={() => handleNavigation('/forum')}>
+            Forum
           </li>
           {!loggedIn ? (
             <div className="get-started" onClick={() => handleNavigation('/userform')}>
@@ -69,31 +69,31 @@ const Header = () => {
                           <span className="icon">
                             <MdOutlineDashboardCustomize />
                           </span>
-                          <a href="/student-dashboard">DashBoard</a>
+                          <a href="/dashboard/1">DashBoard</a>
                         </li>
                         <li>
                           <span className="icon">
                             <RiAccountCircleLine />
                           </span>
-                          <a href="/profile"> My Profile</a>
+                          <a href="/dashboard/profile"> My Profile</a>
                         </li>
                         <li>
                           <span className="icon">
                             <img src={CourseGif} alt="course" />
                           </span>
-                          <a href="/enrolled-courses">Enrolled Courses</a>
+                          <a href="/dashboard/enrolled-courses">Enrolled Courses</a>
                         </li>
                         <li>
                           <span className="icon">
-                            <FaRegHeart />
+                            <FaRegBookmark />
                           </span>
-                          <a href="/profile"> Wishlist</a>
+                          <a href="/dashboard/bookmark"> Bookmark</a>
                         </li>
                         <li>
                           <span className="icon">
                             <MdOutlineShoppingCart />
                           </span>
-                          <a href="/profile"> Cart</a>
+                          <a href="/dashboard/cart"> Cart</a>
                         </li>
                       </ul>
                       <div className="sub-links">
@@ -102,7 +102,7 @@ const Header = () => {
                             <span className="icon">
                               <MdOutlineSettings />
                             </span>
-                            <a href="/settings"> Settings</a>
+                            <a href="/dashboard/settings"> Settings</a>
                           </li>
                           <li onClick={logout}>
                             <span className="icon">
@@ -174,7 +174,7 @@ const Header = () => {
                           <span className="icon">
                             <MdOutlineDashboardCustomize />
                           </span>
-                          <a href="/student-dashboard">DashBoard</a>
+                          <a href="/dashboard">DashBoard</a>
                         </li>
                         <li>
                           <span className="icon">

@@ -1,17 +1,16 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { initializeApp } from "firebase/app";
-import {firebaseConfig}from "./FireBase"; // Import your Firebase configuration object
-
+import {firebaseConfig}from "./FireBase"; 
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import UserForm from './components/UserForm/UserForm';
 import Courses from './components/Course/Courses';
 import CourseCreationPage from './components/Course/AddCourse/CourseCreationPage';
 import UserRole from './components/UserRole/UserRole';
-import Community from './components/Community/Community';
-import StudentDashboard from './components/Subpages/Student/StudentDashboard';
+import Forum from './components/Forum/Forum';
 import CourseDetails from './components/Course/CourseDetails';
+import DashboardContainer from './components/Dashboard/DashboardContainer';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -30,13 +29,12 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/addcourse" element={<CourseCreationPage/>} />
         <Route path="/userrole" element={<UserRole />} />
-        <Route path="/student-dashboard" element={<StudentDashboard />} />
-        <Route path="/community" element={<Community />} />
+        <Route path="/dashboard/*" element={<DashboardContainer />} />
+        <Route path="/forum" element={<Forum />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} /> 
         <Route path="/" element={<Home />} />
       </Routes>
     </>
   );
 }
-
 export default App;

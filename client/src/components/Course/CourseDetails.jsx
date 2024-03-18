@@ -1,6 +1,8 @@
 // CourseDetailsPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ReactPlayer from 'react-player';
+
 
 import { IoTimeOutline,IoClose } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
@@ -16,21 +18,7 @@ const CourseDetailsPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [courseDuration, setCourseDuration] = useState(0); 
 
-
-
-  const getTotalSectionDuration = (section) => {
-    const totalMinutes = section.videos.reduce((total, video) => {
-      const [minutes] = video.duration.split(':').map(Number);
-      return total + minutes ;
-    }, 0);
-  
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-  
-    return `${hours}:${minutes.toString().padStart(2, '0')}`;
-  };
   
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -42,14 +30,7 @@ const CourseDetailsPage = () => {
         const data = await response.json();
         setCourseDetails(data);
 
-        const totalHours = data.sections.reduce((total, section) => {
-          return total + section.videos.reduce((sectionTotal, video) => {
-            const [minutes] = video.duration.split(':').map(Number);
-            return sectionTotal + minutes / 60; // Convert minutes to hours
-          }, 0);
-        }, 0);
-  
-        setCourseDuration(totalHours.toFixed(1));      } catch (error) {
+        } catch (error) {
         console.error('Error:', error);
       }
     };
@@ -113,13 +94,15 @@ const CourseDetailsPage = () => {
   </div>
 </div>
         {selectedVideo && (
-          <div className="video-popup">
-            <div className="video-popup-content">
-              <video src={selectedVideo.url} controls />
-              <button onClick={closeVideoPopup}><span style={{fontSize:'30px'}}><IoClose/></span></button>
-            </div>
-          </div>
-        )}
+  <div className="video-popup">
+    <div className="video-popup-content">
+      <ReactPlayer className ='video-player' url={selectedVideo.url} controls width="auto" 
+        height="auto" />
+      <button onClick={closeVideoPopup}><span style={{fontSize:'30px'}}><IoClose/></span></button>
+    </div>
+  </div>
+)}
+
         <div className="course-details">
   <h2>Contents</h2>
   {courseDetails.sections.map((section, index) => (
@@ -128,7 +111,7 @@ const CourseDetailsPage = () => {
         <h3 style={{display:'flex',justifyContent:'space-between'}}>Module {index + 1}: {section.title}    
         <span className='duration'><FaArrowAltCircleDown style={{color:'black'}} className={selectedSection === section ? 'rotate' : ''} 
          />
-         {getTotalSectionDuration(section)}</span>
+         {section.sectionDuration}</span>
 </h3>
       </div>
       {selectedSection === section && (
@@ -167,7 +150,7 @@ const CourseDetailsPage = () => {
         <p><span className="right-icons">
        <PiCellSignalHighLight/></span>{courseDetails.course.difficultyLevel} Level Difficulty </p>
         <p><span className="right-icons">
-       <IoTimeOutline/></span> Duration {courseDuration}</p>
+       <IoTimeOutline/></span> Duration {courseDetails.course.courseDuration}</p>
         <p><span className="right-icons">
        <GrUpdate/></span> Updated on {formatDate(courseDetails.course.updatedAt)}
   </p>

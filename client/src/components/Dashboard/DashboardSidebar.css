@@ -1,0 +1,43 @@
+.dashboard-sidebar{
+    width: 30%;
+    float: left;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    padding: 50px 10px;
+}
+.dashboard-sidebar ul{
+    list-style: none;
+}
+
+.dashboard-sidebar ul li{
+    margin-bottom: inherit;
+    cursor: pointer;
+    
+}
+.dashboard-sidebar ul li a{
+    text-decoration: none;
+    color: #1c1a4a;
+    font-size: 27px;
+    
+}
+.dashboard-sidebar ul li a.active {
+    position: relative; 
+    color: crimson;
+  }
+  
+  .dashboard-sidebar ul li a.active::before {
+    content: '';
+    position: absolute;
+    left: -10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px; 
+    height: 100%;
+    background-color: crimson;
+  }
+  .icon-dash{
+    font-size: 25px;
+  }

@@ -45,10 +45,12 @@ const UserForm = () => {
       .then((data) => {
         const userRole = data.userRole; 
         const userEmail = data.userEmail;
+        const userId = data.userId;
 
         if (data) {
     localStorage.setItem('username', enteredUsername);
     localStorage.setItem('userRole', userRole);
+    localStorage.setItem('userId', userId);
     localStorage.setItem('userEmail', userEmail);
           navigate('/homepage');
         } else {

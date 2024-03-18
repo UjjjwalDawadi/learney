@@ -30,38 +30,68 @@ const CourseContent = ({ nextStep }) => {
 
   const handleAddVideo = (sectionIndex) => {
     const updatedSections = [...sections];
-    updatedSections[sectionIndex].videos.push({ fileName: '' });
+    updatedSections[sectionIndex].videos.push({ title: '', file: null, duration: 0 });
     setSections(updatedSections);
   };
+  
 
   const handleImageChange = (e) => {
     setImageFile(e.target.files[0]);
   };
 
   const handleVideoUpload = (e, sectionIndex, videoIndex) => {
-  const updatedSections = [...sections];
-  const file = e.target.files[0];
-  const title = updatedSections[sectionIndex].videos[videoIndex].title;
-
-  // Create a video element to load the file
-  const video = document.createElement('video');
-  video.preload = 'metadata'; // Load only metadata (including duration) not the entire video
-
-  // Event listener to get the duration once metadata is loaded
-  video.onloadedmetadata = function() {
-    const duration = video.duration; 
-    const minutes = Math.floor(duration / 60); // Get the number of minutes
-    const seconds = Math.round(duration % 60);
-    const formattedDuration = `${minutes} :${seconds} `; 
-        updatedSections[sectionIndex].videos[videoIndex] = { title, file, duration: formattedDuration }; // Save the duration in the video object
-    setSections(updatedSections);
-    setVideoTitle(''); 
+    const updatedSections = [...sections];
+    const file = e.target.files[0];
+    const title = updatedSections[sectionIndex].videos[videoIndex].title;
+  
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+  
+    video.onloadedmetadata = function() {
+      const duration = video.duration;
+      let formattedDuration;
+  
+      if (duration < 3600) { // Less than 1 hour
+        const minutes = Math.floor(duration / 60);
+        const seconds = Math.round(duration % 60);
+        formattedDuration = `${minutes}:${seconds}`;
+      } else { // Equal to or greater than 1 hour
+        const hours = Math.floor(duration / 3600);
+        const minutes = Math.floor((duration % 3600) / 60);
+        formattedDuration = `${hours}:${minutes}`;
+      }
+  
+      updatedSections[sectionIndex].videos[videoIndex] = { title, file, duration: formattedDuration };
+      
+      // Calculate total duration for the section
+      let totalDuration = 0;
+      updatedSections[sectionIndex].videos.forEach(video => {
+        const [minutes, seconds] = video.duration.split(':').map(parseFloat);
+        totalDuration += minutes * 60 + seconds;
+      });
+  
+      // Format section duration
+      let formattedSectionDuration;
+      if (totalDuration < 3600) { // Less than 1 hour
+        const minutes = Math.floor(totalDuration / 60);
+        const seconds = Math.round(totalDuration % 60);
+        formattedSectionDuration = `${minutes}:${seconds}`;
+      } else { // Equal to or greater than 1 hour
+        const hours = Math.floor(totalDuration / 3600);
+        const minutes = Math.floor((totalDuration % 3600) / 60);
+        formattedSectionDuration = `${hours}:${minutes}`;
+      }
+  
+      updatedSections[sectionIndex].sectionDuration = formattedSectionDuration; // Set the formatted section duration
+      setSections(updatedSections);
+      setVideoTitle('');
+    };
+  
+    video.src = URL.createObjectURL(file);
   };
-};
-
   
   
-
+  
   const handleDeleteVideo = (sectionIndex, videoIndex) => {
     const updatedSections = [...sections];
     updatedSections[sectionIndex].videos.splice(videoIndex, 1);
@@ -99,11 +129,30 @@ const CourseContent = ({ nextStep }) => {
     } else {
       setVideoError('');
     }
+    // Calculate total course duration
+    let totalCourseDuration = 0;
+    sections.forEach(section => {
+      const [hours, minutes] = section.sectionDuration.split(':').map(parseFloat);
+      totalCourseDuration += hours * 3600 + minutes * 60; // Convert section duration to seconds and accumulate
+    });
+  
+    // Format course duration
+    let formattedCourseDuration;
+    if (totalCourseDuration < 3600) { // Less than 1 hour
+      const minutes = Math.floor(totalCourseDuration / 60);
+      const seconds = Math.round(totalCourseDuration % 60);
+      formattedCourseDuration = `${minutes}:${seconds}`;
+    } else { // Equal to or greater than 1 hour
+      const hours = Math.floor(totalCourseDuration / 3600);
+      const minutes = Math.floor((totalCourseDuration % 3600) / 60);
+      formattedCourseDuration = `${hours}:${minutes}`;
+    }
   
     // If all validations pass, proceed to the next step
     const formData = {
       sections,
-      imageFile
+      imageFile,
+courseDuration: formattedCourseDuration
     };
     console.log('Course data:', formData);
     nextStep(formData);

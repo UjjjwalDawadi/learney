@@ -27,10 +27,10 @@ const BasicInfo = ({ nextStep }) => {
   ];
   const difficultyOptions = [
     { value: 'default', label: 'Choose difficulty level' },
-    { value: 'beginner', label: 'Beginner' },
-    { value: 'intermediate', label: 'Intermediate' },
-    { value: 'advanced', label: 'Advanced' },
-    { value: 'allLevel', label: 'All level' },
+    { value: 'Beginner', label: 'Beginner' },
+    { value: 'Intermediate', label: 'Intermediate' },
+    { value: 'Advanced', label: 'Advanced' },
+    { value: 'All-Level', label: 'All level' },
   ];
 
   // Character limit for title and description

@@ -116,10 +116,13 @@ font-size: 17px;
   
 }
 
-.video-popup-content video {
+.video-popup-content .video-player {
   width: 100%;
   height: auto;
   border-radius: 10px;
+}
+.video-player video{
+  width: 100%;
 }
 
 .video-popup button {
