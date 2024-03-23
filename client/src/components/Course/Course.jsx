@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SiTimescale } from "react-icons/si";
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
-import axios from 'axios'; // Import Axios
+import axios from 'axios'; 
 
 import './Course.css';
 
 function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, courseId }) {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false); // Track the bookmark status locally
+
   const rating = 4.5;
   const review = 500;
   const userRole = localStorage.getItem('userRole');
+
+  useEffect(() => {
+    // Check if the course is bookmarked when the component mounts
+    checkIsBookmarked();
+  }, []);
+
+  const checkIsBookmarked = async () => {
+    try {
+      const response = await axios.get(`/api/bookmarks/${courseId}`);
+      setIsBookmarked(response.data.isBookmarked);
+    } catch (error) {
+      console.error('Error checking bookmark status:', error.message);
+    }
+  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -24,20 +39,20 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
 
   const handleWishlistClick = async () => {
     try {
-      const response = await axios.post('/api/bookmarks', {
-        userId: localStorage.getItem('userId'), 
-        courseId: courseId
-        
-      });
-      console.log('response' ,response);
-      if (response.status === 201) {
-        setIsBookmarked(!isBookmarked);
-        
+      const userId = localStorage.getItem("userId");
+      if (isBookmarked) {
+        // If already bookmarked, delete the bookmark
+        await axios.delete(`/api/bookmarks/${courseId}`);
       } else {
-        console.error('Bookmark creation failed:', response.statusText);
+        await axios.post('/api/bookmarks', {
+          courseId: courseId,
+          userId: userId
+        });
       }
+      // Toggle the bookmark status locally
+      setIsBookmarked(!isBookmarked);
     } catch (error) {
-      console.error('Bookmark  failed:', error.message);
+      console.error('Bookmark failed:', error.message);
     }
   };
 
@@ -49,6 +64,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
     >
       {userRole === 'Student' && (
         <button className="wishlist-btn" onClick={handleWishlistClick}>
+          {/* Use isBookmarked state to toggle between bookmark icons */}
           <span title='Bookmark'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
         </button>
       )}

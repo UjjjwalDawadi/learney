@@ -1,4 +1,4 @@
-// CourseDetailsPage.js
+// CourseDetailsPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactPlayer from 'react-player';
@@ -18,6 +18,7 @@ const CourseDetailsPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const userRole = localStorage.getItem(  'userRole');
 
   
   useEffect(() => {
@@ -135,7 +136,7 @@ const CourseDetailsPage = () => {
       <div className="course-details-right">
         <div className="upper-right">
         <h2>${courseDetails.course.price}</h2>
-        <div className="buttons">
+        { userRole ==='Student'&& <div className="buttons">
           <button className='btn-1' >Add to Cart</button>
           <button className='btn-2' onClick={handleWishlistClick}>
       <span title='Add to wishlist'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
@@ -143,7 +144,8 @@ const CourseDetailsPage = () => {
           <div>
           <button className='btn-3'>Buy Now</button>
         </div>
-        </div>
+        </div>}
+
         <div className="course-dtls-rt">
         <p><span className="right-icons">
        <PiStudentDuotone/></span> Students Enrolled {courseDetails.studentsEnrolled}</p>

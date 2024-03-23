@@ -6,14 +6,17 @@
     display: flex;
     font-size: 22px;
     padding: 50px 35px;
+    cursor: not-allowed;
+
 }
 .course-sidebar ul{
+    margin-top: 50px;
     list-style: none;
 }
 
 .course-sidebar ul li{
     margin-bottom: inherit;
-    cursor: pointer;
+    cursor: not-allowed;
     
 }
 .course-sidebar ul li.active {
@@ -31,3 +34,15 @@
     height: 100%;
     background-color: crimson;
   }
+
+  .back{
+    position: absolute;
+    left: 62px;
+    top: 30px;
+    font-size: 20px;
+    background-color: #1c1a4a;
+    height: 42px;
+    color: white;
+    border-radius: 5px;
+    width: 95px;
+    }

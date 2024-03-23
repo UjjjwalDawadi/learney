@@ -129,7 +129,7 @@ const BasicInfo = ({ nextStep }) => {
           ))}
         </select>
       </div>
-      <button className="add-course-btn" onClick={handleSubmit}>Next</button>
+      <button className="add-course-btn" onClick={handleSubmit}>Save</button>
     </div>
   );
 };

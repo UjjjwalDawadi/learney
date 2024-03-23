@@ -7,6 +7,7 @@
 }
 
 .course-form-container h2{
+    margin-bottom: 5px;
     letter-spacing: 0.4px;
     font-weight: 500;
 
@@ -19,6 +20,7 @@
     margin-top:30px;
 }
 .course-form-container h1{
+
     height: 67px;
     color: #1c1a4a ;
     position: relative;
@@ -28,7 +30,6 @@
     font-weight: 600;
 }
 .course-form-container input,.course-form-container select{
-    height: 45px;
     border: 1px solid #1c1a4a;
     width: 638px;
     font-size: 15px;
@@ -60,9 +61,7 @@
     color: red;
     margin-bottom: 5px;
 }
-  .add-course {
-    margin-bottom: 20px;
-  }
+
   
   .add-course.error input,
   .add-course.error textarea,
