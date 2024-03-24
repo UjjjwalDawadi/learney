@@ -1,0 +1,16 @@
+.course-details h2{
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 18px !important;
+    background-color: #f7f7f7 !important;
+}
+.remove-from-cart-btn{
+    height: 45px;
+    background-color: #1c1a4a;
+    color: white;
+    border-radius: 10px;
+    width: 231px;
+    margin-left: 36px;
+    margin-bottom: 20px;
+    font-size: 18px;
+}

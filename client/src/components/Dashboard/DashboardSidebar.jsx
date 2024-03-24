@@ -7,26 +7,26 @@ function DashboardSidebar() {
     <div className="dashboard-sidebar">
       <ul>
         <li>
-          <NavLink to="/dashboard/1" activeClassName="active">Dashboard</NavLink>
+          <NavLink to="/dashboard/1" activeclassname="active">Dashboard</NavLink>
         </li>
         <li>
-          <NavLink to="/dashboard/profile" activeClassName="active">Profile</NavLink>
+          <NavLink to="/dashboard/profile" activeclassname="active">Profile</NavLink>
         </li>
         <li>
-          <NavLink to="/dashboard/enrolled-courses" activeClassName="active">Enrolled Courses</NavLink>
+          <NavLink to="/dashboard/enrolled-courses" activeclassname="active">Enrolled Courses</NavLink>
         </li>
         <li>
-          <NavLink to="/dashboard/bookmark" activeClassName="active">Bookmark</NavLink>
+          <NavLink to="/dashboard/bookmark" activeclassname="active">Bookmark</NavLink>
         </li>
         <li>
-          <NavLink to="/dashboard/cart" activeClassName="active">Cart</NavLink>
+          <NavLink to="/dashboard/cart" activeclassname="active">Cart</NavLink>
         </li>
         <li>
-            <NavLink to="/dashboard/settings" activeClassName="active">Settings</NavLink>
-          </li>
-          <li>
-            <NavLink to="/userform" activeClassName="active">Logout</NavLink>
-          </li>
+          <NavLink to="/dashboard/settings" activeclassname="active">Settings</NavLink>
+        </li>
+        <li>
+          <NavLink to="/userform" activeclassname="active">Logout</NavLink>
+        </li>
       </ul>
     </div>
   );

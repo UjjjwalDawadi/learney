@@ -7,6 +7,7 @@ import Bookmark from './Pages/Bookmark';
 import Cart from './Pages/Cart';
 import Settings from './Pages/Settings';
 import { useLocation } from 'react-router-dom';
+import './DashboardContainer.css'
 
 function DashboardContainer() {
   const location = useLocation();

@@ -141,11 +141,11 @@ const CourseContent = ({ nextStep }) => {
     if (totalCourseDuration < 3600) { // Less than 1 hour
       const minutes = Math.floor(totalCourseDuration / 60);
       const seconds = Math.round(totalCourseDuration % 60);
-      formattedCourseDuration = `${minutes}:${seconds}`;
+      formattedCourseDuration = `${minutes}m:${seconds}s`;
     } else { // Equal to or greater than 1 hour
       const hours = Math.floor(totalCourseDuration / 3600);
       const minutes = Math.floor((totalCourseDuration % 3600) / 60);
-      formattedCourseDuration = `${hours}:${minutes}`;
+      formattedCourseDuration = `${hours}hr:${minutes}m`;
     }
   
     // If all validations pass, proceed to the next step

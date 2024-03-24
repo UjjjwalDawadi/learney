@@ -55,17 +55,15 @@
 }
 
 .button.start:hover:before {
-  left: 0; 
-  
-  
+  left: 0;  
 }
-
 
 .image-container {
   width: 50%;
   margin-right: 30px;
   padding-top: 25px;
-
+  height: 550px;
+  overflow: hidden;
 }
 
 .image img {

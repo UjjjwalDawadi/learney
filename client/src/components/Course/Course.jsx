@@ -1,33 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SiTimescale } from "react-icons/si";
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
-import axios from 'axios'; 
+import axios from 'axios';
 
 import './Course.css';
 
-function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, courseId }) {
+function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, courseId, isAlreadyInCart, displayButtons }) {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false); // Track the bookmark status locally
-
-  const rating = 4.5;
-  const review = 500;
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const userRole = localStorage.getItem('userRole');
-
-  useEffect(() => {
-    // Check if the course is bookmarked when the component mounts
-    checkIsBookmarked();
-  }, []);
-
-  const checkIsBookmarked = async () => {
-    try {
-      const response = await axios.get(`/api/bookmarks/${courseId}`);
-      setIsBookmarked(response.data.isBookmarked);
-    } catch (error) {
-      console.error('Error checking bookmark status:', error.message);
-    }
-  };
+  const rating = 4.5;
+  const review = 700;
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -41,18 +26,28 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
     try {
       const userId = localStorage.getItem("userId");
       if (isBookmarked) {
-        // If already bookmarked, delete the bookmark
         await axios.delete(`/api/bookmarks/${courseId}`);
       } else {
-        await axios.post('/api/bookmarks', {
-          courseId: courseId,
-          userId: userId
-        });
+        await axios.post('/api/bookmarks', { courseId, userId });
       }
-      // Toggle the bookmark status locally
-      setIsBookmarked(!isBookmarked);
+      setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
     } catch (error) {
       console.error('Bookmark failed:', error.message);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!isAlreadyInCart) {
+        navigate('../dashboard/cart')
+      } else {
+        // Add to cart
+        await axios.post('/api/cart', { userId, courseId });
+      }
+      // Update the state or trigger a re-fetch of cart information
+    } catch (error) {
+      console.error('Error updating cart:', error.message);
     }
   };
 
@@ -62,9 +57,8 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {userRole === 'Student' && (
+      {userRole === 'Student' && !displayButtons && (
         <button className="wishlist-btn" onClick={handleWishlistClick}>
-          {/* Use isBookmarked state to toggle between bookmark icons */}
           <span title='Bookmark'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
         </button>
       )}
@@ -82,8 +76,10 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
           <p>{price === '0.00' ? "Free" : `$${price}`}</p>
           <p>Uploaded by: {uploadedBy}</p>
         </div>
-        {userRole === 'Student' && (
-          <button className="add-to-cart-btn">Add to Cart</button>
+        {userRole === 'Student' && !displayButtons && (
+          <button className="add-to-cart-btn" onClick={handleAddToCart}>
+            {!isAlreadyInCart ? 'View in Cart' : 'Add to Cart'}
+          </button>
         )}
       </div>
     </div>
