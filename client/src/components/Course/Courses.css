@@ -33,13 +33,12 @@ height: 30px;
 }
 
 .course-card {
-  flex: 0 0 calc(33.33% - 16px); 
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: calc(33.33% - 16px);
   margin: 0px 10px 15px;
   box-sizing: border-box;
-}
-
-.course-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  height: 450px;
 }
 .course-details {
   margin-top: 10px; 
@@ -51,10 +50,8 @@ height: 30px;
 .course-details p {
   font-size: large; 
   font-weight: 500;
-  margin: 0px 15px;
-}
-.course-details p {
-  margin: 8px 15px;
+  margin: 8px 0;
+  
 }
 
 
@@ -64,7 +61,7 @@ height: 30px;
   display:flex;
 }
 
-.course-card .add-to-cart-btn,
+.course-card .cart-btn,
 .course-card .wishlist-btn {
   font-size: 16px;
   border: none;
@@ -73,15 +70,18 @@ height: 30px;
   transition: background-color 0.3s ease;
 }
 
-.course-card .add-to-cart-btn {
+.course-card .cart-btn {
+      position: absolute;
+    margin-top: 0px;
+    border: 1px solid #1c1a4a;
+    width: 90%;
+    height: 40px;
+    bottom: 10px;
+}
+.course-card .cart-btn:hover{
   background-color: #1c1a4a; 
   color: #fff;
-  margin-left: 15px;
-  width: 88%;
-  height: 40px;
-  padding: 10px;
 }
-
 .course-card .wishlist-btn {
   z-index: 2;
   border-radius: 50%;

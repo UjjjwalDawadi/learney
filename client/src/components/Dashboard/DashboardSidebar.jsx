@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './DashboardSidebar.css'
+import './DashboardSidebar.css';
 
 function DashboardSidebar() {
+  const userRole = localStorage.getItem('userRole');
   return (
     <div className="dashboard-sidebar">
       <ul>
@@ -12,15 +13,22 @@ function DashboardSidebar() {
         <li>
           <NavLink to="/dashboard/profile" activeclassname="active">Profile</NavLink>
         </li>
-        <li>
+       
+        {userRole === 'Student' && ( 
+          <>
+           <li>
           <NavLink to="/dashboard/enrolled-courses" activeclassname="active">Enrolled Courses</NavLink>
         </li>
-        <li>
-          <NavLink to="/dashboard/bookmark" activeclassname="active">Bookmark</NavLink>
-        </li>
-        <li>
-          <NavLink to="/dashboard/cart" activeclassname="active">Cart</NavLink>
-        </li>
+        
+            <li>
+              <NavLink to="/dashboard/bookmark" activeclassname="active">Bookmark</NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/cart" activeclassname="active">Cart</NavLink>
+            </li>
+          </>
+        )}
+        
         <li>
           <NavLink to="/dashboard/settings" activeclassname="active">Settings</NavLink>
         </li>

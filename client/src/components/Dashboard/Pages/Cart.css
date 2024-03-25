@@ -4,13 +4,15 @@
     font-size: 18px !important;
     background-color: #f7f7f7 !important;
 }
-.remove-from-cart-btn{
-    height: 45px;
-    background-color: #1c1a4a;
-    color: white;
-    border-radius: 10px;
-    width: 231px;
-    margin-left: 36px;
-    margin-bottom: 20px;
-    font-size: 18px;
+.empty-page{
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to bottom, #dce3f8, #fcfcfe);
+    height: 583px;
+
+}
+
+.empty-page img{
+    width: 70%;
+    height: 490px;
 }

@@ -14,13 +14,13 @@ const Pricing = ({ formData, setFormData }) => {
     value = value.replace(/[^0-9.]/g, ''); 
     const parts = value.split('.');
     if (parts.length > 1) {
-      parts[1] = parts[1].slice(0, 2); 
-      value = parts[0].slice(0, 3) + '.' + parts[1];
+        parts[1] = parts[1].slice(0, 2); 
+        value = parts[0].slice(0, 4) + '.' + parts[1];
     } else {
-      value = value.slice(0, 3);
+        value = value.slice(0, 4);
     }
     setPrice(value);
-  };
+};
 
   const handleSubmit = async () => {
     const numericPrice = parseFloat(price);
@@ -114,7 +114,7 @@ const Pricing = ({ formData, setFormData }) => {
           <button onClick={makeFree} style={{ marginLeft: '20px', height: '45px', width: '130px', backgroundColor: '#1c1a4a', color: '#fff', fontSize: '16px', fontWeight: '500' }}>Make it Free</button>
         </div>
         <div style={{ fontSize: '20px' }}>
-          {price === '' ? null : (isFree ? <p>Your course is priced: <span style={{ color: 'green', fontWeight: '600' }}>Free</span></p> : <p>Your course is priced: <span style={{ color: 'green', fontWeight: '600' }}>${parseFloat(price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></p>)}
+          {price === '' ? null : (isFree ? <p>Your course is priced: <span style={{ color: 'green', fontWeight: '600' }}>Free</span></p> : <p>Your course is priced: <span style={{ color: 'green', fontWeight: '600' }}>Rs.{parseFloat(price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></p>)}
         </div>
       </div>
       <button className='add-course-btn' onClick={handleSubmit} style={{ width: '200px', fontSize: '18px' }}>Submit for Review</button>

@@ -1,9 +1,8 @@
 // CourseDetailsPage.jsx
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-
-
+import axios from 'axios';
 import { IoTimeOutline,IoClose } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
 import { PiStudentDuotone,PiCellSignalHighLight } from "react-icons/pi";
@@ -18,6 +17,8 @@ const CourseDetailsPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
+  const navigate = useNavigate();
   const userRole = localStorage.getItem(  'userRole');
 
   
@@ -39,10 +40,37 @@ const CourseDetailsPage = () => {
     fetchCourseDetails();
   }, [courseId]);
 
-  const handleWishlistClick = () => {
-    setIsBookmarked(!isBookmarked);
+  const handleWishlistClick = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      if (isBookmarked) {
+        await axios.delete(`/api/bookmark/${userId}/${courseId}`);
+        alert("Bookmark removed");
+            } else {
+        await axios.post('/api/bookmarks', { courseId, userId });
+        alert("Bookmark added");
+      }
+      setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
+    } catch (error) {
+      console.error('Bookmark failed:', error.message);
+    }
   };
 
+  const handleAddToCart = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!isAlreadyInCart) {
+        navigate('../dashboard/cart')
+        setIsAlreadyInCart(true)
+      } else {
+        // Add to cart
+        await axios.post('/api/cart', { userId, courseId });
+      }
+      // Update the state or trigger a re-fetch of cart information
+    } catch (error) {
+      console.error('Error updating cart:', error.message);
+    }
+  };
   const handleVideoClick = (video) => {
     setSelectedVideo(video);
   };
@@ -135,11 +163,11 @@ const CourseDetailsPage = () => {
       </div>
       <div className="course-details-right">
         <div className="upper-right">
-        <h2>${courseDetails.course.price}</h2>
+        <h2>Rs {courseDetails.course.price}</h2>
         { userRole ==='Student'&& <div className="buttons">
-          <button className='btn-1' >Add to Cart</button>
-          <button className='btn-2' onClick={handleWishlistClick}>
-      <span title='Add to wishlist'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
+        <button className='btn-1' onClick={handleAddToCart}> {!isAlreadyInCart ? 'View in Cart' : 'Add to Cart'}</button>
+      <button className='btn-2' onClick={handleWishlistClick}>
+        <span title='Add to wishlist'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
     </button>
           <div>
           <button className='btn-3'>Buy Now</button>

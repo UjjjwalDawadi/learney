@@ -54,11 +54,11 @@ const CourseContent = ({ nextStep }) => {
       if (duration < 3600) { // Less than 1 hour
         const minutes = Math.floor(duration / 60);
         const seconds = Math.round(duration % 60);
-        formattedDuration = `${minutes}:${seconds}`;
+        formattedDuration = `${minutes}m:${seconds}s`;
       } else { // Equal to or greater than 1 hour
         const hours = Math.floor(duration / 3600);
         const minutes = Math.floor((duration % 3600) / 60);
-        formattedDuration = `${hours}:${minutes}`;
+        formattedDuration = `${hours}hr:${minutes}m`;
       }
   
       updatedSections[sectionIndex].videos[videoIndex] = { title, file, duration: formattedDuration };
@@ -75,11 +75,11 @@ const CourseContent = ({ nextStep }) => {
       if (totalDuration < 3600) { // Less than 1 hour
         const minutes = Math.floor(totalDuration / 60);
         const seconds = Math.round(totalDuration % 60);
-        formattedSectionDuration = `${minutes}:${seconds}`;
+        formattedSectionDuration = `${minutes}m:${seconds}s`;
       } else { // Equal to or greater than 1 hour
         const hours = Math.floor(totalDuration / 3600);
         const minutes = Math.floor((totalDuration % 3600) / 60);
-        formattedSectionDuration = `${hours}:${minutes}`;
+        formattedSectionDuration = `${hours}hr:${minutes}m`;
       }
   
       updatedSections[sectionIndex].sectionDuration = formattedSectionDuration; // Set the formatted section duration
