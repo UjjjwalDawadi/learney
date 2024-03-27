@@ -23,6 +23,17 @@ function BookmarkPage() {
     }
   };
 
+  const removeFromBookmark = async (bookmarkId) => {
+    try {
+      // Remove the bookmark from the list of bookmarked courses
+      setBookmarkedCourses(prevCourses =>
+        prevCourses.filter(course => course.bookmarkId !== bookmarkId)
+      );
+    } catch (error) {
+      console.error('Error removing bookmark:', error);
+    }
+  };
+
   return (
     <div>
       <h2>Bookmarked Courses</h2>
@@ -31,23 +42,22 @@ function BookmarkPage() {
           <img src={EmptyPage} alt="No data found" />
         </div>
       ) : (
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'start' }}>
-        {bookmarkedCourses.map((bookmarkedCourse) => (
-          <div key={bookmarkedCourse.bookmarkId}>
-            
-            <Course
-              title={bookmarkedCourse.course.title} 
-              price={bookmarkedCourse.course.price} 
-              courseDuration={bookmarkedCourse.course.courseDuration} 
-              uploadedBy={bookmarkedCourse.course.uploadedBy} 
-              thumbnailPath={bookmarkedCourse.course.thumbnailPath} 
-              courseId={bookmarkedCourse.course.id} 
-              isBookmarked={bookmarkedCourse.isBookmarked}
-              bookmarkId={bookmarkedCourse.bookmarkId}
-            />
-          </div>
-        ))}
-      </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'start' }}>
+          {bookmarkedCourses.map((bookmarkedCourse) => (
+            <div key={bookmarkedCourse.bookmarkId}>
+              <Course
+                title={bookmarkedCourse.course.title} 
+                price={bookmarkedCourse.course.price} 
+                courseDuration={bookmarkedCourse.course.courseDuration} 
+                uploadedBy={bookmarkedCourse.course.uploadedBy} 
+                thumbnailPath={bookmarkedCourse.course.thumbnailPath} 
+                courseId={bookmarkedCourse.course.id} 
+                bookmarkId={bookmarkedCourse.bookmarkId}
+                onRemoveFromBookmark={removeFromBookmark} 
+              />
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

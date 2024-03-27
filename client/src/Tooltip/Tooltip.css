@@ -23,6 +23,7 @@
   visibility: visible;
   opacity: 1;
   font-size: 13px;
+  z-index: 3;
   
 }
 
