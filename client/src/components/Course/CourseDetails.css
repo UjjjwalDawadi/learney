@@ -9,8 +9,9 @@
     background-color: #1c1a4a;
     padding-top: 1px;
     margin: 20px;
-    height: 320px;
+    height: fit-content;
     color: #ffffff;
+    padding-bottom: 1px;
   }
   
   .course-details-container .course-details {

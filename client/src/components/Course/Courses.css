@@ -53,7 +53,6 @@ height: 30px;
   
 }
 
-
 .course-card .course-actions {
   justify-content: flex-start; 
   margin-top: 8px; 
@@ -70,7 +69,7 @@ height: 30px;
 }
 
 .course-card .cart-btn {
-      position: absolute;
+    position: absolute;
     margin-top: 0px;
     border: 1px solid #1c1a4a;
     width: 90%;

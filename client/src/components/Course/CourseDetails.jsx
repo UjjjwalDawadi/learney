@@ -7,8 +7,6 @@ import { IoTimeOutline,IoClose } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
 import { PiStudentDuotone,PiCellSignalHighLight } from "react-icons/pi";
 import { FaRegBookmark,FaBookmark,FaRegHandPointRight,FaArrowAltCircleDown,FaVideo } from 'react-icons/fa';
-
-
 import './CourseDetails.css';
 
 const CourseDetailsPage = () => {
@@ -97,6 +95,14 @@ const CourseDetailsPage = () => {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  const handleBuyNowClick = () => {
+    const initialPrice = courseDetails.course.price;
+    const price = Math.floor(parseFloat(initialPrice) * 100);
+    // Handle buy now click by redirecting to KhaltiPaymentComponent
+    navigate(`/khalti-payment/${courseId}/${price}`);
+  };
+
   
 
   return (
@@ -170,7 +176,7 @@ const CourseDetailsPage = () => {
         <span title='Add to wishlist'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
     </button>
           <div>
-          <button className='btn-3'>Buy Now</button>
+          <button className='btn-3' onClick={handleBuyNowClick}>Buy Now</button>
         </div>
         </div>}
 
