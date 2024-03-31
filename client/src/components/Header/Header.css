@@ -111,6 +111,17 @@
 .header-right ul li a:hover {
   color: #f34009;
 }
+
+.cart-header{
+  vertical-align: -webkit-baseline-middle;
+  font-size: 24px;
+    color: #1c1a4a;
+}
+
+.cart-header:hover{
+    color: #551a8b;
+}
+
 .user-container{
 margin-left: 30px;
 margin-right: 30px;
@@ -182,8 +193,9 @@ border-radius: 15px;
   transform: scale(1.05);
 }
 
-.get-started a{
+.get-started button{
   text-decoration: none;
+  font-size: 17px;
   color: #fff;
 }
 

@@ -13,6 +13,7 @@ import CourseDetails from './components/Course/CourseDetails';
 import DashboardContainer from './components/Dashboard/DashboardContainer';
 import LoadingCircle from './components/Loading/Loading'; // Import the LoadingCircle component
 import KhaltiPaymentComponent from './components/Payments/KhaltiPayment';
+import CartPage from './components/Cart/Cart';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -50,6 +51,7 @@ function App() {
         <Route path="/addcourse" element={<CourseCreationPage />} />
         <Route path="/userrole" element={<UserRole />} />
         <Route path="/dashboard/*" element={<DashboardContainer />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route path="//khalti-payment/:courseId/:price" element={<KhaltiPaymentComponent />} />

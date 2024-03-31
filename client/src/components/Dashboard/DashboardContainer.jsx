@@ -4,7 +4,6 @@ import Dashboard from './Pages/Dashboard';
 import Profile from './Pages/Profile';
 import EnrolledCourses from './Pages/EnrolledCourses';
 import Bookmark from './Pages/Bookmark';
-import Cart from './Pages/Cart';
 import Settings from './Pages/Settings';
 import { useLocation } from 'react-router-dom';
 import './DashboardContainer.css'
@@ -21,8 +20,6 @@ function DashboardContainer() {
         return <EnrolledCourses />;
       case '/dashboard/bookmark':
         return <Bookmark />;
-      case '/dashboard/cart':
-        return <Cart />;
       case '/dashboard/settings':
         return <Settings />;
       default:

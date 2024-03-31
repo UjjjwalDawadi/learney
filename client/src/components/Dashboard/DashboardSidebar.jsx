@@ -23,9 +23,6 @@ function DashboardSidebar() {
             <li>
               <NavLink to="/dashboard/bookmark" activeclassname="active">Bookmark</NavLink>
             </li>
-            <li>
-              <NavLink to="/dashboard/cart" activeclassname="active">Cart</NavLink>
-            </li>
           </>
         )}
         

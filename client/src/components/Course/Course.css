@@ -1,3 +1,4 @@
+/* Existing styles for course card */
 .course-card {
   position: relative;
   border-radius: 8px;
@@ -9,7 +10,6 @@
   flex-direction: column;
   background-color: #ece9e92f;
 }
-
 
 .course-card:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -37,4 +37,66 @@
   .course-card {
     padding: 12px;
   }
+}
+
+/* New styles for course card on the cart page */
+.course-card.cart-page {
+  border-color: #ff0000;
+  width: 840px !important;
+  max-width: 840px;
+  margin-left: 100px;
+  height: auto;
+}
+.course-card.cart-page .course-image {
+  height: 120px;
+  width: 145px;
+  border-radius: 10px;
+}
+
+/* New styles for course card inner content on the cart page */
+.course-card.cart-page .course-card-inner {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+/* New styles for course details on the cart page */
+.course-card.cart-page .course-details {
+  margin-top: 0;
+  margin-left: 50px;
+  margin-right: 20px; /* Add space between image and details */
+}
+
+.course-card.cart-page .course-details h2 {
+  margin-bottom: 15px;
+  font-size: 23px;
+  background-color: transparent;
+  width: 500px;
+}
+.course-card.cart-page .course-details .p-r-i-c-e{
+  position: absolute;
+  right: 30px;
+  top: 32px;
+  color: indigo;
+  font-weight: 700;
+}
+
+.course-card.cart-page .course-details .rating-review {
+  display: none !important;
+}
+
+.course-card.cart-page .cart-btn{
+  width: 89px;
+  border: none;
+  position: absolute;
+  right: 33px;
+  top: 100px;
+  font-size: 35px;
+  color: indigo;
+
+}
+
+.course-card.cart-page .cart-btn:hover{
+  color: red;
+  background-color: #fbfbfb;
 }

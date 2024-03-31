@@ -2,6 +2,7 @@ import React, { useState, useEffect,useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SiTimescale } from "react-icons/si";
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
+import { MdOutlineDelete } from "react-icons/md";
 import axios from 'axios';
 
 import './Course.css';
@@ -30,7 +31,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
   
   useEffect(() => {
     const isCourseBookmarked = localStorage.getItem(`bookmark_${localStorage.getItem('userId')}_${courseId}`);
-    setIsBookmarked(!!isCourseBookmarked); // Convert to boolean
+    setIsBookmarked(!!isCourseBookmarked); 
 
     fetchCartData(); 
   }, [fetchCartData,courseId]); 
@@ -73,7 +74,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
         await axios.post('/api/cart', { userId, courseId });
         setIsInCart(true); 
       } else {
-        navigate('../dashboard/cart');
+        navigate('/cart');
       }
     } catch (error) {
       console.error('Error updating cart:', error.message);
@@ -91,12 +92,12 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
     }
   };
   // Check if the current page is the cart page
-  const isCartPage = location.pathname === '/dashboard/cart';
+  const isCartPage = location.pathname === '/cart';
   const isBookmarkPage = location.pathname === '/dashboard/bookmark';
 
   return (
     <div
-      className={`course-card ${isHovered ? 'hovered' : ''}`}
+      className={`course-card ${isHovered ? 'hovered' : ''} ${isCartPage ? 'cart-page' : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -109,25 +110,25 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
         <img src={thumbnailPath} alt='' className="course-image" onClick={() => navigate(`/courses/${courseId}`)} />
         <div className="course-details">
           <h2>{title}</h2>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex' }} className='rating-review'>
             <p style={{ color: '#ff4a12' }}>
               {rating}<span style={{ color: '#ff9413', fontSize: '19px' }}> ★ </span>
               <span style={{ color: '#ff6811b2', fontSize: '19px' }}>({review})</span>
             </p>
             <p style={{marginLeft:'32px'}}><SiTimescale style={{ fontSize: '19px', verticalAlign: 'middle', marginLeft: '5px', marginRight: '5px' }} />{courseDuration} </p>
           </div>
-          <p>{price === '0.00' ? "Free" : `Rs. ${price}`}</p>
+          <p className='p-r-i-c-e'>{price === '0.00' ? "Free" : `Rs. ${price}`}</p>
           <p>Uploaded by: {uploadedBy}</p>
         </div>
         {userRole === 'Student' && (
           <div>
             {isCartPage &&  !isBookmarkPage && (
               <button className="cart-btn" onClick={handleRemoveFromCart}>
-                Remove from Cart
+                <MdOutlineDelete className='del-from-cart'/>
               </button>
             )}
             {!isCartPage && ! isBookmarkPage && (
-              <button className="cart-btn" onClick={handleAddToCart}>
+              <button className="cart-btn" onClick={handleAddToCart} title='Remove from Cart'>
                 {isInCart ? "View in Cart" : "Add to Cart"}
               </button>
             )}

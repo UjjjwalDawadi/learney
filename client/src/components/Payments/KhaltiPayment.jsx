@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import KhaltiLogo from '../../resources/Images/Khalti-Logo.png'
 
 
 const KhaltiPaymentComponent = () => {
@@ -29,9 +30,7 @@ const KhaltiPaymentComponent = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            // Extract payment URL from the response
             const paymentUrl = response.data.payment_url;
-            // Redirect the user to the payment URL
             window.location.href = paymentUrl;
         } catch (error) {
             console.error('Error initiating payment:', error);
@@ -41,6 +40,7 @@ const KhaltiPaymentComponent = () => {
 
     return (
         <div>
+            <img src={KhaltiLogo} alt="khalti" />
             <button onClick={initiatePayment}>Pay with Khalti</button>
         </div>
     );

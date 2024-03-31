@@ -45,9 +45,15 @@ const Header = () => {
           <li className={location.pathname === '/forum' ? 'active' : ''} onClick={() => handleNavigation('/forum')}>
             Forum
           </li>
+          <li>
+                          
+                          <a href="/cart"><span className="cart-header">
+                            <MdOutlineShoppingCart />
+                          </span></a>
+                        </li>
           {!loggedIn ? (
             <div className="get-started" onClick={() => handleNavigation('/userform')}>
-              <a >Get Started</a>
+              <button>Get Started</button>
             </div>
           ) : (
             <div className="user-container" onMouseEnter={() => setShowAccountTooltip(true)} onMouseLeave={() => setShowAccountTooltip(false)}>
@@ -89,12 +95,7 @@ const Header = () => {
                           </span>
                           <a href="/dashboard/bookmark"> Bookmark</a>
                         </li>
-                        <li>
-                          <span className="icon">
-                            <MdOutlineShoppingCart />
-                          </span>
-                          <a href="/dashboard/cart"> Cart</a>
-                        </li>
+                        
                       </ul>
                       <div className="sub-links">
                         <ul>

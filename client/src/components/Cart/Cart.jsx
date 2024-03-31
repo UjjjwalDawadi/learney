@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Course from '../../Course/Course'; // Import the Course component
+import Course from '../Course/Course'
 import './Cart.css';
-import EmptyPage from '../../../resources/Images/noDataFound.png';
+import EmptyPage from '../../resources/Images/noDataFound.png';
 
 function CartPage() {
   const [cartCourses, setCartCourses] = useState([]);
@@ -26,7 +26,7 @@ function CartPage() {
 
   return (
     <div>
-      <h2>Cart Info</h2>
+      <h2 style={{marginLeft:'100px'}}>Cart Info</h2>
       {cartCourses.length === 0 ? (
         <div className='empty-page'>
           <img src={EmptyPage} alt="No data found" />
