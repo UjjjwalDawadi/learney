@@ -54,7 +54,7 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
-        <Route path="//khalti-payment/:courseId/:price" element={<KhaltiPaymentComponent />} />
+        <Route path="//khalti-payment" element={<KhaltiPaymentComponent />} />
 
         <Route path="/" element={<Home />} />
       </Routes>

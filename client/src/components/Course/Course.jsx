@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SiTimescale } from "react-icons/si";
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
@@ -7,16 +7,16 @@ import axios from 'axios';
 
 import './Course.css';
 
-function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, courseId,onRemoveFromCart,onRemoveFromBookmark,bookmarkId }) {
+function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, courseId, onRemoveFromCart, onRemoveFromBookmark, bookmarkId }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [isInCart, setIsInCart] = useState(false); 
+  const [isInCart, setIsInCart] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState(false);
   const userRole = localStorage.getItem('userRole');
   const rating = 4.5;
   const review = 700;
-
 
   const fetchCartData = useCallback(async () => {
     try {
@@ -27,17 +27,25 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
     } catch (error) {
       console.error('Error fetching cart data:', error.message);
     }
-  }, [courseId]); 
-  
+  }, [courseId]);
+
+  const checkIfEnrolled = useCallback(async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.get(`/api/enrollments/${userId}/${courseId}`);
+      setIsEnrolled(response.data.length > 0);
+    } catch (error) {
+      console.error('Error checking if enrolled:', error.message);
+    }
+  }, [courseId]);
+
   useEffect(() => {
     const isCourseBookmarked = localStorage.getItem(`bookmark_${localStorage.getItem('userId')}_${courseId}`);
-    setIsBookmarked(!!isCourseBookmarked); 
+    setIsBookmarked(!!isCourseBookmarked);
 
-    fetchCartData(); 
-  }, [fetchCartData,courseId]); 
-  
-
-
+    fetchCartData();
+    checkIfEnrolled();
+  }, [fetchCartData, checkIfEnrolled, courseId]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -58,7 +66,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
         onRemoveFromBookmark(bookmarkId);
       } else {
         await axios.post('/api/bookmarks', { courseId, userId });
-        localStorage.setItem(`bookmark_${userId}_${courseId}`, true); // Add bookmark to local storage
+        localStorage.setItem(`bookmark_${userId}_${courseId}`, true);
         alert("Bookmark added");
       }
       setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
@@ -72,7 +80,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
       const userId = localStorage.getItem('userId');
       if (!isInCart) {
         await axios.post('/api/cart', { userId, courseId });
-        setIsInCart(true); 
+        setIsInCart(true);
       } else {
         navigate('/cart');
       }
@@ -85,13 +93,13 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
     try {
       const userId = localStorage.getItem('userId');
       await axios.delete(`/api/cart/${userId}/${courseId}`);
-      setIsInCart(false); 
-      onRemoveFromCart(); 
+      setIsInCart(false);
+      onRemoveFromCart();
     } catch (error) {
       console.error('Error removing from cart:', error.message);
     }
   };
-  // Check if the current page is the cart page
+
   const isCartPage = location.pathname === '/cart';
   const isBookmarkPage = location.pathname === '/dashboard/bookmark';
 
@@ -101,7 +109,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {userRole === 'Student' &&  !isCartPage && (
+      {userRole === 'Student' && !isCartPage && (
         <button className="wishlist-btn" onClick={handleWishlistClick}>
           <span title='Bookmark'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
         </button>
@@ -115,22 +123,30 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
               {rating}<span style={{ color: '#ff9413', fontSize: '19px' }}> ★ </span>
               <span style={{ color: '#ff6811b2', fontSize: '19px' }}>({review})</span>
             </p>
-            <p style={{marginLeft:'32px'}}><SiTimescale style={{ fontSize: '19px', verticalAlign: 'middle', marginLeft: '5px', marginRight: '5px' }} />{courseDuration} </p>
+            <p style={{ marginLeft: '32px' }}><SiTimescale style={{ fontSize: '19px', verticalAlign: 'middle', marginLeft: '5px', marginRight: '5px' }} />{courseDuration} </p>
           </div>
           <p className='p-r-i-c-e'>{price === '0.00' ? "Free" : `Rs. ${price}`}</p>
           <p>Uploaded by: {uploadedBy}</p>
         </div>
         {userRole === 'Student' && (
           <div>
-            {isCartPage &&  !isBookmarkPage && (
-              <button className="cart-btn" onClick={handleRemoveFromCart}>
-                <MdOutlineDelete className='del-from-cart'/>
+            {isEnrolled ? (
+              <button className="start-learning-btn" onClick={() => navigate(`/courses/${courseId}`)}>
+                Start Learning
               </button>
-            )}
-            {!isCartPage && ! isBookmarkPage && (
-              <button className="cart-btn" onClick={handleAddToCart} title='Remove from Cart'>
-                {isInCart ? "View in Cart" : "Add to Cart"}
-              </button>
+            ) : (
+              <>
+                {isCartPage && !isBookmarkPage && (
+                  <button className="cart-btn" onClick={handleRemoveFromCart}>
+                    <MdOutlineDelete className='del-from-cart' />
+                  </button>
+                )}
+                {!isCartPage && !isBookmarkPage && (
+                  <button className="cart-btn" onClick={handleAddToCart} >
+                    {isInCart ? "View in Cart" : "Add to Cart"}
+                  </button>
+                )}
+              </>
             )}
           </div>
         )}

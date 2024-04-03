@@ -42,8 +42,8 @@
 /* New styles for course card on the cart page */
 .course-card.cart-page {
   border-color: #ff0000;
-  width: 840px !important;
-  max-width: 840px;
+  width: 800px !important;
+  max-width: 800px;
   margin-left: 100px;
   height: auto;
 }
@@ -69,9 +69,9 @@
 
 .course-card.cart-page .course-details h2 {
   margin-bottom: 15px;
-  font-size: 23px;
+  font-size: 22px;
   background-color: transparent;
-  width: 500px;
+  width: 420px;
 }
 .course-card.cart-page .course-details .p-r-i-c-e{
   position: absolute;
