@@ -3,7 +3,7 @@ import React from 'react';
 function Dashboard() {
   return (
     <div>
-      <h2>Dashboard Page</h2>
+      <h1>Dashboard Page</h1>
       {/* Add dashboard content here */}
       {/* Add more content as needed */}
     </div>

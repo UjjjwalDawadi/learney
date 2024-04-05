@@ -7,7 +7,7 @@
     padding: .5%;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
 }
-.dashboard-container h2{
+.dashboard-container h1{
     height: 60px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
     margin: 0;
