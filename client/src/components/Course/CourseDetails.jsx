@@ -95,9 +95,7 @@ const CourseDetailsPage = () => {
     setSelectedVideo(video);
     // Reset watchedTime if the user is selecting a new video
     setWatchedTime(0);
-    if (video.id === previousVideoId) {
-      setWatchedTime(0);
-    }
+    
   };
 
   const handleProgress = (progress) => {
