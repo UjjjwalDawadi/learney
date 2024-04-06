@@ -70,7 +70,7 @@ const UserForm = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
+    const enteredFullName = e.target.elements.fullName.value;
     const enteredUsername = e.target.elements.username.value;
     const enteredEmail = e.target.elements.email.value;
     const enteredPassword = e.target.elements.password.value;
@@ -81,7 +81,7 @@ const UserForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: enteredUsername, email: enteredEmail, password: enteredPassword }),
+        body: JSON.stringify({fullName: enteredFullName, username: enteredUsername, email: enteredEmail, password: enteredPassword}),
       });
 
       if (!response.ok) {
@@ -130,6 +130,7 @@ const UserForm = () => {
         <form onSubmit={handleSignUp}>
           <h1>Create Account</h1>
           <div className="register-message">{registerErrorMessage && <p>{registerErrorMessage}</p>}</div>
+          <input type="text" name="fullName" placeholder="Full Name" />
           <input type="text" name="username" placeholder="Username" />
           <input type="email" name="email" placeholder="Email" />
           <input type="password" name="password" placeholder="Password" />

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import axios from 'axios'; // Import axios for making API requests
+import { useAuth } from '../../authentication/AuthContext';
 import './Header.css';
 import Tooltip from '../../Tooltip/Tooltip';
-import { useAuth } from '../../authentication/AuthContext';
 
 import { RiAccountCircleLine } from 'react-icons/ri';
-import Defaultprofile from '../../resources/Images/default-profile.png';
 import UserManagement from '../../resources/Images/UserManagement.png';
 import { MdOutlineShoppingCart, MdOutlineSettings, MdOutlineDashboardCustomize, MdOutlineLogout } from 'react-icons/md';
 import {  FaSearch, FaRegBookmark } from 'react-icons/fa';
@@ -14,10 +13,30 @@ import { TbReport } from 'react-icons/tb';
 import CourseGif from '../../resources/Images/Course.gif';
 
 const Header = () => {
-  const { username, userRole, loggedIn, logout } = useAuth();
+  const [profileImage, setProfileImage] = useState('');
+  const {  userRole, loggedIn, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [showAccountTooltip, setShowAccountTooltip] = useState(false);
+  const [fullName, setFullName] = useState('');
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        // Make an API call to fetch the user's profile image
+        const response = await axios.get(`/api/user-details/${userId}`);
+                setProfileImage(response.data.profileImage);
+        setFullName( response.data.fullName);
+      } catch (error) {
+        console.error('Error fetching profile image:', error);
+      }
+    };
+
+    if (loggedIn) {
+      fetchProfileImage();
+    }
+  }, [loggedIn,userId]);
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -47,20 +66,20 @@ const Header = () => {
           </li>
           <li>
                           
-                          <a href="/cart"><span className="cart-header">
-                            <MdOutlineShoppingCart />
-                          </span></a>
-                        </li>
+            <a href="/cart"><span className="cart-header">
+              <MdOutlineShoppingCart />
+            </span></a>
+          </li>
           {!loggedIn ? (
             <div className="get-started" onClick={() => handleNavigation('/userform')}>
               <button>Get Started</button>
             </div>
           ) : (
             <div className="user-container" onMouseEnter={() => setShowAccountTooltip(true)} onMouseLeave={() => setShowAccountTooltip(false)}>
-              <img src={Defaultprofile} alt="default profile"></img>
+              <img src={profileImage } alt=""></img>
               <div className="user-details">
                 <span className="user-name">
-                  {username}
+                  {fullName}
                 </span>
                 <span className="user-role">
                   {userRole}
@@ -95,7 +114,6 @@ const Header = () => {
                           </span>
                           <a href="/dashboard/bookmark"> Bookmark</a>
                         </li>
-                        
                       </ul>
                       <div className="sub-links">
                         <ul>
@@ -145,7 +163,6 @@ const Header = () => {
                           </span>
                           <a href="/manage-user">Manage Users</a>
                         </li>
-
                       </ul>
                       <div className="sub-links">
                         <ul>

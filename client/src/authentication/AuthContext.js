@@ -21,22 +21,6 @@ export const AuthProvider = ({ children }) => {
       setLoggedIn(true);
     }
 
-    // // Listen for changes in local storage
-    // const handleStorageChange = (event) => {
-    //   if (event.key === 'username') {
-    //     setUsername(event.newValue);
-    //   } else if (event.key === 'userRole') {
-    //     setUserRole(event.newValue);
-    //   } else if (event.key === 'userEmail') {
-    //     setUserEmail(event.newValue);
-    //   }
-    // };
-
-    // window.addEventListener('storage', handleStorageChange);
-
-    // return () => {
-    //   window.removeEventListener('storage', handleStorageChange);
-    // };
   }, []);
 
   const login = async (username,userRole,userEmail) => {

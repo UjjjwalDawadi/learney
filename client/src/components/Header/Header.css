@@ -56,7 +56,6 @@
 .header-right {
   flex-grow: 1;
   display: flex;
-  justify-content: space-around;
 }
 
 .header-right ul {
@@ -150,7 +149,7 @@ margin: 0;
   }
 
   .user-name{
-    font-size: 22px;
+    font-size: 17px;
     padding: 0px 7px;
     font-weight: 500;
   }
