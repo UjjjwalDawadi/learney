@@ -48,10 +48,9 @@ const UserForm = () => {
         const userId = data.userId;
 
         if (data) {
-    localStorage.setItem('username', enteredUsername);
+    
     localStorage.setItem('userRole', userRole);
     localStorage.setItem('userId', userId);
-    localStorage.setItem('userEmail', userEmail);
           navigate('/homepage');
         } else {
           console.log('Login failed');
@@ -59,8 +58,8 @@ const UserForm = () => {
         }
 
         login(enteredUsername,userRole,userEmail);
-        console.log('userrole ',userRole);
-        console.log('email',userEmail);
+
+
       })
       .catch((error) => {
         console.error('There has been a problem with your fetch operation:', error);

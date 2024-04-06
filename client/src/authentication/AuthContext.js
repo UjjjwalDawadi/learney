@@ -10,14 +10,10 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Get user details from local storage
-    const storedUsername = localStorage.getItem('username');
     const storedUserRole = localStorage.getItem('userRole');
-    const storedUserEmail = localStorage.getItem('userEmail');
 
-    if (storedUsername && storedUserRole && storedUserEmail) {
-      setUsername(storedUsername);
+    if (storedUserRole ) {
       setUserRole(storedUserRole);
-      setUserEmail(storedUserEmail);
       setLoggedIn(true);
     }
 
@@ -39,7 +35,6 @@ const register = async (username,role,userEmail) => {
 };
   const logout = () => {
     setUsername('');
-    localStorage.removeItem('userEmail');
     localStorage.removeItem('username');
     localStorage.removeItem('userRole');
     localStorage.removeItem('token');
