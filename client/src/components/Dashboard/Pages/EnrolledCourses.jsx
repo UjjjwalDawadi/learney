@@ -34,7 +34,7 @@ function EnrolledCoursesPage() {
       ) : (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'start' }}>
           {enrolledCourses.map(enrolledCourse => (
-            <div key={enrolledCourse.enrollmenId}>
+            <div key={enrolledCourse.enrollmentId}>
               <Course
                 title={enrolledCourse.course.title} 
                 price={enrolledCourse.course.price} 
