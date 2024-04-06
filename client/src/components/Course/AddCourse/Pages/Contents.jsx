@@ -82,7 +82,7 @@ const CourseContent = ({ nextStep }) => {
         formattedSectionDuration = `${hours}hr:${minutes}m`;
       }
   
-      updatedSections[sectionIndex].sectionDuration = formattedSectionDuration; // Set the formatted section duration
+      updatedSections[sectionIndex].sectionDuration = formattedSectionDuration; 
       setSections(updatedSections);
       setVideoTitle('');
     };
@@ -132,10 +132,10 @@ const CourseContent = ({ nextStep }) => {
     // Calculate total course duration
     let totalCourseDuration = 0;
     sections.forEach(section => {
-      const [hours, minutes] = section.sectionDuration.split(':').map(parseFloat);
-      totalCourseDuration += hours * 3600 + minutes * 60; // Convert section duration to seconds and accumulate
+      const [ minutes, seconds] = section.sectionDuration.split(':').map(parseFloat);
+      totalCourseDuration += minutes * 60 + seconds; 
     });
-  
+  console.log(totalCourseDuration)
     // Format course duration
     let formattedCourseDuration;
     if (totalCourseDuration < 3600) { // Less than 1 hour

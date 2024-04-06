@@ -119,8 +119,12 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
                 </button>
             )}
       <div className="course-card-inner">
-        <img src={thumbnailPath} alt='' className="course-image" onClick={() => navigate(`/courses/${courseId}`)} />
-        <div className="course-details">
+      <img 
+  src={thumbnailPath} 
+  alt='' 
+  className="course-image" 
+  onClick={() => navigate(`/courses/${courseId}?enrolled=${isEnrolled}`)} 
+/>        <div className="course-details">
           <h2>{title}</h2>
           <div style={{ display: 'flex' }} className='rating-review'>
             <p style={{ color: '#ff4a12' }}>

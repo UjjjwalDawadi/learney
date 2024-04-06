@@ -201,5 +201,38 @@ font-size: 17px;
   font-size: 16px;
   color: #534f4f;
 }
+.progress-tracking{
+  border: 1px solid #ccc;
+  padding: 0 25px;
+}
   
-  
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background-color: #1c1a4a;
+  border-radius: 5px;
+}
+.step-info{
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+}
+.enrollment-date{
+  margin-top: 24px;
+  font-size: 18px;
+}
+.enrollment-date span{
+  font-weight: 600;
+  color: indigo;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
