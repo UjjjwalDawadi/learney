@@ -1,41 +1,112 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './Profile.css'; // Import CSS file for styling
 import axios from 'axios';
 import { BsDashLg } from "react-icons/bs";
+import { TbCameraPlus } from "react-icons/tb";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import Firebase storage functions
 
 function UserDetails({ userData }) {
   return (
     <div className="user-details-container">
-    <p><span className="details-label">Full Name:</span> {userData.fullName}</p>
-    <p><span className="details-label">Username:</span> {userData.username}</p>
-    <p><span className="details-label">Role:</span> {userData.role}</p>
-    <p><span className="details-label">Email:</span> {userData.email}</p>
-    <p><span className="details-label">Contact:</span> {userData.contact || <BsDashLg style={{marginLeft:'1%'}}/>}</p>
-    <p><span className="details-label">Address:</span> {userData.address || <BsDashLg style={{marginLeft:'1%'}}/>}</p>
-  </div>
+      <p><span className="details-label">Full Name:</span> {userData.fullName}</p>
+      <p><span className="details-label">Username:</span> {userData.username}</p>
+      <p><span className="details-label">Role:</span> {userData.role}</p>
+      <p><span className="details-label">Email:</span> {userData.email}</p>
+      <p><span className="details-label">Contact:</span> {userData.contact || <BsDashLg style={{ marginLeft: '1%' }} />}</p>
+      <p><span className="details-label">Address:</span> {userData.address || <BsDashLg style={{ marginLeft: '1%' }} />}</p>
+    </div>
   );
 }
 
-function EditDetails({ userData, updatedUserData, handleInputChange, handleSubmit }) {
+function EditDetails({ userData, updatedUserData, setUpdatedUserData, handleInputChange, handleSubmit }) {
+  const storage = getStorage();
+  const [imagePreview, setImagePreview] = useState(null);
+  const fileInputRef = useRef(null); // Ref to access file input element
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Read the file and generate a preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      // Upload the image file to Firebase Storage
+      try {
+        // Create a reference to the desired location in Firebase Storage
+        const storageRef = ref(storage, `user_profiles/${file.name}`);
+
+        // Upload the image file to Firebase Storage
+        await uploadBytes(storageRef, file);
+       
+
+        // Get the download URL of the uploaded image
+        const imageUrl = await getDownloadURL(storageRef);
+        console.log('image URL is: ',imageUrl);
+
+       // Update the updatedUserData state with the new image URL
+setUpdatedUserData(prevState => ({ ...prevState, profileImage: imageUrl }));
+        // Update the image preview with the new image URL
+        setImagePreview(imageUrl);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
+
+  // Function to trigger file input click event
+  const handleImageClick = () => {
+    fileInputRef.current.click(); // Trigger click event on file input
+  };
+
   return (
     <div className="edit-details-container">
-      <form onSubmit={handleSubmit}>
-        <label>
-          Full Name:
-          <input type="text" name="fullName" value={updatedUserData.fullName || ''} onChange={handleInputChange} />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" value={updatedUserData.email || ''} onChange={handleInputChange} />
-        </label>
-        <label>
-          Contact:
-          <input type="text" name="contact" value={updatedUserData.contact || ''} onChange={handleInputChange} />
-        </label>
-        <label>
-          Address:
-          <input type="text" name="address" value={updatedUserData.address || ''} onChange={handleInputChange} />
-        </label>
+      <form onSubmit={handleSubmit} className="profile-form">
+        <div  style={{ display: 'flex' }}>
+          <div className="profile-image-container">
+            <div  style={{ display: 'flex' }}>
+            <div>
+              <label htmlFor="profileImage" className="profile-image-label" onClick={handleImageClick}
+            style={{ width:'200px'}}>
+              {imagePreview ? (
+                <img src={imagePreview} alt="Profile Preview" className="profile-image" />
+              ) : (
+                <img src={userData.profileImage} alt="Profile" className="profile-image" />
+              )}
+              <div className="camera-icon"><TbCameraPlus /></div>
+            </label>
+           <input ref={fileInputRef} type="file" accept="image/*" name="profileImage" onChange={handleImageChange} style={{ display: 'none' }} />
+        </div>
+              <div className="image-text">
+            Profile Image size <br/>
+             150 x 150 pixels
+          </div>
+          </div>
+            <label>
+              <span className="label-text">Contact</span>
+              <input type="text" name="contact" value={updatedUserData.contact || ''} onChange={handleInputChange} />
+            </label>
+          </div>
+
+          <div className="details-left">
+            <label>
+              <span className="label-text">Full Name</span> <span style={{ color: 'red' }}>*</span>
+              <input type="text" name="fullName" value={updatedUserData.fullName || ''} onChange={handleInputChange} />
+            </label>
+
+            <label>
+              <span className="label-text">Email</span> <span style={{ color: 'red' }}>*</span>
+              <input type="email" name="email" value={updatedUserData.email || ''} onChange={handleInputChange} />
+            </label>
+
+            <label>
+              <span className="label-text">Address</span>
+              <input type="text" name="address" value={updatedUserData.address || ''} onChange={handleInputChange} />
+            </label>
+          </div>
+        </div>
+
         <button type="submit" className="update-button">
           Update
         </button>
@@ -108,6 +179,7 @@ function Profile() {
             <EditDetails
               userData={userData}
               updatedUserData={updatedUserData}
+              setUpdatedUserData={setUpdatedUserData} 
               handleInputChange={handleInputChange}
               handleSubmit={handleSubmit}
             />
