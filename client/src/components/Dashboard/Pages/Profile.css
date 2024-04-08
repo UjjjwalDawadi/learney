@@ -13,6 +13,11 @@
     margin-left: 10px;
   }
   
+  form.profile-form{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 25px 75px 25px;
+  }
   .profile-image {
     width: 175px;
     height: 175px;
@@ -26,7 +31,7 @@
   
   .camera-icon {
     position: absolute;
-    bottom: 125px;
+    bottom: 110px;
     right: 178px;
     font-size: 25px;
     width: 140px;
@@ -41,6 +46,7 @@
   }
   
   .profile-navigation input[type='text'],
+  .profile-navigation input[type='number'],
  .profile-navigation input[type='email'] {
     padding: 5px;
     width: 200px;
@@ -54,7 +60,7 @@
     margin-bottom: 20px;
   }
   .details-left{
-    margin-left: 100px;
+    margin-left: 150px;
     margin-top: 25px;
   }
   
@@ -131,11 +137,13 @@
   }
   
   .edit-details-container input[type='text'],
+  .edit-details-container input[type='number'],
   .edit-details-container input[type='email'] {
-    width: 100%;
+    width: 110%;
     padding: 8px;
     margin-top: 5px;
     font-size: 15px;
+    border-radius: 5px;
   }
   
   .edit-details-container button {
@@ -173,3 +181,19 @@
     font-size: small;
   }
   
+  .invalid-input {
+    border: 1px solid rgb(255, 0, 0);
+    outline: none;
+  }
+  .valid {
+    border: 1px solid black;
+    outline: none;
+  }
+  .validation-message{
+    width: 100%;
+    height: 35px;
+    color: red;
+    padding: 7px 0px;
+    text-align: center;
+    background-color: blanchedalmond;
+  }

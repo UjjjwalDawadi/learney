@@ -27,7 +27,7 @@ function DashboardSidebar() {
         )}
         
         <li>
-          <NavLink to="/dashboard/settings" activeclassname="active">Change Password</NavLink>
+          <NavLink to="/dashboard/settings" activeclassname="active">Settings</NavLink>
         </li>
         <li>
           <NavLink to="/userform" activeclassname="active">Logout</NavLink>
