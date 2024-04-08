@@ -37,6 +37,9 @@ const register = async (username,role,userEmail) => {
     setUsername('');
     localStorage.removeItem('username');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userId');
+
     localStorage.removeItem('token');
     setLoggedIn(false);
     setUserRole(null); // Reset userRole when logging out

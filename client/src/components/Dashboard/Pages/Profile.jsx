@@ -21,7 +21,23 @@ function UserDetails({ userData }) {
 function EditDetails({ userData, updatedUserData, setUpdatedUserData, handleInputChange, handleSubmit }) {
   const storage = getStorage();
   const [imagePreview, setImagePreview] = useState(null);
+  const [isValidContact, setIsValidContact] = useState(true);
   const fileInputRef = useRef(null); // Ref to access file input element
+
+  const handleContactChange = (e) => {
+    const { value } = e.target;
+    // Validate the input value (only digits allowed, exactly 10 digits or empty)
+    if (/^\d{0,10}$/.test(value)) {
+      // Update state and set valid contact
+      setIsValidContact(true);
+    } else {
+      // Update state and set invalid contact
+      setIsValidContact(false);
+    }
+    // Update the updatedUserData state with the new contact
+    setUpdatedUserData(prevState => ({ ...prevState, contact: value }));
+  };
+
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -83,10 +99,20 @@ setUpdatedUserData(prevState => ({ ...prevState, profileImage: imageUrl }));
              150 x 150 pixels
           </div>
           </div>
-            <label>
-              <span className="label-text">Contact</span>
-              <input type="text" name="contact" value={updatedUserData.contact || ''} onChange={handleInputChange} />
-            </label>
+          <label>
+            <span className="label-text">Contact</span>
+            <input
+              type="text"
+              name="contact"
+              value={updatedUserData.contact || ''}
+              onChange={handleContactChange}
+              className={isValidContact ? 'valid' : ''}
+            />
+          </label>
+          {!isValidContact && (
+            <p className="error-message">Number must be 10 digits</p>
+          )}
+
           </div>
 
           <div className="details-left">

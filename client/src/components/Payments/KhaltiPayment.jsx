@@ -9,6 +9,8 @@ const KhaltiPaymentComponent = () => {
   const newPrice = parseInt(price) * 100;
   const navigate = useNavigate();
   const [paymentInitiated, setPaymentInitiated] = useState(false);
+  const userId = localStorage.getItem('userId');
+  console.log(userId)
 
   const initiatePayment = async () => {
     const name = localStorage.getItem('username');
@@ -50,13 +52,13 @@ const KhaltiPaymentComponent = () => {
         amount: price,
         method: 'Khalti',
         courseId: courseId,
-        userId: localStorage.getItem('userId'),
+        userId: userId,
         status: 'pending'
       });
 
       // Create enrollment record after successful payment
       await axios.post('/api/enrollment', {
-        userId: localStorage.getItem('userId'),
+        userId: userId,
         courseId: courseId,
       });
     } catch (error) {
@@ -67,7 +69,7 @@ const KhaltiPaymentComponent = () => {
 
   // Redirect to another page after payment is initiated and backend call is completed
   if (paymentInitiated) {
-    navigate('dashboard/enrolled-courses');
+    navigate('../dashboard/enrolled-courses');
   }
 
   return (

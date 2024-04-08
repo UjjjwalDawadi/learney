@@ -50,7 +50,10 @@ const UserForm = () => {
         if (data) {
     
     localStorage.setItem('userRole', userRole);
+    localStorage.setItem('username',enteredUsername )
     localStorage.setItem('userId', userId);
+    localStorage.setItem('userEmail', userEmail);
+
           navigate('/homepage');
         } else {
           console.log('Login failed');
@@ -99,6 +102,9 @@ const UserForm = () => {
 
         console.log('token is ',token)
         localStorage.setItem('token', token);
+    localStorage.setItem('fullName', enteredFullName);
+    localStorage.setItem('email', enteredEmail);
+
         navigate('/userrole');
       } else {
         setRegisterErrorMessage('Registration failed');

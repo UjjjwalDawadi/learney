@@ -1,0 +1,34 @@
+/* settings.css */
+
+  
+  .change-pass-ctr form {
+    margin-top: 20px;
+    padding: 20px 50px;
+  }
+  
+  .change-pass-ctr label {
+    display: block;
+    margin-bottom: 15px;
+  }
+  
+  .change-pass-ctr input {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .change-pass-ctr button {
+    margin-top: 30px  ;
+    padding: 10px 20px;
+    background-color: #1c1a4a;
+    color: #fff;
+    height: 45px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .change-pass-ctr button:hover {
+    background-color: #0b083a;
+  }
+  

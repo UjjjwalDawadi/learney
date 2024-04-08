@@ -40,8 +40,8 @@
     margin-bottom: 10px;
   }
   
-  input[type='text'],
-  input[type='email'] {
+  .profile-navigation input[type='text'],
+ .profile-navigation input[type='email'] {
     padding: 5px;
     width: 200px;
     margin-left: 10px;

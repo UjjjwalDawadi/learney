@@ -37,7 +37,6 @@ const Header = () => {
       fetchProfileImage();
     }
   }, [loggedIn,userId]);
-
   const handleNavigation = (path) => {
     navigate(path);
   };
