@@ -3,6 +3,8 @@ import DashboardSidebar from './DashboardSidebar';
 import Dashboard from './Pages/Dashboard';
 import Profile from './Pages/Profile';
 import EnrolledCourses from './Pages/EnrolledCourses';
+import MyCourses from './Pages/MyCourses';
+// import Report from './Pages/Reports';
 import Bookmark from './Pages/Bookmark';
 import Settings from './Pages/Settings';
 import { useLocation } from 'react-router-dom';
@@ -18,6 +20,8 @@ function DashboardContainer() {
         return <Profile />;
       case '/dashboard/enrolled-courses':
         return <EnrolledCourses />;
+        case '/dashboard/my-courses':
+        return <MyCourses />;
       case '/dashboard/bookmark':
         return <Bookmark />;
       case '/dashboard/settings':

@@ -25,6 +25,17 @@ function DashboardSidebar() {
             </li>
           </>
         )}
+        {userRole === 'Teacher' && ( 
+          <>
+           <li>
+          <NavLink to="/dashboard/my-courses" activeclassname="active">My Courses</NavLink>
+        </li>
+        
+            <li>
+              <NavLink to="/dashboard/reports" activeclassname="active">Reports</NavLink>
+            </li>
+          </>
+        )}
         
         <li>
           <NavLink to="/dashboard/settings" activeclassname="active">Settings</NavLink>

@@ -63,12 +63,12 @@ const Header = () => {
           <li className={location.pathname === '/forum' ? 'active' : ''} onClick={() => handleNavigation('/forum')}>
             Forum
           </li>
-          <li>
-                          
+          {userRole === 'Student' &&
+          <li>              
             <a href="/cart"><span className="cart-header">
               <MdOutlineShoppingCart />
             </span></a>
-          </li>
+          </li>}
           {!loggedIn ? (
             <div className="get-started" onClick={() => handleNavigation('/userform')}>
               <button>Get Started</button>
@@ -191,25 +191,25 @@ const Header = () => {
                           <span className="icon">
                             <MdOutlineDashboardCustomize />
                           </span>
-                          <a href="/dashboard">DashBoard</a>
+                          <a href="/dashboard/1">DashBoard</a>
                         </li>
                         <li>
                           <span className="icon">
                             <RiAccountCircleLine />
                           </span>
-                          <a href="/profile"> My Profile</a>
+                          <a href="/dashboard/profile">Profile</a>
                         </li>
                         <li>
                           <span className="icon">
                             <img src={CourseGif} alt="Teacher" />
                           </span>
-                          <a href="/enrolled-courses">Manage Courses</a>
+                          <a href="/dashboard/my-courses">My Courses</a>
                         </li>
                         <li>
                           <span className="icon">
                             <TbReport />
                           </span>
-                          <a href="/reports">Reports</a>
+                          <a href="/dashboard/reports">Reports</a>
                         </li>
                       </ul>
                       <div className="sub-links">
@@ -218,7 +218,7 @@ const Header = () => {
                             <span className="icon">
                               <MdOutlineSettings />
                             </span>
-                            <a href="/settings"> Settings</a>
+                            <a href="/dashboard/settings"> Settings</a>
                           </li>
                           <li onClick={logout}>
                             <span className="icon">

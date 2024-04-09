@@ -6,7 +6,7 @@ const Pricing = ({ formData, setFormData }) => {
   const navigate = useNavigate();
   const [price, setPrice] = useState('');
   const storage = getStorage();
-  const uploadedBy = localStorage.getItem('username');
+  const uploadedBy = localStorage.getItem('fullName');
 
 
   const handlePriceChange = (e) => {

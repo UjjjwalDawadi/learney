@@ -2,13 +2,15 @@ import React, { useState, useEffect,useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SiTimescale } from "react-icons/si";
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { RiEdit2Line, RiDeleteBinLine } from 'react-icons/ri';
 import { MdOutlineDelete } from "react-icons/md";
 import axios from 'axios';
 
 import './Course.css';
 
 function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, courseId,onRemoveFromCart,onRemoveFromBookmark,
-                                      bookmarkId}) {
+                                      bookmarkId,isOpen,onEditCourse, onDeleteCourse,onDropdownClick}) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
@@ -106,6 +108,8 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
 
   const isCartPage = location.pathname === '/cart';
   const isBookmarkPage = location.pathname === '/dashboard/bookmark';
+  const isMyCoursesPage = location.pathname ==='/dashboard/my-courses';
+  console.log(isMyCoursesPage)
 
   return (
     <div
@@ -113,11 +117,27 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-        {userRole === 'Student' && !isCartPage && !isEnrolled && ( // Check if the course is not enrolled
+        {userRole === 'Student' && !isCartPage && !isEnrolled && ( 
                 <button className="wishlist-btn" onClick={handleWishlistClick}>
                     <span title='Bookmark'>{isBookmarked ? <FaBookmark /> : <FaRegBookmark />}</span>
                 </button>
+            )} 
+        {userRole === 'Teacher' && isMyCoursesPage &&( 
+                <button className="wishlist-btn" onClick={() => onDropdownClick(courseId)}>
+                                        <span title=''><BsThreeDotsVertical /></span>
+
+                </button>
             )}
+            {isOpen && (
+          <div className="dropdown-content">
+            <button onClick={() => onDeleteCourse(courseId)} className='dropdown-btn-1' title='Delete This Course'>
+              <RiDeleteBinLine /> 
+            </button>
+            <button onClick={() => onEditCourse(courseId)} className='dropdown-btn-2' title='Edit This Course'>
+              <RiEdit2Line /> 
+            </button>
+          </div>
+        )}
       <div className="course-card-inner">
       <img 
   src={thumbnailPath} 
@@ -141,8 +161,8 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
         {userRole === 'Student' && (
   <div>
     {isEnrolled ? (
-      <button className="cart-btn" onClick={() => navigate(`/courses/${courseId}`)}>
-        Start Learning
+      <button className="cart-btn" onClick={() => navigate(`/courses/${courseId}?enrolled=${isEnrolled}`)}>
+        Continue Learning
       </button>
     ) : (
       <div>

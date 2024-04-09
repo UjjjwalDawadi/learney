@@ -100,3 +100,25 @@
   color: red;
   background-color: #fbfbfb;
 }
+.dropdown-content{
+  display: flex;
+  z-index: 6;
+  position: absolute;
+  background-color: #eee;
+  top: 53px;
+  right: 20px;
+  width: 80px;
+  align-items: self-start;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.dropdown-btn-1,.dropdown-btn-2{
+  font-size: 20px;
+}
+.dropdown-btn-1:hover{
+  color: red;
+}
+.dropdown-btn-2:hover{
+  color: green;
+}
