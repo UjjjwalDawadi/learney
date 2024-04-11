@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Course from '../../Course/Course';
+import {useNavigate} from 'react-router-dom';
 
 function MyCourses() {
   const [courses, setCourses] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCourses();
   }, []);
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   const fetchCourses = async () => {
     try {
@@ -35,7 +41,8 @@ function MyCourses() {
 
   const editCourse = (courseId) => {
     console.log('Edit course', courseId);
-    // Implement edit course functionality
+    handleNavigation(`/courses/${courseId}/edit`)
+    
   };
 
   return (
