@@ -6,13 +6,32 @@ import Select from 'react-select';
 import { MdDelete, MdAdd } from "react-icons/md";
 import { FaCamera } from 'react-icons/fa'; // Import camera icon
 import { MdVideoLibrary } from 'react-icons/md';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
+
 
 
 function EditCourseDetails() {
   const [courseDetails, setCourseDetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({}); // Form data for editing course details
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success');
   const { courseId } = useParams();
+
+  const handleAlertClose = () => {
+    setAlertOpen(false);
+  };
+  const handleAlert = (title, message, severity) => {
+    setAlertMessage({ title, message });
+    setAlertSeverity(severity);
+    setAlertOpen(true);
+    setTimeout(() => {
+      setAlertOpen(false);
+    }, 300000); // Close the alert after 3 seconds
+  };
 
   const categoryOptions = [
     { value: 'default', label: 'Choose course category' },
@@ -48,8 +67,21 @@ function EditCourseDetails() {
   }, [courseId]);
 
   useEffect(() => {
+    
     fetchCourseDetails();
   }, [fetchCourseDetails]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setFormData({
+        title: courseDetails.course.title,
+        description: courseDetails.course.description,
+        category: courseDetails.course.category,
+        difficultyLevel: courseDetails.course.difficultyLevel,
+        price: courseDetails.course.price,
+      });
+    }
+  }, [isLoading, courseDetails]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -71,7 +103,8 @@ function EditCourseDetails() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
   
   const handleSectionTitleChange = (index, value) => {
@@ -150,31 +183,15 @@ function EditCourseDetails() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     // Validations
-  if (!formData.title || formData.title.length > 50) {
-    alert("Title must be between 1 and 50 characters.");
-    return;
-  }
-  if (!formData.description || formData.description.length > 150) {
-    alert("Description must be between 1 and 150 characters.");
-    return;
-  }
-  if (!formData.price || isNaN(parseFloat(formData.price)) || parseFloat(formData.price) <= 0) {
-    alert("Price must be a positive number.");
-    return;
-  }
-  if (parseFloat(formData.price).toFixed(2).length > 7) {
-    alert("Price can have at most 4 digits before the decimal and 2 digits after the decimal.");
-    return;
-  }
-  if (formData.category === 'default') {
-    alert("Please select a category.");
-    return;
-  }
-  if (formData.difficultyLevel === 'default') {
-    alert("Please select a difficulty level.");
-    return;
-  }
+    if (!formData.title) {
+      handleAlert("Error", "There was an error updating the course details.", 'error');
+
+      return;
+    }
+    if (formData.title.length > 50) {
+      handleAlert("Title must be less than 50 characters.", 'error');
+      return;
+    }
     try {
       await axios.put(`/api/courses/${courseId}`, formData); // Update course details
       // Handle success
@@ -190,36 +207,44 @@ function EditCourseDetails() {
 
   return (
     <div>
+         {alertOpen && (
+        <Stack sx={{ width: 'auto', zIndex: 999, position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)' }} spacing={2}>
+          <Alert severity={alertSeverity} onClose={handleAlertClose}>
+            <strong>{alertMessage.title}</strong><br />{alertMessage.message}
+          </Alert>
+        </Stack>
+      )}
+      
       <form onSubmit={handleSubmit} className='edit-form' >
         <div className='course-dtl-edit'>
           <div className="basic-left">
           <h2>Basic Details</h2>
           <label htmlFor="title">Title</label>
-          <input type="text" id="title" name="title" value={formData.title || ''} onChange={handleChange} />
-          <label htmlFor="description">Description</label>
-          <textarea id="description" name="description" value={formData.description || courseDetails.course.description} onChange={handleChange} />
+          <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} />
+                    <label htmlFor="description">Description</label>
+                    <textarea id="description" name="description" value={formData.description} onChange={handleChange} />
 
           <label htmlFor="category">Category</label>
-          <Select
+            <Select
             id="category"
             name="category"
-            value={categoryOptions.find(option => option.value === courseDetails.course.category)}
+            value={categoryOptions.find(option => option.value === formData.category)}
             options={categoryOptions}
             onChange={(selectedOption) => setFormData({ ...formData, category: selectedOption.value })}
           />
-
+        
           <label htmlFor="difficultyLevel">Difficulty Level</label>
           <Select
             id="difficultyLevel"
             name="difficultyLevel"
-            value={difficultyOptions.find(option => option.value === courseDetails.course.difficultyLevel)}
+            value={difficultyOptions.find(option => option.value === formData.difficultyLevel)}
             options={difficultyOptions}
             onChange={(selectedOption) => setFormData({ ...formData, difficultyLevel: selectedOption.value })}
           />
-
+        
           <label htmlFor="price">Price</label>
-          <input type="text" id="price" name="price" value={formData.price || courseDetails.course.price} onChange={handleChange} />
-</div>
+          <input type="text" id="price" name="price" value={formData.price} onChange={handleChange} />
+        </div>
           <div className="thumbnail-container">
           <img src={formData.thumbnailPath || courseDetails.course.thumbnailPath} alt="Course Thumbnail" className="thumbnail-image" />
             <label htmlFor="imageInput" className="change-image-btn">
