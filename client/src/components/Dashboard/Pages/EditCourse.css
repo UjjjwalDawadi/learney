@@ -28,6 +28,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    
   }
   
   .info-label {
@@ -64,11 +65,11 @@
 
 .thumbnail-container {
   position: relative;
-  display: flex;
-  width: 600px;
-  height: 350px;
-  top: 95px;
-  margin-left: 60px;
+    display: flex;
+    width: 600px;
+    height: 315px;
+    top: 160px;
+    margin-left: 60px;
 }
 
 .thumbnail-image {
