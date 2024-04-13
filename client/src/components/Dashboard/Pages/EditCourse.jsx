@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import "./EditCourse.css"; // Import CSS file for styling
+import "./EditCourse.css"; 
 import Select from "react-select";
 import { MdDelete, MdAdd } from "react-icons/md";
-import { FaCamera } from "react-icons/fa"; // Import camera icon
+import { FaCamera } from "react-icons/fa"; 
 import { MdVideoLibrary } from "react-icons/md";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
@@ -14,7 +14,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 function EditCourseDetails() {
   const [courseDetails, setCourseDetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [formData, setFormData] = useState({}); // Form data for editing course details
+  const [formData, setFormData] = useState({}); 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("success");
@@ -128,42 +128,46 @@ function EditCourseDetails() {
   const handleVideoChange = async (e, sectionIndex, videoIndex) => {
     try {
       const file = e.target.files[0];
-      console.log("Selected video file:", file);
-  
+
       if (!file) {
         // If no new file is selected, use the existing video URL
         const updatedSections = [...courseDetails.sections];
         const videoUrl = updatedSections[sectionIndex].videos[videoIndex].url;
-        console.log("No new video file selected. Using existing video URL:", videoUrl);
-        
+
         // Update the course details with the existing video URL
         setCourseDetails((prevState) => {
           const newState = [...prevState.sections];
           newState[sectionIndex].videos[videoIndex].url = videoUrl;
           return { ...prevState, sections: newState };
         });
-  
+
         return; // Exit the function since no new file is selected
       }
-  
+
       // If a new file is selected, proceed with uploading it
-      const videoUrl = await uploadVideo(file);
-  
-      // Update the course details with the new video URL
-      const updatedSections = [...courseDetails.sections];
-      updatedSections[sectionIndex].videos[videoIndex].url = videoUrl;
-      setCourseDetails((prevState) => {
-        const newState = [...prevState.sections];
-        newState[sectionIndex].videos[videoIndex].url = videoUrl;
-        return { ...prevState, sections: newState };
-      });
-  
-      console.log("Course details updated with video URL.");
+      const { url, duration } = await uploadVideo(file);
+      const minutes = Math.floor(duration / 60);
+      const seconds = Math.floor(duration % 60);
+      const formattedDuration = `${minutes}m:${seconds < 10 ? '0' : ''}${seconds}s`;
+      
+const updatedSections = [...courseDetails.sections];
+updatedSections[sectionIndex].videos[videoIndex].url = url;
+updatedSections[sectionIndex].videos[videoIndex].duration = formattedDuration;
+
+// Update courseDetails with the updatedSections
+setCourseDetails((prevState) => ({
+  ...prevState,
+  sections: updatedSections
+}));
+
+
+      console.log("Course details updated with video URL and duration.");
     } catch (error) {
       console.error("Error handling video file:", error);
-      handleAlert('Error', "Error handling video file.", 'error');
+      handleAlert("Error", "Error handling video file.", "error");
     }
   };
+  
   
   
   const uploadVideo = async (file) => {
@@ -172,11 +176,20 @@ function EditCourseDetails() {
       console.log("Uploading video to:", videoStorageRef.fullPath); // Log uploading video path
       await uploadBytes(videoStorageRef, file);
       console.log("Video uploaded successfully.");
-  
+
+      // Get duration of the uploaded video
       const videoUrl = await getDownloadURL(videoStorageRef);
-      console.log("Download URL:", videoUrl);
-  
-      return videoUrl;
+      const video = document.createElement("video");
+      video.src = videoUrl;
+      await new Promise((resolve, reject) => {
+        video.addEventListener("loadedmetadata", () => {
+          console.log("Video duration:", video.duration); // Duration in seconds
+          resolve();
+        });
+        video.addEventListener("error", reject);
+      });
+
+      return { url: videoUrl, duration: video.duration }; // Return both URL and duration
     } catch (error) {
       console.error("Error uploading video:", error);
       throw new Error("Error uploading video.");
@@ -286,6 +299,7 @@ function EditCourseDetails() {
     });
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     handleImageChange({ target: { files: [formData.imageInput] } });
@@ -402,14 +416,43 @@ try {
     })
   );
 
+  const calculateSectionDuration = (videos) => {
+    let totalSeconds = 0;
+    videos.forEach((video) => {
+      console.log("Video duration:", video.duration); // Log video duration
+      const match = video.duration.match(/(\d+)m:(\d+)s/);
+      if (match) {
+        const minutes = parseInt(match[1]);
+        const seconds = parseInt(match[2]);
+        console.log("Minutes:", minutes); // Log minutes
+        console.log("Seconds:", seconds); // Log seconds
+        totalSeconds += isNaN(minutes) || isNaN(seconds) ? 0 : minutes * 60 + seconds;
+      }
+    });
+    console.log("Total seconds:", totalSeconds); // Log total seconds
+    const sectionMinutes = Math.floor(totalSeconds / 60);
+    const sectionSeconds = totalSeconds % 60;
+    console.log("Section minutes:", sectionMinutes); // Log section minutes
+    console.log("Section seconds:", sectionSeconds); // Log section seconds
+    return `${sectionMinutes}m:${sectionSeconds}s`;
+  };
+  
+  
+
+  const updatedSectionsWithDuration = updatedSections.map((section) => ({
+    ...section,
+    sectionDuration: calculateSectionDuration(section.videos),
+  }));
+
   // Update form data with the uploaded image URL and the updated video URLs
   const updatedFormData = {
     ...formData,
     thumbnailPath: courseImageUrl || formData.thumbnailPath,
-    sections: updatedSections,
+    sections: updatedSectionsWithDuration,
     learningObjectives: courseDetails.learningObjectives, // Add learningObjectives here
-      learnerRequirements: courseDetails.learnerRequirements,
+    learnerRequirements: courseDetails.learnerRequirements,
   };
+  
 console.log(updatedFormData)
   await axios.put(`/api/courses/${courseId}`, updatedFormData); // Update course details with the new form data
   // Handle success
