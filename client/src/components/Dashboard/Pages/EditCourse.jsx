@@ -298,7 +298,32 @@ setCourseDetails((prevState) => ({
       learnerRequirements: updatedRequirements,
     });
   };
-
+  const calculateCourseDuration = (sections) => {
+    let totalSeconds = 0;
+  
+    // Iterate over each section
+    sections.forEach((section) => {
+      // Extract section duration
+      const sectionDuration = section.sectionDuration;
+  
+      // Parse minutes and seconds from section duration
+      const match = sectionDuration.match(/(\d+)m:(\d+)s/);
+      if (match) {
+        const minutes = parseInt(match[1]);
+        const seconds = parseInt(match[2]);
+  
+        // Convert section duration to seconds and accumulate
+        totalSeconds += isNaN(minutes) || isNaN(seconds) ? 0 : minutes * 60 + seconds;
+      }
+    });
+  
+    // Calculate total minutes and seconds
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const remainingSeconds = totalSeconds % 60;
+  
+    // Format the total duration as "m:s" format
+    return `${totalMinutes}m:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}s`;
+  };
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -443,6 +468,10 @@ try {
     ...section,
     sectionDuration: calculateSectionDuration(section.videos),
   }));
+  
+ // Calculate total course duration
+ const totalCourseDuration = calculateCourseDuration(courseDetails.sections);
+ console.log("Total course duration:", totalCourseDuration);
 
   // Update form data with the uploaded image URL and the updated video URLs
   const updatedFormData = {
@@ -451,6 +480,7 @@ try {
     sections: updatedSectionsWithDuration,
     learningObjectives: courseDetails.learningObjectives, // Add learningObjectives here
     learnerRequirements: courseDetails.learnerRequirements,
+    courseDuration: totalCourseDuration, // Add course duration to form data
   };
   
 console.log(updatedFormData)
