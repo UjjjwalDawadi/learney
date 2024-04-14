@@ -300,13 +300,10 @@ setCourseDetails((prevState) => ({
   };
   const calculateCourseDuration = (sections) => {
     let totalSeconds = 0;
-  
     // Iterate over each section
     sections.forEach((section) => {
       // Extract section duration
       const sectionDuration = section.sectionDuration;
-  
-      // Parse minutes and seconds from section duration
       const match = sectionDuration.match(/(\d+)m:(\d+)s/);
       if (match) {
         const minutes = parseInt(match[1]);
@@ -328,6 +325,8 @@ setCourseDetails((prevState) => ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     handleImageChange({ target: { files: [formData.imageInput] } });
+
+    // Calculate total course duration
 
     // Validations
 if (!formData.title || formData.title.length > 50) {
@@ -365,10 +364,10 @@ for (let i = 0; i < courseDetails.sections.length; i++) {
     handleAlert('Error', `Section ${i + 1} title is required.`, 'error');
     return;
   }
-  if (section.videos.length === 0) {
-    handleAlert('Error', `Section ${i + 1} must have at least one video.`, 'error');
-    return;
-  }
+  // if (section.videos.length === 0) {
+  //   handleAlert('Error', `Section ${i + 1} must have at least one video.`, 'error');
+  //   return;
+  // }
   for (let j = 0; j < section.videos.length; j++) {
     const video = section.videos[j];
     if (!video.title) {
@@ -470,7 +469,7 @@ try {
   }));
   
  // Calculate total course duration
- const totalCourseDuration = calculateCourseDuration(courseDetails.sections);
+ const totalCourseDuration = calculateCourseDuration(updatedSectionsWithDuration);
  console.log("Total course duration:", totalCourseDuration);
 
   // Update form data with the uploaded image URL and the updated video URLs
