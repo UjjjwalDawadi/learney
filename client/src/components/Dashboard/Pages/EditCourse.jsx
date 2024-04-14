@@ -364,10 +364,10 @@ for (let i = 0; i < courseDetails.sections.length; i++) {
     handleAlert('Error', `Section ${i + 1} title is required.`, 'error');
     return;
   }
-  // if (section.videos.length === 0) {
-  //   handleAlert('Error', `Section ${i + 1} must have at least one video.`, 'error');
-  //   return;
-  // }
+  if (section.videos.length === 0) {
+    handleAlert('Error', `Section ${i + 1} must have at least one video.`, 'error');
+    return;
+  }
   for (let j = 0; j < section.videos.length; j++) {
     const video = section.videos[j];
     if (!video.title) {
@@ -483,7 +483,7 @@ try {
   };
   
 console.log(updatedFormData)
-  await axios.put(`/api/courses/${courseId}`, updatedFormData); // Update course details with the new form data
+  await axios.put(`/api/update-course/${courseId}`, updatedFormData); // Update course details with the new form data
   // Handle success
 } catch (error) {
   console.error("Error updating course details:", error);
