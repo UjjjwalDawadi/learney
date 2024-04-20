@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { FaChartBar, FaUser, FaBookmark, FaBook, FaUsers, FaCog, FaSignOutAlt } from 'react-icons/fa'; // Import icons from react-icons
 import './DashboardSidebar.css';
 
 function DashboardSidebar() {
@@ -8,40 +9,47 @@ function DashboardSidebar() {
     <div className="dashboard-sidebar">
       <ul>
         <li>
-          <NavLink to="/dashboard/1" activeclassname="active">Dashboard</NavLink>
+          
+          <NavLink to="/dashboard/1" activeClassName="active"><FaChartBar />Dashboard</NavLink>
         </li>
         <li>
-          <NavLink to="/dashboard/profile" activeclassname="active">Profile</NavLink>
+          
+          <NavLink to="/dashboard/profile" activeClassName="active"><FaUser />Profile</NavLink>
         </li>
        
         {userRole === 'Student' && ( 
           <>
-           <li>
-          <NavLink to="/dashboard/enrolled-courses" activeclassname="active">Enrolled Courses</NavLink>
-        </li>
-        
             <li>
-              <NavLink to="/dashboard/bookmark" activeclassname="active">Bookmark</NavLink>
+              <NavLink to="/dashboard/enrolled-courses" activeClassName="active"><FaBook />Enrolled Courses</NavLink>
+            </li>
+            <li>
+              
+              <NavLink to="/dashboard/bookmark" activeClassName="active"><FaBookmark />  Bookmark</NavLink>
             </li>
           </>
         )}
         {userRole === 'Teacher' && ( 
           <>
-           <li>
-          <NavLink to="/dashboard/my-courses" activeclassname="active">My Courses</NavLink>
-        </li>
-        
             <li>
-              <NavLink to="/dashboard/reports" activeclassname="active">Reports</NavLink>
+              
+              <NavLink to="/dashboard/my-courses" activeClassName="active"> <FaBook/>My Courses</NavLink>
             </li>
           </>
         )}
-        
+         {userRole === 'Admin' && ( 
+          <>
+            <li>
+              
+              <NavLink to="/dashboard/" activeClassName="active"><FaUsers />Manage Users</NavLink>
+            </li>
+          </>
+        )}
         <li>
-          <NavLink to="/dashboard/settings" activeclassname="active">Settings</NavLink>
+          <NavLink to="/dashboard/settings" activeClassName="active"> <FaCog/> Settings</NavLink>
         </li>
         <li>
-          <NavLink to="/userform" activeclassname="active">Logout</NavLink>
+          
+          <NavLink to="/userform" activeClassName="active"><FaSignOutAlt /> Logout</NavLink>
         </li>
       </ul>
     </div>

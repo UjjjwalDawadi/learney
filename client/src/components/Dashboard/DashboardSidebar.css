@@ -2,11 +2,13 @@
     width: 20%;
     float: left;
     height: 100vh;
-    position: relative;
-    display: flex;
-    flex-direction: column;
+    position: sticky;
+    top: 0;
     font-size: 15px;
     padding: 50px 10px;
+    background: #1c1a4a;
+    border-radius: 5px;
+    margin: 10px 5px;
 }
 .dashboard-sidebar ul{
     list-style: none;
@@ -14,14 +16,14 @@
 }
 
 .dashboard-sidebar ul li{
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     cursor: pointer;
     
 }
 .dashboard-sidebar ul li a{
     text-decoration: none;
-    color: #1c1a4a;
-    font-size: 23px;
+    color: white;
+    font-size: 20px;
     
 }
 .dashboard-sidebar ul li a.active {
@@ -41,4 +43,9 @@
   }
   .icon-dash{
     font-size: 25px;
+  }
+  .dashboard-sidebar ul li svg{
+    font-size: 25px;
+    vertical-align: middle;
+    margin-right: 14px;
   }

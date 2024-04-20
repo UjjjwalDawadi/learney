@@ -36,7 +36,6 @@ function BookmarkPage() {
 
   return (
     <div>
-      <h1>Bookmarked Courses</h1>
       {bookmarkedCourses.length === 0 ? (
         <div className='empty-page'>
           <img src={EmptyPage} alt="No data found" />

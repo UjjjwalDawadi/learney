@@ -47,7 +47,6 @@ function MyCourses() {
 
   return (
     <div>
-      <h1>My Courses</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'start' }}>
         {courses.map((course) => (
           <div key={course.id}>
