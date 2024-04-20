@@ -1,53 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import { LineChart } from '@mui/x-charts/LineChart'; // Import LineChart component
 import { FaUsers, FaBook, FaShoppingCart } from 'react-icons/fa';
 import { FaRupeeSign } from 'react-icons/fa6';
 import { BarChart } from '@mui/x-charts/BarChart';
+import Stack from '@mui/material/Stack';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-function Dashboard() {
+const Tableau10 = [
+  '#4e79a7',
+  '#f28e2c',
+  '#e15759',
+  '#76b7b2',
+  '#59a14f',
+  '#edc949',
+  '#af7aa1',
+  '#ff9da7',
+  '#9c755f',
+  '#bab0ab',
+];
+
+const chartsParams = {
+  margin: { bottom: 20, left: 25, right: 5 },
+  height: 300,
+};
+
+const Dashboard = () => {
   const [totalStudents, setTotalStudents] = useState(0);
   const [totalTeachers, setTotalTeachers] = useState(0);
   const [totalCourses, setTotalCourses] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalCoursesSold, setTotalCoursesSold] = useState(0);
-  const [newUsersData, setNewUsersData] = useState([]);
   const [courseRevenueData, setCourseRevenueData] = useState([]);
+  const [userPerDayData, setUserPerDayData] = useState([]);
+  const [color, setColor] = useState('#4e79a7');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulated API data
-        const simulatedNewUsersData = [
-          { date: new Date(2022, 3, 1), value: 10 },
-          { date: new Date(2022, 3, 2), value: 20 },
-          { date: new Date(2022, 3, 3), value: 15 },
-          { date: new Date(2022, 3, 4), value: 25 },
-          { date: new Date(2022, 3, 5), value: 30 },
-          { date: new Date(2022, 3, 6), value: 22 },
-          { date: new Date(2022, 3, 7), value: 18 },
-        ];
-
-        setNewUsersData(simulatedNewUsersData);
-
         const usersResponse = await axios.get('/api/user_details');
         const coursesResponse = await axios.get('/api/course_details');
         const courseStatisticsResponse = await axios.get('/api/course_statistics');
+        const userPerDayResponse = await axios.get('/api/users_per_day');
 
         setTotalStudents(usersResponse.data.totalStudents);
         setTotalTeachers(usersResponse.data.totalTeachers);
         setTotalRevenue(courseStatisticsResponse.data.totalRevenue);
         setTotalCoursesSold(courseStatisticsResponse.data.totalPayments);
         setTotalCourses(coursesResponse.data.totalCourses);
-
-        // Extract course revenue data
-        const courseRevenueDataFromServer = courseStatisticsResponse.data.topSoldCourses.map(course => ({
+        setCourseRevenueData(courseStatisticsResponse.data.topSoldCourses.map(course => ({
           course: course['Course.title'],
-  revenue: parseFloat(course.totalRevenue) // Convert revenue to number
-        }));
-        setCourseRevenueData(courseRevenueDataFromServer);
-
+          revenue: parseFloat(course.totalRevenue)
+        })));
+        setUserPerDayData(userPerDayResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -55,32 +62,15 @@ function Dashboard() {
 
     fetchData();
   }, []);
-  const data = [
-    { id: 0, value: totalStudents, label: 'Students' },
-    { id: 1, value: totalTeachers, label: 'Teachers' },
-  ];
 
-  const CustomAxis = () => {
-    return (
-      <div>
-        <SparkLineChart
-          data={newUsersData.map(item => item.value)}
-          xAxis={{
-            scaleType: 'time',
-            data: newUsersData.map(item => item.date),
-            valueFormatter: (value) => value.toISOString().slice(0, 10),
-            label: 'Date', // Adding X-axis label
-          }}
-          yAxis={{
-            label: 'New Users', // Adding Y-axis label
-          }}
-          height={200}
-          showTooltip
-          showHighlight
-        />
-      </div>
-    );
+  const handleChange = (event, nextColor) => {
+    setColor(nextColor);
   };
+  const dateFormatter = (value) => {
+    // Implement your custom date formatting logic here
+    return new Date(value).toLocaleDateString(); // Example: converting to local date string
+  };
+  
 
   return (
     <div>
@@ -111,7 +101,10 @@ function Dashboard() {
           <div style={{ ...chartBoxStyle, flex: '1', marginRight: '20px' }}>
             <h2>User Distribution</h2>
             <div style={chartContainerStyle}>
-              <PieChart series={[{ data }]} width={440} height={220} />
+              <PieChart series={[{ data: [
+                { id: 0, value: totalStudents, label: 'Students' },
+                { id: 1, value: totalTeachers, label: 'Teachers' },
+              ] }]} width={440} height={220} />
             </div>
           </div>
           <div style={{ ...chartBoxStyle, flex: '1' }}>
@@ -132,14 +125,50 @@ function Dashboard() {
                 ]}
                 series={[{ dataKey: 'revenue', label: 'Revenue'}]}
                 height={200}
-                            />
+              />
             </div>
           </div>
         </div>
         <div style={chartBoxStyle}>
           <h2>New Users Per Day</h2>
           <div style={chartContainerStyle}>
-            <CustomAxis />
+            <Stack direction="column" spacing={2} alignItems="center" sx={{ width: '100%' }}>
+              <LineChart
+                {...chartsParams}
+                xAxis={[
+                  {
+                    data: userPerDayData.map(item => new Date(item.date)),
+                    scaleType: 'time',
+                    valueFormatter: dateFormatter,
+                  }
+                ]}                series={[
+                  {
+                    data: userPerDayData.map(item => item.count),
+                    label: 'Users per Day',
+                    color,
+                  },
+                  
+                ]}
+              />
+              <ToggleButtonGroup
+                value={color}
+                exclusive
+                onChange={handleChange}
+              >
+                {Tableau10.map((value) => (
+                  <ToggleButton key={value} value={value} sx={{ p: 1 }}>
+                    <div
+                      style={{
+                        width: 15,
+                        height: 15,
+                        backgroundColor: value,
+                        display: 'inline-block',
+                      }}
+                    />
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </Stack>
           </div>
         </div>
       </div>
