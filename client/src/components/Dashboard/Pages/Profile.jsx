@@ -263,6 +263,7 @@ function Profile() {
 
 
   const userId = localStorage.getItem('userId');
+  const userRole = localStorage.getItem('userRole');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -274,26 +275,39 @@ function Profile() {
         console.error('Error fetching user data:', error);
       }
     };
-
-    fetchUserData();
-  const fetchUserStatistics = async () => {
-    try {
-      const response = await axios.get(`/api/user-statistics/${userId}`);
-      setTotalEnrolledCourses(response.data.totalEnrolledCourses);
-      setTotalBookmarkedCourses(response.data.totalBookmarkedCourses);
-      setTotalCoursesInCart(response.data.totalCoursesInCart);
-      setTotalCoursesCompleted(response.data.totalCoursesCompleted);
-      setTotalCoursesUploaded(response.data.totalCoursesUploaded);
-      setTotalStudents(response.data.totalStudents);
-      setTotalRevenue(response.data.totalRevenue);
-    } catch (error) {
-      console.error('Error fetching user statistics:', error);
+    const fetchStudentStatistics = async () => {
+      try {
+        const response = await axios.get(`/api/student-statistics/${userId}`);
+        setTotalEnrolledCourses(response.data.totalEnrolledCourses);
+        setTotalBookmarkedCourses(response.data.totalBookmarkedCourses);
+        setTotalCoursesInCart(response.data.totalCoursesInCart);
+        setTotalCoursesCompleted(response.data.totalCoursesCompleted);
+      } catch (error) {
+        console.error('Error fetching student statistics:', error);
+      }
+    };
+  
+    const fetchTeacherStatistics = async () => {
+      try {
+        const response = await axios.get(`/api/teacher-statistics/${userId}`);
+        setTotalCoursesUploaded(response.data.totalCoursesUploaded);
+        setTotalStudents(response.data.totalStudents);
+        setTotalRevenue(response.data.totalRevenue);
+      } catch (error) {
+        console.error('Error fetching teacher statistics:', error);
+      }
+    };
+  
+    if (userRole === 'Student') {
+      fetchUserData();
+      fetchStudentStatistics();
+    } else if (userRole === 'Teacher') {
+      fetchUserData();
+      fetchTeacherStatistics();
+    }else{
+      fetchUserData();
     }
-  };
-
-  fetchUserData();
-  fetchUserStatistics();
-}, [userId]);
+  }, [userId, userRole]);
 
 
   const handleSubmit = async () => {
