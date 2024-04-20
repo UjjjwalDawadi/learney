@@ -9,7 +9,6 @@ import { RiAccountCircleLine } from 'react-icons/ri';
 import UserManagement from '../../resources/Images/UserManagement.png';
 import { MdOutlineShoppingCart, MdOutlineSettings, MdOutlineDashboardCustomize, MdOutlineLogout } from 'react-icons/md';
 import {  FaSearch, FaRegBookmark } from 'react-icons/fa';
-import { TbReport } from 'react-icons/tb';
 import CourseGif from '../../resources/Images/Course.gif';
 
 const Header = () => {
@@ -91,12 +90,6 @@ const Header = () => {
                       <ul>
                         <li>
                           <span className="icon">
-                            <MdOutlineDashboardCustomize />
-                          </span>
-                          <a href="/dashboard/1">DashBoard</a>
-                        </li>
-                        <li>
-                          <span className="icon">
                             <RiAccountCircleLine />
                           </span>
                           <a href="/dashboard/profile"> My Profile</a>
@@ -152,12 +145,6 @@ const Header = () => {
                         </li>
                         <li>
                           <span className="icon">
-                            <img src={CourseGif} alt="Teacher" />
-                          </span>
-                          <a href="/dashboard/enrolled-courses">Manage Courses</a>
-                        </li>
-                        <li>
-                          <span className="icon">
                             <img src={UserManagement} alt="User management" />
                           </span>
                           <a href="/dashboard/manage-user">Manage Users</a>
@@ -187,12 +174,6 @@ const Header = () => {
                   {showAccountTooltip && (
                     <Tooltip>
                       <ul>
-                        <li>
-                          <span className="icon">
-                            <MdOutlineDashboardCustomize />
-                          </span>
-                          <a href="/dashboard/1">DashBoard</a>
-                        </li>
                         <li>
                           <span className="icon">
                             <RiAccountCircleLine />
@@ -228,52 +209,6 @@ const Header = () => {
                 </li>
               ) : (
                 <li className="account-tooltip">
-                  {!showAccountTooltip && (
-                    <Tooltip>
-                      <ul>
-                        <li>
-                          <span className="icon">
-                            <MdOutlineDashboardCustomize />
-                          </span>
-                          <a href="/student-dashboard">DashBoard</a>
-                        </li>
-                        <li>
-                          <span className="icon">
-                            <RiAccountCircleLine />
-                          </span>
-                          <a href="/profile"> My Profile</a>
-                        </li>
-                        <li>
-                          <span className="icon">
-                            <img src={CourseGif} alt="Teacher" />
-                          </span>
-                          <a href="/enrolled-courses">Manage Courses</a>
-                        </li>
-                        <li>
-                          <span className="icon">
-                            <TbReport />
-                          </span>
-                          <a href="/reports">Reports</a>
-                        </li>
-                      </ul>
-                      <div className="sub-links">
-                        <ul>
-                          <li>
-                            <span className="icon">
-                              <MdOutlineSettings />
-                            </span>
-                            <a href="/settings"> Settings</a>
-                          </li>
-                          <li onClick={logout}>
-                            <span className="icon">
-                              <MdOutlineLogout />
-                            </span>
-                            <a href="/userform"> Logout</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </Tooltip>
-                  )}
                 </li>
               )}
             </div>

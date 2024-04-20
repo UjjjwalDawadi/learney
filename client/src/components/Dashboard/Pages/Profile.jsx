@@ -2,32 +2,110 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Profile.css';
 import axios from 'axios';
 import { BsDashLg } from 'react-icons/bs';
-import { TbCameraPlus } from 'react-icons/tb';
+import { TbCameraPlus,TbReportMoney } from 'react-icons/tb';
+import { TiDocumentText, TiBookmark, TiShoppingCart ,TiTick, TiUser } from 'react-icons/ti'; // Importing icons
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-function UserDetails({ userData }) {
+function UserDetails({ userData, totalEnrolledCourses, totalBookmarkedCourses, totalCoursesInCart,
+   totalCoursesCompleted,totalStudents,totalCoursesUploaded,totalRevenue}) {
+  const userRole = localStorage.getItem('userRole');
   return (
-    <div className="user-details-container">
-      <p>
-        <span className="details-label">Full Name:</span> {userData.fullName}
-      </p>
-      <p>
-        <span className="details-label">Username:</span> {userData.username}
-      </p>
-      <p>
-        <span className="details-label">Role:</span> {userData.role}
-      </p>
-      <p>
-        <span className="details-label">Email:</span> {userData.email}
-      </p>
-      <p>
-        <span className="details-label">Contact:</span>{' '}
-        {userData.contact || <BsDashLg style={{ marginLeft: '1%' }} />}
-      </p>
-      <p>
-        <span className="details-label">Address:</span>{' '}
-        {userData.address || <BsDashLg style={{ marginLeft: '1%' }} />}
-      </p>
+    <div>
+{userRole === 'Student' &&
+      <div className="statistics-container">
+        {/* Box for total enrolled courses */}
+        <div className="statistics-box">
+          <div className="box-item">
+            <TiDocumentText size={36} color="white" />
+            <h2>Total Enrollments</h2>
+            <p>{totalEnrolledCourses}</p>
+          </div>
+        </div>
+        {/* Box for total bookmarked courses */}
+        <div className="statistics-box">
+          <div className="box-item">
+            <TiBookmark size={36} color="white" />
+            <h2>Total Bookmarks</h2>
+            <p>{totalBookmarkedCourses}</p>
+          </div>
+        </div>
+        {/* Box for total courses in cart */}
+        <div className="statistics-box">
+          <div className="box-item">
+            <TiShoppingCart size={36} color="white" />
+            <h2> Total Courses in Cart</h2>
+            <p>{totalCoursesInCart}</p>
+          </div>
+        </div>
+        {/* Box for total courses completed */}
+        <div className="statistics-box">
+          <div className="box-item">
+            <TiTick size={36} color="white" />
+            <h2>Total Courses Completed</h2>
+            <p>{totalCoursesCompleted}</p>
+          </div>
+        </div>
+      </div>}
+      {userRole === 'Teacher' && (
+        <div className="statistics-container">
+          {/* Teacher statistics */}
+          {/* Total courses uploaded */}
+          <div className="statistics-box">
+            <div className="box-item">
+              <TiDocumentText size={36} color="white" />
+              <h2>Total Courses Uploaded</h2>
+              <p>{totalCoursesUploaded}</p>
+            </div>
+          </div>
+          {/* Total students */}
+          <div className="statistics-box">
+            <div className="box-item">
+              <TiUser size={36} color="white" />
+              <h2>Total <br/>Students</h2>
+              <p>{totalStudents}</p>
+            </div>
+          </div>
+          {/* Total revenue from courses */}
+          <div className="statistics-box">
+            <div className="box-item">
+              <TbReportMoney  size={36} color="white" />
+              <h2>Total Revenue from Courses</h2>
+              <p>Rs. {totalRevenue}</p>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="user-details-container">
+        <div className="profile-image-contr">
+          <img src={userData.profileImage} alt="Profile" className="profile-image" />
+        </div>
+        <div style={{display:'flex', justifyContent:'space-between'}}>
+        <div className="cln-1">
+        <p>
+          <span className="details-label">Full Name:</span> {userData.fullName}
+        </p>
+        <p>
+          <span className="details-label">Username:</span> {userData.username}
+        </p>
+        <p>
+          <span className="details-label">Role:</span> {userData.role}
+        </p>
+        </div>
+        <div className="cln-2">
+        <p>
+          <span className="details-label">Email:</span> {userData.email}
+        </p>
+        <p>
+          <span className="details-label">Contact:</span>{' '}
+          {userData.contact || <BsDashLg style={{ marginLeft: '1%' }} />}
+        </p>
+        <p>
+          <span className="details-label">Address:</span>{' '}
+          {userData.address || <BsDashLg style={{ marginLeft: '1%' }} />}
+        </p>
+        </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -175,6 +253,14 @@ function Profile() {
   const [userData, setUserData] = useState(null);
   const [updatedUserData, setUpdatedUserData] = useState({});
   const [page, setPage] = useState('userDetails');
+  const [totalEnrolledCourses, setTotalEnrolledCourses] = useState(0);
+  const [totalBookmarkedCourses, setTotalBookmarkedCourses] = useState(0);
+  const [totalCoursesInCart, setTotalCoursesInCart] = useState(0);
+  const [totalCoursesCompleted, setTotalCoursesCompleted] = useState(0);
+  const [totalCoursesUploaded, setTotalCoursesUploaded] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+
 
   const userId = localStorage.getItem('userId');
 
@@ -190,7 +276,25 @@ function Profile() {
     };
 
     fetchUserData();
-  }, [userId]);
+  const fetchUserStatistics = async () => {
+    try {
+      const response = await axios.get(`/api/user-statistics/${userId}`);
+      setTotalEnrolledCourses(response.data.totalEnrolledCourses);
+      setTotalBookmarkedCourses(response.data.totalBookmarkedCourses);
+      setTotalCoursesInCart(response.data.totalCoursesInCart);
+      setTotalCoursesCompleted(response.data.totalCoursesCompleted);
+      setTotalCoursesUploaded(response.data.totalCoursesUploaded);
+      setTotalStudents(response.data.totalStudents);
+      setTotalRevenue(response.data.totalRevenue);
+    } catch (error) {
+      console.error('Error fetching user statistics:', error);
+    }
+  };
+
+  fetchUserData();
+  fetchUserStatistics();
+}, [userId]);
+
 
   const handleSubmit = async () => {
     try {
@@ -216,7 +320,17 @@ function Profile() {
       </nav>
       {userData && (
         <div>
-          {page === 'userDetails' && <UserDetails userData={userData} />}
+          {page === 'userDetails' && 
+          <UserDetails 
+          userData={userData}
+          totalEnrolledCourses={totalEnrolledCourses}
+          totalBookmarkedCourses={totalBookmarkedCourses}
+          totalCoursesInCart={totalCoursesInCart}
+          totalCoursesCompleted = {totalCoursesCompleted} 
+              totalCoursesUploaded={totalCoursesUploaded}
+              totalStudents={totalStudents}
+              totalRevenue={totalRevenue}/>}
+
           {page === 'editDetails' && (
             <EditDetails
               userData={userData}

@@ -8,13 +8,17 @@ function DashboardSidebar() {
   return (
     <div className="dashboard-sidebar">
       <ul>
+      {userRole === 'Admin' && ( 
+<>
         <li>
           
           <NavLink to="/dashboard/1" activeClassName="active"><FaChartBar />Dashboard</NavLink>
         </li>
+        </>
+      )}
         <li>
           
-          <NavLink to="/dashboard/profile" activeClassName="active"><FaUser />Profile</NavLink>
+          <NavLink to="/dashboard/profile" activeClassName="active"><FaUser />My Profile</NavLink>
         </li>
        
         {userRole === 'Student' && ( 

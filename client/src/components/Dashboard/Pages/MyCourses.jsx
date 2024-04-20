@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Course from '../../Course/Course';
 import {useNavigate} from 'react-router-dom';
+import EmptyPage from '../../../resources/Images/noDataFound.png';
 
 function MyCourses() {
   const [courses, setCourses] = useState([]);
@@ -47,6 +48,11 @@ function MyCourses() {
 
   return (
     <div>
+      {courses.length === 0 ? (
+        <div className='empty-page'>
+          <img src={EmptyPage} alt="No data found" />
+        </div>
+      ) : (
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'start' }}>
         {courses.map((course) => (
           <div key={course.id}>
@@ -67,6 +73,7 @@ function MyCourses() {
           </div>
         ))}
       </div>
+      )};
     </div>
   );
 }

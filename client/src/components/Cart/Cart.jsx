@@ -71,8 +71,7 @@ function CartPage() {
         <h2>Summary</h2>
         <p>Total <span style={{color:'indigo',fontSize:'25px',fontWeight:'600',marginLeft:'90px'}}>Rs. {totalPrice}</span></p>
         <div>
-          <button onClick={handlePayment}>Proceed for payment</button> {/* Add onClick handler */}
-          {/* <img src={KhaltiLogo} alt="khalti" className='khalti-image' /> */}
+          <button onClick={handlePayment}>Proceed for payment</button> 
         </div>
       </div>
     </div>

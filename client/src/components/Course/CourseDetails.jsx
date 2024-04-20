@@ -86,7 +86,7 @@ const CourseDetailsPage = () => {
     try {
       const userId = localStorage.getItem("userId");
       if (!isAlreadyInCart) {
-        navigate("../dashboard/cart");
+        navigate("../cart");
         setIsAlreadyInCart(true);
       } else {
         await axios.post("/api/cart", { userId, courseId });

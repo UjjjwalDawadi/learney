@@ -72,7 +72,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
         onRemoveFromBookmark(bookmarkId);
       } else {
         await axios.post('/api/bookmarks', { courseId, userId });
-        localStorage.setItem(`bookmark_${userId}_${courseId}`, true); // Add bookmark to local storage
+        localStorage.setItem(`bookmark_${userId}_${courseId}`, true); 
         alert("Bookmark added");
       }
       setIsBookmarked(prevIsBookmarked => !prevIsBookmarked);
@@ -160,7 +160,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
         
         {userRole === 'Student' && (
   <div>
-    {isEnrolled ? (
+    {isEnrolled && !isCartPage ? (
       <button className="cart-btn" onClick={() => navigate(`/courses/${courseId}?enrolled=${isEnrolled}`)}>
         Continue Learning
       </button>

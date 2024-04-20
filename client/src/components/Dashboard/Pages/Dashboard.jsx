@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { LineChart } from '@mui/x-charts/LineChart'; // Import LineChart component
+import { LineChart } from '@mui/x-charts/LineChart'; 
 import { FaUsers, FaBook, FaShoppingCart } from 'react-icons/fa';
 import { FaRupeeSign } from 'react-icons/fa6';
 import { BarChart } from '@mui/x-charts/BarChart';
