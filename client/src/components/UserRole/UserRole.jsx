@@ -29,9 +29,10 @@ const UserRole = () => {
         const data = await response.json();
         throw new Error(data.errors.map((error) => error.msg).join('\n'));
       }
-
       const data = await response.text();
-
+      const jsonData = JSON.parse(data); // Parse the JSON data from the response
+  const userId = jsonData.userId; // Access the userId property from the parsed JSON data
+localStorage.setItem('userId',userId)
       if (data.includes('Role updated successfully')) {
         navigate('/homepage');
       } else {

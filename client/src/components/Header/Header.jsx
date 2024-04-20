@@ -19,7 +19,7 @@ const Header = () => {
   const [showAccountTooltip, setShowAccountTooltip] = useState(false);
   const [fullName, setFullName] = useState('');
   const userId = localStorage.getItem("userId");
-
+  
   useEffect(() => {
     const fetchProfileImage = async () => {
       try {

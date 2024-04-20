@@ -31,11 +31,11 @@ const register = async (username,role,userEmail) => {
   setUserRole(role);
   setUserEmail(userEmail);
   setLoggedIn(true);
-  console.log('Registered as:', username);
 };
   const logout = () => {
     setUsername('');
     localStorage.removeItem('username');
+    localStorage.removeItem('fullName')
     localStorage.removeItem('userRole');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userId');

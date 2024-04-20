@@ -45,12 +45,14 @@ const UserForm = () => {
       .then((data) => {
         const userRole = data.userRole; 
         const userEmail = data.userEmail;
+        const fullName = data.fullName;
         const userId = data.userId;
 
         if (data) {
     
     localStorage.setItem('userRole', userRole);
     localStorage.setItem('username',enteredUsername )
+    localStorage.setItem('fullName', fullName);
     localStorage.setItem('userId', userId);
     localStorage.setItem('userEmail', userEmail);
 
@@ -103,7 +105,7 @@ const UserForm = () => {
         console.log('token is ',token)
         localStorage.setItem('token', token);
     localStorage.setItem('fullName', enteredFullName);
-    localStorage.setItem('email', enteredEmail);
+    localStorage.setItem('userEmail', enteredEmail);
 
         navigate('/userrole');
       } else {
