@@ -289,8 +289,10 @@ function Profile() {
   
     const fetchTeacherStatistics = async () => {
       try {
-        const response = await axios.get(`/api/teacher-statistics/${userId}`);
-        setTotalCoursesUploaded(response.data.totalCoursesUploaded);
+        const fullName = localStorage.getItem('fullName');
+        const response = await axios.get(`/api/teacher-statistics/${userId}?teacherFullName=${fullName}`);
+       
+                setTotalCoursesUploaded(response.data.totalCoursesUploaded);
         setTotalStudents(response.data.totalStudents);
         setTotalRevenue(response.data.totalRevenue);
       } catch (error) {
