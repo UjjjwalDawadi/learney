@@ -236,3 +236,41 @@ font-size: 17px;
   justify-content: center;
   margin: 10px 0;
 }
+.rating-prompt{
+  position: absolute;
+  border: 1px solid white;
+  top: 50%;
+  left: 50%;
+  width: 745px;
+  transform: translate(-50%, -40%);
+  background: #d9d9d9;
+  height: 320px;
+  border-radius: 20px;
+  z-index: 3;
+  padding: 30px;
+}
+.css-dqr9h-MuiRating-label {
+  font-size: 80px;
+}
+.css-1qqgbpl-MuiRating-root {
+  margin-top: 20px;
+}
+  
+div.rating-prompt div{
+  margin-top: 40px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.btn-rating{
+  font-size: 20px;
+    height: 45px;
+    border-radius: 15px;
+    font-weight: 500;
+    cursor: pointer;
+
+}
+.btn-rating:hover{
+  color: indigo;
+}

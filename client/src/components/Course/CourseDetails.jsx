@@ -8,6 +8,7 @@ import { PiStudentDuotone, PiCellSignalHighLight } from "react-icons/pi";
 import {FaRegBookmark, FaBookmark, FaRegHandPointRight, FaArrowAltCircleDown,
        FaVideo,} from "react-icons/fa";
 import "./CourseDetails.css";
+import HoverRating from "../Course/HoverRating"; 
 
 const CourseDetailsPage = () => {
   const { courseId } = useParams();
@@ -16,6 +17,8 @@ const CourseDetailsPage = () => {
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
+  const [showRatingPrompt, setShowRatingPrompt] = useState(false); // State to show rating prompt
+  const [userRating, setUserRating] = useState(null); // State to hold user's rating
   const [courseProgress, setCourseProgress] = useState(null);
   const [watchedTime, setWatchedTime] = useState(0);
   const navigate = useNavigate();
@@ -55,7 +58,14 @@ const CourseDetailsPage = () => {
             }))
           );
           await Promise.all(promises);
+
+           // Check if progress percentage meets the threshold for rating prompt
+           const ratingThreshold = 50; // Set your desired threshold here
+           const progressPercentage = courseProgress ? courseProgress.progressPercentage.progressPercentage : 0;
+           if (progressPercentage >= ratingThreshold) {
+             setShowRatingPrompt(true); // Show rating prompt
         }
+      }
       } catch (error) {
         console.error("Error:", error);
       }
@@ -64,7 +74,13 @@ const CourseDetailsPage = () => {
     fetchCourseDetails();
   }, [courseId, enrolled]);
   
-  
+  // Function to handle saving user's rating
+  const handleSaveRating = () => {
+    // Save user's rating using an API call or any other method
+    console.log("User rating:", userRating);
+    // After saving the rating, you can close the rating prompt or perform any other action
+    setShowRatingPrompt(false);
+  };
 
   const handleWishlistClick = async () => {
     try {
@@ -162,10 +178,25 @@ const CourseDetailsPage = () => {
     console.log(price);
     navigate("/khalti-payment", { state: { courseId, price } });
   };
-
+const handleRatingClose = () =>{
+  setShowRatingPrompt(false)
+}
 
   return (
     <div className="course-details-container">
+       {showRatingPrompt && (
+        <div className="rating-prompt">
+          <h2>How would you rate your experience with this course?</h2>
+          <HoverRating 
+            value={userRating} 
+            onChange={(event, newValue) => setUserRating(newValue)} 
+          />
+          <div>
+          <button onClick={handleSaveRating} className="btn-rating">Submit</button>
+          <button onClick={handleRatingClose}className="btn-rating">Maybe, later</button>
+</div>
+        </div>
+      )}
       <div className="course-details-left">
         <div className="banner">
           <div className="course-details">
