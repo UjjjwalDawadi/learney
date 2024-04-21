@@ -244,7 +244,7 @@ font-size: 17px;
   width: 745px;
   transform: translate(-50%, -40%);
   background: #d9d9d9;
-  height: 320px;
+  height: auto;
   border-radius: 20px;
   z-index: 3;
   padding: 30px;
@@ -257,10 +257,16 @@ font-size: 17px;
 }
   
 div.rating-prompt div{
-  margin-top: 40px;
   display: flex;
   width: 100%;
   justify-content: space-around;
+}
+div.rating-prompt textarea{
+  width: 80%;
+    margin: 30px 75px;
+    height: 90px;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .btn-rating{
@@ -273,4 +279,5 @@ div.rating-prompt div{
 }
 .btn-rating:hover{
   color: indigo;
+  font-weight: bold;
 }

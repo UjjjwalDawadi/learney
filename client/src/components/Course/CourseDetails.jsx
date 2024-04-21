@@ -17,10 +17,11 @@ const CourseDetailsPage = () => {
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
-  const [showRatingPrompt, setShowRatingPrompt] = useState(false); // State to show rating prompt
-  const [userRating, setUserRating] = useState(null); // State to hold user's rating
+  const [showRatingPrompt, setShowRatingPrompt] = useState(false); 
+  const [userRating, setUserRating] = useState(null); 
   const [courseProgress, setCourseProgress] = useState(null);
   const [watchedTime, setWatchedTime] = useState(0);
+  const [comment, setComment] = useState(""); 
   const navigate = useNavigate();
   const userRole = localStorage.getItem("userRole");
   const userId = localStorage.getItem("userId");
@@ -59,11 +60,10 @@ const CourseDetailsPage = () => {
           );
           await Promise.all(promises);
 
-           // Check if progress percentage meets the threshold for rating prompt
-           const ratingThreshold = 50; // Set your desired threshold here
+           const ratingThreshold = 30;
            const progressPercentage = courseProgress ? courseProgress.progressPercentage.progressPercentage : 0;
            if (progressPercentage >= ratingThreshold) {
-             setShowRatingPrompt(true); // Show rating prompt
+             setShowRatingPrompt(true); 
         }
       }
       } catch (error) {
@@ -191,6 +191,13 @@ const handleRatingClose = () =>{
             value={userRating} 
             onChange={(event, newValue) => setUserRating(newValue)} 
           />
+           <textarea 
+        type="text" 
+        placeholder="Add your comments (optional)" 
+        value={comment} 
+        onChange={(event) => setComment(event.target.value)} // Assuming you have a state variable 'comment' and a corresponding setter function 'setComment'
+        className="comment-input"
+      />
           <div>
           <button onClick={handleSaveRating} className="btn-rating">Submit</button>
           <button onClick={handleRatingClose}className="btn-rating">Maybe, later</button>
