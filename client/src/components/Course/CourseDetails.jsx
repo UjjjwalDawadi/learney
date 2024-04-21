@@ -20,6 +20,7 @@ const CourseDetailsPage = () => {
   const [showRatingPrompt, setShowRatingPrompt] = useState(false); 
   const [userRating, setUserRating] = useState(null); 
   const [courseProgress, setCourseProgress] = useState(null);
+  const [userRated, setUserRated] = useState(false);
   const [watchedTime, setWatchedTime] = useState(0);
   const [comment, setComment] = useState(""); 
   const navigate = useNavigate();
@@ -63,6 +64,9 @@ const CourseDetailsPage = () => {
            const ratingThreshold = 30;
            const progressPercentage = courseProgress ? courseProgress.progressPercentage.progressPercentage : 0;
            if (progressPercentage >= ratingThreshold) {
+            const userRatingResponse = await axios.get(`/api/get-rating/${userId}`);
+            const userRatings = userRatingResponse.data;
+            setUserRated(userRatings.length > 0);
              setShowRatingPrompt(true); 
         }
       }
@@ -74,12 +78,26 @@ const CourseDetailsPage = () => {
     fetchCourseDetails();
   }, [courseId, enrolled]);
   
-  // Function to handle saving user's rating
-  const handleSaveRating = () => {
-    // Save user's rating using an API call or any other method
-    console.log("User rating:", userRating);
-    // After saving the rating, you can close the rating prompt or perform any other action
-    setShowRatingPrompt(false);
+  const handleSaveRating = async () => {
+    try {
+      const ratingData = {
+        courseId: courseId,
+        userId: userId,
+        ratingValue: userRating,
+        comment: comment
+      };
+  
+      const response = await axios.post("/api/ratings", ratingData);
+  
+      if (response.status === 201) {
+        console.log("Rating saved successfully");
+        setShowRatingPrompt(false);
+      } else {
+        console.error("Failed to save rating:", response.data);
+      }
+    } catch (error) {
+      console.error("Error saving rating:", error);
+    }
   };
 
   const handleWishlistClick = async () => {
@@ -184,7 +202,7 @@ const handleRatingClose = () =>{
 
   return (
     <div className="course-details-container">
-       {showRatingPrompt && (
+       {! userRated &&showRatingPrompt && (
         <div className="rating-prompt">
           <h2>How would you rate your experience with this course?</h2>
           <HoverRating 
