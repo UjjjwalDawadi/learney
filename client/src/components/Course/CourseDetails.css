@@ -281,3 +281,30 @@ div.rating-prompt textarea{
   color: indigo;
   font-weight: bold;
 }
+.star-container {
+  color: rgb(255, 136, 0);
+  font-size: 30px;
+}
+.full-name{
+  font-size: 23px;
+  font-weight: 500;
+}
+.star {
+  
+  display: inline-block;
+  color: inherit;
+}
+.comment-container ul{
+  padding: 0;
+  list-style: none;
+}
+.comment{
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+.comment-image{
+  height: 35px;
+  vertical-align: middle;
+  margin-right: 10px;
+}

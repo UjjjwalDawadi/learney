@@ -16,6 +16,7 @@ const CourseDetailsPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [reviewCounts, setReviewCounts] = useState(0); // State to store review counts for each course
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
   const [showRatingPrompt, setShowRatingPrompt] = useState(false); 
   const [userRating, setUserRating] = useState(null); 
@@ -26,7 +27,8 @@ const CourseDetailsPage = () => {
   const navigate = useNavigate();
   const userRole = localStorage.getItem("userRole");
   const userId = localStorage.getItem("userId");
-
+  const [totalRating, setTotalRating] = useState(null); 
+  const [comments, setComments] = useState([]); 
   const location = useLocation();
   const enrolledQueryParam = new URLSearchParams(location.search).get("enrolled");
   const enrolled = enrolledQueryParam === "true";  
@@ -43,12 +45,38 @@ const CourseDetailsPage = () => {
         
         const data = await response.json();
         setCourseDetails(data);
+
+          // Fetch ratings and comments for the course
+         const ratingResponse = await axios.get(`/api/get-ratings/${courseId}`);
+         console.log(ratingResponse)
+         const ratings = ratingResponse.data;
+         const totalRatingValue = ratings.reduce((sum, rating) => sum + rating.ratingValue, 0);
+         const averageRating = ratings.length > 0 ? totalRatingValue / ratings.length : 0;
+setReviewCounts(ratings.length)
+         setTotalRating(averageRating);
+ 
+         const comments = ratings.map(rating => rating.comment);
+         setComments(comments);
+           const ratingThreshold = 30;
+           const progressPercentage = courseProgress ? courseProgress.progressPercentage.progressPercentage : 0;
+           if (progressPercentage >= ratingThreshold) {
+            const userRatingResponse = await axios.get(`/api/get-rating/${userId}`);
+            const userRatings = userRatingResponse.data;
+            setUserRated(userRatings.length > 0);
+             setShowRatingPrompt(true); 
+        }
   
-        // Fetch course progress
-        const progressResponse = await axios.get(`/api/progress/${userId}/${courseId}`);
-        const courseProgress = progressResponse.data;
-        setCourseProgress(courseProgress);
-        // Calculate progress percentage
+        try {
+          const progressResponse = await axios.get(`/api/progress/${userId}/${courseId}`);
+          const courseProgress = progressResponse.data;
+          setCourseProgress(courseProgress);
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            console.log("Enrollment not found");
+          } else {
+            console.error("Error fetching course progress:", error.message);
+          }
+        }
         if (enrolled) {
           const promises = data.sections.flatMap(section =>
             section.videos.map(video => axios.post("/api/progress", {
@@ -60,15 +88,7 @@ const CourseDetailsPage = () => {
             }))
           );
           await Promise.all(promises);
-
-           const ratingThreshold = 30;
-           const progressPercentage = courseProgress ? courseProgress.progressPercentage.progressPercentage : 0;
-           if (progressPercentage >= ratingThreshold) {
-            const userRatingResponse = await axios.get(`/api/get-rating/${userId}`);
-            const userRatings = userRatingResponse.data;
-            setUserRated(userRatings.length > 0);
-             setShowRatingPrompt(true); 
-        }
+        
       }
       } catch (error) {
         console.error("Error:", error);
@@ -76,7 +96,7 @@ const CourseDetailsPage = () => {
     };
   
     fetchCourseDetails();
-  }, [courseId, enrolled]);
+  }, [courseId, enrolled,courseProgress]);
   
   const handleSaveRating = async () => {
     try {
@@ -199,6 +219,17 @@ const CourseDetailsPage = () => {
 const handleRatingClose = () =>{
   setShowRatingPrompt(false)
 }
+const renderStars = (ratingValue) => {
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    if (i < ratingValue) {
+      stars.push(<span key={i} className="star-filled">★</span>);
+    } else {
+      stars.push(<span key={i} className="star-empty">★</span>);
+    }
+  }
+  return stars;
+};
 
   return (
     <div className="course-details-container">
@@ -213,7 +244,7 @@ const handleRatingClose = () =>{
         type="text" 
         placeholder="Add your comments (optional)" 
         value={comment} 
-        onChange={(event) => setComment(event.target.value)} // Assuming you have a state variable 'comment' and a corresponding setter function 'setComment'
+        onChange={(event) => setComment(event.target.value)} 
         className="comment-input"
       />
           <div>
@@ -227,8 +258,9 @@ const handleRatingClose = () =>{
           <div className="course-details">
             <h1>{courseDetails.course.title} </h1>
             <p>{courseDetails.course.description}</p>
-            <p style={{ color: "yellow" }}>
-              Ratings and reviews will display here
+            <p style={{ color: 'rgb(255 226 0)' }}>
+              {totalRating}<span style={{fontSize: '19px' }}> ★ </span>
+              <span style={{ color: '#ff6811b2', fontSize: '19px' }}>({reviewCounts})</span>
             </p>
             <p style={{ marginTop: "15px" }}>
               Uploaded by: {courseDetails.course.uploadedBy}
@@ -320,9 +352,38 @@ const handleRatingClose = () =>{
           ))}
         </div>
         <div className="course-details">
-          <h2>Review</h2>
-          reviews will come here
-        </div>
+  <h2>Review</h2>
+  <div className="comment-container">
+  <ul>
+    {comments.map((combinedComment, index) => {
+      // Split the combined comment string by the first occurrence of " "
+      const firstSpaceIndex = combinedComment.indexOf(" ");
+      const profileImage = combinedComment.substring(0, firstSpaceIndex).trim(); // Extract the URL
+      const remainingComment = combinedComment.substring(firstSpaceIndex + 1).trim(); // Extract the rest of the comment
+      const parts = remainingComment.split(":");
+      const fullName = parts[0].trim(); // Extract the full name
+      const comment = parts[1].trim(); // Extract the comment
+
+      return (
+        <li key={index}>
+          <div className="comment">
+            {/* Ensure the profileImage variable contains the full URL */}
+            <img src={profileImage} alt="Profile" className="comment-image" />
+            <span className="full-name"> {fullName}</span><br/><br/>
+            <span className="star-container">{renderStars(totalRating)}</span><br/><br/>
+            {comment}
+          </div>
+        </li>
+      );
+    })}
+  </ul>
+  </div>
+</div>
+
+
+
+
+
       </div>
       <div className="course-details-right">
         <div className="upper-right">

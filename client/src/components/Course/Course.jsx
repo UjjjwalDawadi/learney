@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import './Course.css';
 
-function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, courseId,onRemoveFromCart,onRemoveFromBookmark,
+function Course({ title, price, courseDuration, uploadedBy, thumbnailPath,rating,reviewCount, courseId,onRemoveFromCart,onRemoveFromBookmark,
                                       bookmarkId,isOpen,onEditCourse, onDeleteCourse,onDropdownClick}) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,8 +18,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath, cours
   const [isInCart, setIsInCart] = useState(false); 
   const [isEnrolled, setIsEnrolled] = useState(false); 
   const userRole = localStorage.getItem('userRole');
-  const rating = 4.5;
-  const review = 700;
+  const review = reviewCount;
 
 
   const fetchEnrollmentStatus = useCallback(async () => {
