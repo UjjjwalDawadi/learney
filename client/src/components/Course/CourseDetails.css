@@ -308,3 +308,19 @@ div.rating-prompt textarea{
   vertical-align: middle;
   margin-right: 10px;
 }
+
+.approve-btn{
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 20px 0;
+}
+.approve-btn button{
+  background: #1c1a4a;
+  color: white;
+  height: 45px;
+  padding: 10px 20px;
+  border-radius: 10px;
+}

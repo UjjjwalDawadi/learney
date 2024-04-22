@@ -6,10 +6,10 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { RiEdit2Line, RiDeleteBinLine } from 'react-icons/ri';
 import { MdOutlineDelete } from "react-icons/md";
 import axios from 'axios';
-
+import CryptoJS from 'crypto-js';
 import './Course.css';
 
-function Course({ title, price, courseDuration, uploadedBy, thumbnailPath,rating,reviewCount, courseId,onRemoveFromCart,onRemoveFromBookmark,
+function Course({ title, price, courseDuration, uploadedBy,status, thumbnailPath,rating,reviewCount, courseId,onRemoveFromCart,onRemoveFromBookmark,
                                       bookmarkId,isOpen,onEditCourse, onDeleteCourse,onDropdownClick}) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,6 +59,12 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath,rating
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+  const handleClick = () => {
+    const encryptedParams = CryptoJS.AES.encrypt(JSON.stringify({ status, enrolled: isEnrolled }), 'secret').toString();
+    navigate(`/courses/${courseId}?params=${encodeURIComponent(encryptedParams)}`);
+  };
+  
+
 
   const handleWishlistClick = async () => {
     try {
@@ -142,7 +148,7 @@ function Course({ title, price, courseDuration, uploadedBy, thumbnailPath,rating
   src={thumbnailPath} 
   alt='' 
   className="course-image" 
-  onClick={() => navigate(`/courses/${courseId}?enrolled=${isEnrolled}`)} 
+  onClick={handleClick} 
 />        <div className="course-details">
           <h2>{title}</h2>
           <div style={{ display: 'flex' }} className='rating-review'>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Course from './Course';
 import './Courses.css';
-
+import EmptyPage from '../../resources/Images/noDataFound.png';
 import { TbArrowBadgeLeftFilled, TbArrowBadgeRightFilled } from 'react-icons/tb';
 import SideBar from './SideBar';
 import axios from 'axios';
@@ -100,16 +100,19 @@ function Courses() {
                   courseId={course.id}
                   title={course.title}
                   courseDuration={course.courseDuration}
+status = {course.status}
                   price={course.price}
                   thumbnailPath={course.thumbnailPath}
                   uploadedBy={course.uploadedBy}
-                  rating={ratings[course.id] || 0} // Pass rating for this course
-                  reviewCount={reviewCounts[course.id] || 0} // Pass review count for this course
+                  rating={ratings[course.id] || 0} 
+                  reviewCount={reviewCounts[course.id] || 0} 
                 />
               );
             })
           ) : (
-            <p className="no-courses">No courses found!</p>
+            <div className='empty-page' style={{width: '95%'}}>
+            <img src={EmptyPage} alt="No data found" />
+          </div>
           )}
         </div>
       </div>

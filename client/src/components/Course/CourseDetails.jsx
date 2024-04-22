@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
 import axios from "axios";
 import { IoTimeOutline, IoClose } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
 import { PiStudentDuotone, PiCellSignalHighLight } from "react-icons/pi";
+import CryptoJS from "crypto-js"; // Import CryptoJS library
+
 import {
   FaRegBookmark,
   FaBookmark,
@@ -16,8 +18,8 @@ import "./CourseDetails.css";
 import HoverRating from "../Course/HoverRating";
 
 const CourseDetailsPage = () => {
-  const { courseId } = useParams();
-  const [courseDetails, setCourseDetails] = useState(null);
+  const { courseId } = useParams(); 
+    const [courseDetails, setCourseDetails] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -34,15 +36,34 @@ const CourseDetailsPage = () => {
   const userId = localStorage.getItem("userId");
   const [totalRating, setTotalRating] = useState(null);
   const [comments, setComments] = useState([]);
-  const location = useLocation();
-  const enrolledQueryParam = new URLSearchParams(location.search).get(
-    "enrolled"
-  );
-  const enrolled = enrolledQueryParam === "true";
+  const [status, setStatus] = useState("");
+  const [enrolled, setIsEnrolled] = useState(false);
+
+
+  useEffect(() => {
+    const decryptParams = (encryptedParams, key) => {
+      try {
+        const decryptedParams = CryptoJS.AES.decrypt(decodeURIComponent(encryptedParams), key).toString(CryptoJS.enc.Utf8);
+        const params = JSON.parse(decryptedParams);
+        return params;
+      } catch (error) {
+        console.error('Error decrypting parameters:', error.message);
+        return {};
+      }
+    };
+  
+    const paramsString = new URLSearchParams(window.location.search).get("params");
+    const decryptedParams = decryptParams(paramsString, 'secret');
+  
+    setStatus(decryptedParams.status);
+    setIsEnrolled(decryptedParams.enrolled);
+  }, []);
+  
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
+        
         const userId = localStorage.getItem("userId");
         const response = await fetch(`/api/courses/${courseId}/details`);
 
@@ -55,7 +76,6 @@ const CourseDetailsPage = () => {
 
         // Fetch ratings and comments for the course
         const ratingResponse = await axios.get(`/api/get-ratings/${courseId}`);
-        console.log(ratingResponse);
         const ratings = ratingResponse.data;
         const totalRatingValue = ratings.reduce(
           (sum, rating) => sum + rating.ratingValue,
@@ -82,11 +102,13 @@ const CourseDetailsPage = () => {
         }
 
         try {
+          if (userRole === 'Student'){
           const progressResponse = await axios.get(
             `/api/progress/${userId}/${courseId}`
           );
           const courseProgress = progressResponse.data;
           setCourseProgress(courseProgress);
+        }
         } catch (error) {
           if (error.response && error.response.status === 404) {
             console.log("Enrollment not found");
@@ -114,7 +136,7 @@ const CourseDetailsPage = () => {
     };
 
     fetchCourseDetails();
-  }, [courseId, enrolled, courseProgress]);
+  }, [courseId, enrolled,userRole, courseProgress]);
 
   const handleSaveRating = async () => {
     try {
@@ -260,9 +282,24 @@ const CourseDetailsPage = () => {
     }
     return stars;
   };
-
+  const handleStatusChange = async (newStatus) => {
+    try {
+      console.log(courseId)
+      const response = await axios.post(`/api/courses/${courseId}/status`, { newStatus });
+      if (response.status === 200) {
+        console.log(`Course status changed to ${newStatus}`);
+        navigate('/courses');
+      } else {
+        console.error("Failed to change course status:", response.data);
+      }
+    } catch (error) {
+      console.error("Error changing course status:", error);
+    }
+  };
+  
+  
   return (
-    <div className="course-details-container">
+    <div className="course-details-container" style={{display:'flex', flexDirection:'column'}}>
       {!userRated && showRatingPrompt && (
         <div className="rating-prompt">
           <h2>How would you rate your experience with this course?</h2>
@@ -545,7 +582,15 @@ const CourseDetailsPage = () => {
           </ul>
         </div>
       </div>
+      {status === 'pending' && (
+  <div className="approve-btn">
+    <button onClick={() => handleStatusChange('approved')}> Approve This course</button>
+    <button onClick={() => handleStatusChange('rejected')}> Reject This course</button>
+  </div>
+)}
+
     </div>
+    
   );
 };
 
