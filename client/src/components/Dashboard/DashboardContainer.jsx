@@ -5,7 +5,7 @@ import Profile from './Pages/Profile';
 import EnrolledCourses from './Pages/EnrolledCourses';
 import MyCourses from './Pages/MyCourses';
 // import PendingCourses from  './Pages/PendingCourses';
-// import ManageUsers from  './Pages/ManageUsers';
+import ManageUsers from  './Pages/ManageUsers';
 
 import Bookmark from './Pages/Bookmark';
 import Settings from './Pages/Settings';
@@ -22,8 +22,8 @@ function DashboardContainer() {
         return <Profile />;
         // case '/dashboard/pending-courses':
         //   return <PendingCourses />;
-        //   case '/dashboard/manage-users':
-        //     return <ManageUsers />;
+          case '/dashboard/manage-users':
+            return <ManageUsers />;
       case '/dashboard/enrolled-courses':
         return <EnrolledCourses />;
         case '/dashboard/my-courses':

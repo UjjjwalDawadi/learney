@@ -5,10 +5,15 @@ import axios from "axios";
 import { IoTimeOutline, IoClose } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
 import { PiStudentDuotone, PiCellSignalHighLight } from "react-icons/pi";
-import {FaRegBookmark, FaBookmark, FaRegHandPointRight, FaArrowAltCircleDown,
-       FaVideo,} from "react-icons/fa";
+import {
+  FaRegBookmark,
+  FaBookmark,
+  FaRegHandPointRight,
+  FaArrowAltCircleDown,
+  FaVideo,
+} from "react-icons/fa";
 import "./CourseDetails.css";
-import HoverRating from "../Course/HoverRating"; 
+import HoverRating from "../Course/HoverRating";
 
 const CourseDetailsPage = () => {
   const { courseId } = useParams();
@@ -18,56 +23,68 @@ const CourseDetailsPage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [reviewCounts, setReviewCounts] = useState(0); // State to store review counts for each course
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
-  const [showRatingPrompt, setShowRatingPrompt] = useState(false); 
-  const [userRating, setUserRating] = useState(null); 
+  const [showRatingPrompt, setShowRatingPrompt] = useState(false);
+  const [userRating, setUserRating] = useState(null);
   const [courseProgress, setCourseProgress] = useState(null);
   const [userRated, setUserRated] = useState(false);
   const [watchedTime, setWatchedTime] = useState(0);
-  const [comment, setComment] = useState(""); 
+  const [comment, setComment] = useState("");
   const navigate = useNavigate();
   const userRole = localStorage.getItem("userRole");
   const userId = localStorage.getItem("userId");
-  const [totalRating, setTotalRating] = useState(null); 
-  const [comments, setComments] = useState([]); 
+  const [totalRating, setTotalRating] = useState(null);
+  const [comments, setComments] = useState([]);
   const location = useLocation();
-  const enrolledQueryParam = new URLSearchParams(location.search).get("enrolled");
-  const enrolled = enrolledQueryParam === "true";  
+  const enrolledQueryParam = new URLSearchParams(location.search).get(
+    "enrolled"
+  );
+  const enrolled = enrolledQueryParam === "true";
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
         const userId = localStorage.getItem("userId");
         const response = await fetch(`/api/courses/${courseId}/details`);
-        
+
         if (!response.ok) {
           throw new Error("Failed to fetch course details");
         }
-        
+
         const data = await response.json();
         setCourseDetails(data);
 
-          // Fetch ratings and comments for the course
-         const ratingResponse = await axios.get(`/api/get-ratings/${courseId}`);
-         console.log(ratingResponse)
-         const ratings = ratingResponse.data;
-         const totalRatingValue = ratings.reduce((sum, rating) => sum + rating.ratingValue, 0);
-         const averageRating = ratings.length > 0 ? totalRatingValue / ratings.length : 0;
-setReviewCounts(ratings.length)
-         setTotalRating(averageRating);
- 
-         const comments = ratings.map(rating => rating.comment);
-         setComments(comments);
-           const ratingThreshold = 30;
-           const progressPercentage = courseProgress ? courseProgress.progressPercentage.progressPercentage : 0;
-           if (progressPercentage >= ratingThreshold) {
-            const userRatingResponse = await axios.get(`/api/get-rating/${userId}`);
-            const userRatings = userRatingResponse.data;
-            setUserRated(userRatings.length > 0);
-             setShowRatingPrompt(true); 
+        // Fetch ratings and comments for the course
+        const ratingResponse = await axios.get(`/api/get-ratings/${courseId}`);
+        console.log(ratingResponse);
+        const ratings = ratingResponse.data;
+        const totalRatingValue = ratings.reduce(
+          (sum, rating) => sum + rating.ratingValue,
+          0
+        );
+        const averageRating =
+          ratings.length > 0 ? totalRatingValue / ratings.length : 0;
+        setReviewCounts(ratings.length);
+        setTotalRating(averageRating);
+
+        const comments = ratings.map((rating) => rating.comment);
+        setComments(comments);
+        const ratingThreshold = 30;
+        const progressPercentage = courseProgress
+          ? courseProgress.progressPercentage.progressPercentage
+          : 0;
+        if (progressPercentage >= ratingThreshold) {
+          const userRatingResponse = await axios.get(
+            `/api/get-rating/${userId}`
+          );
+          const userRatings = userRatingResponse.data;
+          setUserRated(userRatings.length > 0);
+          setShowRatingPrompt(true);
         }
-  
+
         try {
-          const progressResponse = await axios.get(`/api/progress/${userId}/${courseId}`);
+          const progressResponse = await axios.get(
+            `/api/progress/${userId}/${courseId}`
+          );
           const courseProgress = progressResponse.data;
           setCourseProgress(courseProgress);
         } catch (error) {
@@ -78,37 +95,38 @@ setReviewCounts(ratings.length)
           }
         }
         if (enrolled) {
-          const promises = data.sections.flatMap(section =>
-            section.videos.map(video => axios.post("/api/progress", {
-              userId,
-              courseId,
-              sectionId: section.id,
-              videoId: video.id,
-              watchedTime: 0 // Initialize watched time to 0
-            }))
+          const promises = data.sections.flatMap((section) =>
+            section.videos.map((video) =>
+              axios.post("/api/progress", {
+                userId,
+                courseId,
+                sectionId: section.id,
+                videoId: video.id,
+                watchedTime: 0, // Initialize watched time to 0
+              })
+            )
           );
           await Promise.all(promises);
-        
-      }
+        }
       } catch (error) {
         console.error("Error:", error);
       }
     };
-  
+
     fetchCourseDetails();
-  }, [courseId, enrolled,courseProgress]);
-  
+  }, [courseId, enrolled, courseProgress]);
+
   const handleSaveRating = async () => {
     try {
       const ratingData = {
         courseId: courseId,
         userId: userId,
         ratingValue: userRating,
-        comment: comment
+        comment: comment,
       };
-  
+
       const response = await axios.post("/api/ratings", ratingData);
-  
+
       if (response.status === 201) {
         console.log("Rating saved successfully");
         setShowRatingPrompt(false);
@@ -152,7 +170,6 @@ setReviewCounts(ratings.length)
 
   const handleVideoClick = (video) => {
     setSelectedVideo(video);
-
   };
 
   const handleProgress = (progress) => {
@@ -161,34 +178,39 @@ setReviewCounts(ratings.length)
   };
 
   const closeVideoPopup = () => {
-
     const newWatchedTime = watchedTime;
-  console.log(watchedTime)
+    console.log(watchedTime);
     const videoId = selectedVideo ? selectedVideo.id : null;
-    const sectionId = selectedSection ? selectedSection.id : null; 
-  
-    if (newWatchedTime > (courseProgress ? courseProgress.progressPercentage.progressPercentage : 0)) {
-      axios.put(`/api/progress/${userId}/${courseId}`, {
-        watchedTime: newWatchedTime,
-        videoId,
-        sectionId
-      }).then(response => {
-        console.log("Watched time updated successfully");
-        axios.get(`/api/progress/${userId}/${courseId}`)
-        .then(response => {
-          const updatedProgress = response.data;
-          setCourseProgress(updatedProgress);
+    const sectionId = selectedSection ? selectedSection.id : null;
+
+    if (
+      newWatchedTime >
+      (courseProgress
+        ? courseProgress.progressPercentage.progressPercentage
+        : 0)
+    ) {
+      axios
+        .put(`/api/progress/${userId}/${courseId}`, {
+          watchedTime: newWatchedTime,
+          videoId,
+          sectionId,
         })
-      }).catch(error => {
-        // Handle error
-        console.error("Error updating watched time:", error);
-      });
+        .then((response) => {
+          console.log("Watched time updated successfully");
+          axios.get(`/api/progress/${userId}/${courseId}`).then((response) => {
+            const updatedProgress = response.data;
+            setCourseProgress(updatedProgress);
+          });
+        })
+        .catch((error) => {
+          // Handle error
+          console.error("Error updating watched time:", error);
+        });
     }
-  
+
     // Close the video popup
     setSelectedVideo(null);
   };
-  
 
   if (!courseDetails) {
     return <div>Loading...</div>;
@@ -216,41 +238,53 @@ setReviewCounts(ratings.length)
     console.log(price);
     navigate("/khalti-payment", { state: { courseId, price } });
   };
-const handleRatingClose = () =>{
-  setShowRatingPrompt(false)
-}
-const renderStars = (ratingValue) => {
-  const stars = [];
-  for (let i = 0; i < 5; i++) {
-    if (i < ratingValue) {
-      stars.push(<span key={i} className="star-filled">★</span>);
-    } else {
-      stars.push(<span key={i} className="star-empty">★</span>);
+  const handleRatingClose = () => {
+    setShowRatingPrompt(false);
+  };
+  const renderStars = (ratingValue) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < ratingValue) {
+        stars.push(
+          <span key={i} className="star-filled">
+            ★
+          </span>
+        );
+      } else {
+        stars.push(
+          <span key={i} className="star-empty">
+            ★
+          </span>
+        );
+      }
     }
-  }
-  return stars;
-};
+    return stars;
+  };
 
   return (
     <div className="course-details-container">
-       {! userRated &&showRatingPrompt && (
+      {!userRated && showRatingPrompt && (
         <div className="rating-prompt">
           <h2>How would you rate your experience with this course?</h2>
-          <HoverRating 
-            value={userRating} 
-            onChange={(event, newValue) => setUserRating(newValue)} 
+          <HoverRating
+            value={userRating}
+            onChange={(event, newValue) => setUserRating(newValue)}
           />
-           <textarea 
-        type="text" 
-        placeholder="Add your comments (optional)" 
-        value={comment} 
-        onChange={(event) => setComment(event.target.value)} 
-        className="comment-input"
-      />
+          <textarea
+            type="text"
+            placeholder="Add your comments (optional)"
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+            className="comment-input"
+          />
           <div>
-          <button onClick={handleSaveRating} className="btn-rating">Submit</button>
-          <button onClick={handleRatingClose}className="btn-rating">Maybe, later</button>
-</div>
+            <button onClick={handleSaveRating} className="btn-rating">
+              Submit
+            </button>
+            <button onClick={handleRatingClose} className="btn-rating">
+              Maybe, later
+            </button>
+          </div>
         </div>
       )}
       <div className="course-details-left">
@@ -258,9 +292,12 @@ const renderStars = (ratingValue) => {
           <div className="course-details">
             <h1>{courseDetails.course.title} </h1>
             <p>{courseDetails.course.description}</p>
-            <p style={{ color: 'rgb(255 226 0)' }}>
-              {totalRating}<span style={{fontSize: '19px' }}> ★ </span>
-              <span style={{ color: '#ff6811b2', fontSize: '19px' }}>({reviewCounts})</span>
+            <p style={{ color: "rgb(255 226 0)" }}>
+              {totalRating}
+              <span style={{ fontSize: "19px" }}> ★ </span>
+              <span style={{ color: "#ff6811b2", fontSize: "19px" }}>
+                ({reviewCounts})
+              </span>
             </p>
             <p style={{ marginTop: "15px" }}>
               Uploaded by: {courseDetails.course.uploadedBy}
@@ -352,62 +389,90 @@ const renderStars = (ratingValue) => {
           ))}
         </div>
         <div className="course-details">
-  <h2>Review</h2>
-  <div className="comment-container">
-  <ul>
-    {comments.map((combinedComment, index) => {
-      // Split the combined comment string by the first occurrence of " "
-      const firstSpaceIndex = combinedComment.indexOf(" ");
-      const profileImage = combinedComment.substring(0, firstSpaceIndex).trim(); // Extract the URL
-      const remainingComment = combinedComment.substring(firstSpaceIndex + 1).trim(); // Extract the rest of the comment
-      const parts = remainingComment.split(":");
-      const fullName = parts[0].trim(); // Extract the full name
-      const comment = parts[1].trim(); // Extract the comment
+          <h2>Review</h2>
+          <div className="comment-container">
+            {comments.length === 0 ? (
+              <p>No reviews yet</p>
+            ) : (
+              <ul>
+                {comments.map((combinedComment, index) => {
+                  // Split the combined comment string by the first occurrence of " "
+                  const firstSpaceIndex = combinedComment.indexOf(" ");
+                  const profileImage = combinedComment
+                    .substring(0, firstSpaceIndex)
+                    .trim(); // Extract the URL
+                  const remainingComment = combinedComment
+                    .substring(firstSpaceIndex + 1)
+                    .trim(); // Extract the rest of the comment
+                  const parts = remainingComment.split(":");
+                  const fullName = parts[0].trim(); // Extract the full name
+                  const comment = parts[1].trim(); // Extract the comment
 
-      return (
-        <li key={index}>
-          <div className="comment">
-            {/* Ensure the profileImage variable contains the full URL */}
-            <img src={profileImage} alt="Profile" className="comment-image" />
-            <span className="full-name"> {fullName}</span><br/><br/>
-            <span className="star-container">{renderStars(totalRating)}</span><br/><br/>
-            {comment}
+                  return (
+                    <li key={index}>
+                      <div className="comment">
+                        {/* Ensure the profileImage variable contains the full URL */}
+                        <img
+                          src={profileImage}
+                          alt="Profile"
+                          className="comment-image"
+                        />
+                        <span className="full-name"> {fullName}</span>
+                        <br />
+                        <br />
+                        <span className="star-container">
+                          {renderStars(totalRating)}
+                        </span>
+                        <br />
+                        <br />
+                        {comment}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
-        </li>
-      );
-    })}
-  </ul>
-  </div>
-</div>
-
-
-
-
-
+        </div>
       </div>
       <div className="course-details-right">
         <div className="upper-right">
           {enrolled ? (
             // Render progress tracking if enrolled
             <div className="progress-tracking">
-  <h2>Course Progress</h2>
-  <div className="progress-info">
-      <div className="step-info">
-        <span>{courseProgress!== null ? `${courseProgress.progressPercentage.progressPercentage}% Completed` : 'Loading...'}</span>
-      </div>
-      <div className="progress-bar">
-        <span
-          style={{ width: `${courseProgress!== null ? courseProgress.progressPercentage.progressPercentage : 0}%` }}
-          aria-hidden="true"
-        ></span>
-      </div>
-      {courseProgress  && (
-        <div className="enrollment-date">
-          You enrolled in this course on: <span>{formatDate(courseProgress.progressPercentage.enrollmentDate)}</span>
-        </div>
-      )}
-    </div>
-</div>
+              <h2>Course Progress</h2>
+              <div className="progress-info">
+                <div className="step-info">
+                  <span>
+                    {courseProgress !== null
+                      ? `${courseProgress.progressPercentage.progressPercentage}% Completed`
+                      : "Loading..."}
+                  </span>
+                </div>
+                <div className="progress-bar">
+                  <span
+                    style={{
+                      width: `${
+                        courseProgress !== null
+                          ? courseProgress.progressPercentage.progressPercentage
+                          : 0
+                      }%`,
+                    }}
+                    aria-hidden="true"
+                  ></span>
+                </div>
+                {courseProgress && (
+                  <div className="enrollment-date">
+                    You enrolled in this course on:{" "}
+                    <span>
+                      {formatDate(
+                        courseProgress.progressPercentage.enrollmentDate
+                      )}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
           ) : (
             <div>
               <h2>Rs {courseDetails.course.price}</h2>
@@ -441,8 +506,8 @@ const renderStars = (ratingValue) => {
             <p>
               <span className="right-icons">
                 <PiCellSignalHighLight />
-              </span>
-              {" "}{courseDetails.course.difficultyLevel} Level
+              </span>{" "}
+              {courseDetails.course.difficultyLevel} Level
             </p>
             <p>
               <span className="right-icons">

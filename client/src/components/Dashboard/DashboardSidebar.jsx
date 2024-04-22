@@ -44,7 +44,7 @@ function DashboardSidebar() {
           <>
             <li>
               
-              <NavLink to="/dashboard/" activeClassName="active"><FaUsers />Manage Users</NavLink>
+              <NavLink to="/dashboard/manage-users" activeClassName="active"><FaUsers />Manage Users</NavLink>
             </li>
           </>
         )}
