@@ -12,6 +12,7 @@ function Courses() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('approved');
   const [ratings, setRatings] = useState({}); // State to store ratings for each course
   const [reviewCounts, setReviewCounts] = useState({}); // State to store review counts for each course
   const userRole = localStorage.getItem('userRole');
@@ -52,6 +53,18 @@ function Courses() {
     fetchRatingsAndReviewCounts();
   }, [courses]);
 
+  // Filter courses based on status
+  useEffect(() => {
+   
+      const filtered = courses.filter(course => course.status === statusFilter);
+      setFilteredCourses(filtered);
+    
+  }, [courses, statusFilter]);
+
+  const handleStatusFilterChange = (event) => {
+    setStatusFilter(event.target.value);
+  };
+
   return (
     <div style={{ display: 'flex' }}>
       {userRole === 'Student' && (
@@ -62,10 +75,22 @@ function Courses() {
           </button>
         </>
       )}
+
       {userRole === 'Teacher' && <button className="addcourse" onClick={() => navigate('/addcourse')}>Add Course</button>}
 
       <div className='course-items'>
+        <div className='head'>
         <h1>Available Courses</h1>
+        {userRole === 'Admin' && (
+        <div className='admin-course-filter'>
+          <select value={statusFilter} onChange={handleStatusFilterChange}>
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      )}
+      </div>
         <div className="courses-list">
           {(filteredCourses === null ? courses : filteredCourses).length > 0 ? (
             (filteredCourses === null ? courses : filteredCourses).map((course) => {

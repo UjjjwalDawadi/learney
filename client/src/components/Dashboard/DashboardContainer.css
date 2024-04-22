@@ -17,3 +17,12 @@
     font-size: 28px;
     font-weight: 600;
 }
+.css-rorn0c-MuiTableContainer-root {
+    width: 100%;
+    background: rgba(128, 128, 128, 0.582);
+    overflow-x: auto;
+    border: 1px solid #ccc;
+}
+.css-15wwp11-MuiTableHead-root {
+    background: gray;
+}
