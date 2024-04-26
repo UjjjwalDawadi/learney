@@ -62,6 +62,8 @@ function MyCourses() {
               courseDuration={course.courseDuration}
               uploadedBy={course.uploadedBy}
               thumbnailPath={course.thumbnailPath}
+              rating={course.rating}
+              reviewCount={course.ratingCount}
               courseId={course.id}
               onRemoveFromBookmark={deleteCourse}
               isOpen={selectedCourseId === course.id}

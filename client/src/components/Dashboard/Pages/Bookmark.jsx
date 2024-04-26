@@ -49,6 +49,8 @@ function BookmarkPage() {
                 price={bookmarkedCourse.course.price} 
                 courseDuration={bookmarkedCourse.course.courseDuration} 
                 uploadedBy={bookmarkedCourse.course.uploadedBy} 
+                rating={bookmarkedCourse.course.rating}
+                reviewCount={bookmarkedCourse.course.ratingCount}
                 thumbnailPath={bookmarkedCourse.course.thumbnailPath} 
                 courseId={bookmarkedCourse.course.id} 
                 bookmarkId={bookmarkedCourse.bookmarkId}

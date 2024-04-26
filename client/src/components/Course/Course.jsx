@@ -175,7 +175,7 @@ function Course({
         </Stack>
       )}
 
-      {userRole === "Student" && !isCartPage && !isEnrolled && (
+      {userRole === "Student" && !isCartPage &&  (
         <button className="wishlist-btn" onClick={handleWishlistClick}>
           <span title="Bookmark">
             {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
@@ -251,9 +251,8 @@ function Course({
             {isEnrolled && !isCartPage ? (
               <button
                 className="cart-btn"
-                onClick={() =>
-                  navigate(`/courses/${courseId}?enrolled=${isEnrolled}`)
-                }
+          onClick={handleClick}
+
               >
                 Continue Learning
               </button>
