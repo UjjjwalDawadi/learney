@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaGoogle, FaFacebook, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { useAuth } from '../../authentication/AuthContext';
 
 import './UserForm.css';
@@ -147,9 +146,9 @@ const UserForm = () => {
               Sign In
             </button>
           )}
-          <h1>Or continue with </h1>
-          <div className="social-icons">
-            {/* <SocialLogin/>  */}
+          {/* <h1>Or continue with </h1> */}
+          {/* <div className="social-icons">
+        
             <li>
               <FaGoogle />
             </li>
@@ -162,7 +161,7 @@ const UserForm = () => {
             <li>
               <FaGithub />
             </li>
-          </div>
+          </div> */}
         </form>
       </div>
       <div className="toggle-container">

@@ -23,7 +23,9 @@ function Courses() {
       try {
         const response = await fetch('/api/courses');
         const data = await response.json();
-        setCourses(data);
+        console.log(data)
+        setCourses(data)
+       
       } catch (error) {
         console.error('Error fetching courses:', error);
       }

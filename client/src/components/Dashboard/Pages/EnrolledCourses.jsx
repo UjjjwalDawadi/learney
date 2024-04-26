@@ -26,7 +26,6 @@ function EnrolledCoursesPage() {
 
   return (
     <div>
-      <h1>Enrolled Courses</h1>
       {enrolledCourses.length === 0 ? (
         <div className='empty-page'>
           <img src={EmptyPage} alt="No data found" />

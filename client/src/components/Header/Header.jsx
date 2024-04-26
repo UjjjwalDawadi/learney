@@ -1,41 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios'; // Import axios for making API requests
-import { useAuth } from '../../authentication/AuthContext';
-import './Header.css';
-import Tooltip from '../../Tooltip/Tooltip';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios"; // Import axios for making API requests
+import { useAuth } from "../../authentication/AuthContext";
+import "./Header.css";
+import Tooltip from "../../Tooltip/Tooltip";
 
-import { RiAccountCircleLine } from 'react-icons/ri';
-import UserManagement from '../../resources/Images/UserManagement.png';
-import { MdOutlineShoppingCart, MdOutlineSettings, MdOutlineDashboardCustomize, MdOutlineLogout } from 'react-icons/md';
-import {  FaSearch, FaRegBookmark } from 'react-icons/fa';
-import CourseGif from '../../resources/Images/Course.gif';
+import { RiAccountCircleLine } from "react-icons/ri";
+import UserManagement from "../../resources/Images/UserManagement.png";
+import {
+  MdOutlineShoppingCart,
+  MdOutlineSettings,
+  MdOutlineDashboardCustomize,
+  MdOutlineLogout,
+} from "react-icons/md";
+import { FaSearch, FaRegBookmark } from "react-icons/fa";
+import CourseGif from "../../resources/Images/Course.gif";
 
 const Header = () => {
-  const [profileImage, setProfileImage] = useState('');
-  const {  userRole, loggedIn, logout } = useAuth();
+  const [profileImage, setProfileImage] = useState("");
+  const { userRole, loggedIn, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [showAccountTooltip, setShowAccountTooltip] = useState(false);
-  const [fullName, setFullName] = useState('');
+  const [fullName, setFullName] = useState("");
   const userId = localStorage.getItem("userId");
-  
+
   useEffect(() => {
     const fetchProfileImage = async () => {
       try {
         // Make an API call to fetch the user's profile image
         const response = await axios.get(`/api/user-details/${userId}`);
-                setProfileImage(response.data.profileImage);
-        setFullName( response.data.fullName);
+        setProfileImage(response.data.profileImage);
+        setFullName(response.data.fullName);
       } catch (error) {
-        console.error('Error fetching profile image:', error);
+        console.error("Error fetching profile image:", error);
       }
     };
 
     if (loggedIn) {
       fetchProfileImage();
     }
-  }, [loggedIn,userId]);
+  }, [loggedIn, userId]);
   const handleNavigation = (path) => {
     navigate(path);
   };
@@ -53,37 +58,55 @@ const Header = () => {
       </div>
       <div className="header-right">
         <ul>
-          <li className={location.pathname === '/homepage' ? 'active' : ''} onClick={() => handleNavigation('/homepage')}>
+          <li
+            className={location.pathname === "/homepage" ? "active" : ""}
+            onClick={() => handleNavigation("/homepage")}
+          >
             Home
           </li>
-          <li className={location.pathname === '/courses' ? 'active' : ''} onClick={() => handleNavigation('/courses')}>
+          <li
+            className={location.pathname === "/courses" ? "active" : ""}
+            onClick={() => handleNavigation("/courses")}
+          >
             Courses
           </li>
-          <li className={location.pathname === '/forum' ? 'active' : ''} onClick={() => handleNavigation('/forum')}>
+          <li
+            className={location.pathname === "/forum" ? "active" : ""}
+            onClick={() => handleNavigation("/forum")}
+          >
             Forum
           </li>
-          {userRole === 'Student' &&
-          <li>              
-            <a href="/cart"><span className="cart-header">
-              <MdOutlineShoppingCart />
-            </span></a>
-          </li>}
+          {userRole === "Student" && (
+            <li>
+              <a
+                className={location.pathname === "/forum" ? "active" : ""}
+                href="/cart"
+              >
+                <span className="cart-header">
+                  <MdOutlineShoppingCart />
+                </span>
+              </a>
+            </li>
+          )}
           {!loggedIn ? (
-            <div className="get-started" onClick={() => handleNavigation('/userform')}>
+            <div
+              className="get-started"
+              onClick={() => handleNavigation("/userform")}
+            >
               <button>Get Started</button>
             </div>
           ) : (
-            <div className="user-container" onMouseEnter={() => setShowAccountTooltip(true)} onMouseLeave={() => setShowAccountTooltip(false)}>
-              <img src={profileImage } alt=""></img>
+            <div
+              className="user-container"
+              onMouseEnter={() => setShowAccountTooltip(true)}
+              onMouseLeave={() => setShowAccountTooltip(false)}
+            >
+              <img src={profileImage} alt=""></img>
               <div className="user-details">
-                <span className="user-name">
-                  {fullName}
-                </span>
-                <span className="user-role">
-                  {userRole}
-                </span>
+                <span className="user-name">{fullName}</span>
+                <span className="user-role">{userRole}</span>
               </div>
-              {userRole === 'Student' ? (
+              {userRole === "Student" ? (
                 <li className="account-tooltip">
                   {showAccountTooltip && (
                     <Tooltip>
@@ -98,7 +121,9 @@ const Header = () => {
                           <span className="icon">
                             <img src={CourseGif} alt="course" />
                           </span>
-                          <a href="/dashboard/enrolled-courses">Enrolled Courses</a>
+                          <a href="/dashboard/enrolled-courses">
+                            Enrolled Courses
+                          </a>
                         </li>
                         <li>
                           <span className="icon">
@@ -126,7 +151,7 @@ const Header = () => {
                     </Tooltip>
                   )}
                 </li>
-              ) : userRole === 'Admin' ? (
+              ) : userRole === "Admin" ? (
                 <li className="account-tooltip">
                   {showAccountTooltip && (
                     <Tooltip>
@@ -169,7 +194,7 @@ const Header = () => {
                     </Tooltip>
                   )}
                 </li>
-              ) : userRole === 'Teacher' ? (
+              ) : userRole === "Teacher" ? (
                 <li className="account-tooltip">
                   {showAccountTooltip && (
                     <Tooltip>
@@ -186,7 +211,6 @@ const Header = () => {
                           </span>
                           <a href="/dashboard/my-courses">My Courses</a>
                         </li>
-                       
                       </ul>
                       <div className="sub-links">
                         <ul>
@@ -208,8 +232,7 @@ const Header = () => {
                   )}
                 </li>
               ) : (
-                <li className="account-tooltip">
-                </li>
+                <li className="account-tooltip"></li>
               )}
             </div>
           )}

@@ -6,7 +6,8 @@ const Forum = () => {
     const [questions, setQuestions] = useState([]);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
     const [newQuestion, setNewQuestion] = useState({ title: '', content: '', audience: 'public' });
-    const author = localStorage.getItem('username');
+    const author = localStorage.getItem('fullName');
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         // Fetch preexisting posts from the backend when the component mounts
@@ -30,6 +31,7 @@ const Forum = () => {
             const postInformation = {
                 ...newQuestion,
                 author,
+                userId
             };
 
             // Perform API call to submit the postInformation to the backend

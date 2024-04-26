@@ -59,21 +59,19 @@ const CourseDetailsPage = () => {
     setIsEnrolled(decryptedParams.enrolled);
   }, []);
   
-
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        
         const userId = localStorage.getItem("userId");
         const response = await fetch(`/api/courses/${courseId}/details`);
-
+  
         if (!response.ok) {
           throw new Error("Failed to fetch course details");
         }
-
+  
         const data = await response.json();
         setCourseDetails(data);
-
+  
         // Fetch ratings and comments for the course
         const ratingResponse = await axios.get(`/api/get-ratings/${courseId}`);
         const ratings = ratingResponse.data;
@@ -85,37 +83,23 @@ const CourseDetailsPage = () => {
           ratings.length > 0 ? totalRatingValue / ratings.length : 0;
         setReviewCounts(ratings.length);
         setTotalRating(averageRating);
-
+  
         const comments = ratings.map((rating) => rating.comment);
         setComments(comments);
+  
         const ratingThreshold = 30;
         const progressPercentage = courseProgress
           ? courseProgress.progressPercentage.progressPercentage
           : 0;
         if (progressPercentage >= ratingThreshold) {
           const userRatingResponse = await axios.get(
-            `/api/get-rating/${userId}`
+            `/api/get-rating/${userId}/${courseId}`
           );
           const userRatings = userRatingResponse.data;
           setUserRated(userRatings.length > 0);
           setShowRatingPrompt(true);
         }
-
-        try {
-          if (userRole === 'Student'){
-          const progressResponse = await axios.get(
-            `/api/progress/${userId}/${courseId}`
-          );
-          const courseProgress = progressResponse.data;
-          setCourseProgress(courseProgress);
-        }
-        } catch (error) {
-          if (error.response && error.response.status === 404) {
-            console.log("Enrollment not found");
-          } else {
-            console.error("Error fetching course progress:", error.message);
-          }
-        }
+  
         if (enrolled) {
           const promises = data.sections.flatMap((section) =>
             section.videos.map((video) =>
@@ -134,9 +118,31 @@ const CourseDetailsPage = () => {
         console.error("Error:", error);
       }
     };
-
+  
     fetchCourseDetails();
-  }, [courseId, enrolled,userRole, courseProgress]);
+  }, [courseId, enrolled, courseProgress]);
+  
+  useEffect(() => {
+    const fetchCourseProgress = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (userRole === 'Student' && enrolled) {
+          const progressResponse = await axios.get(`/api/progress/${userId}/${courseId}`);
+          const courseProgressData = progressResponse.data;
+          setCourseProgress(courseProgressData);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.log("Enrollment not found");
+        } else {
+          console.error("Error fetching course progress:", error.message);
+        }
+      }
+    };
+  
+    fetchCourseProgress();
+  }, [userId, courseId, enrolled, userRole]);
+  
 
   const handleSaveRating = async () => {
     try {

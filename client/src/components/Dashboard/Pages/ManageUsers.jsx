@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -24,6 +23,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { visuallyHidden } from '@mui/utils';
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import axios from 'axios';
 
 // Sorting functions
@@ -65,8 +66,10 @@ function EnhancedTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [dense, setDense] = useState(false);
-  const [selectedRole, setSelectedRole] = useState('student'); // Default to student
-
+  const [selectedRole, setSelectedRole] = useState('student'); 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("success");
   useEffect(() => {
     axios.get('/api/users')
       .then(response => {
@@ -142,12 +145,45 @@ function EnhancedTable() {
 
   const handleBlockUser = () => {
     // Implement block user functionality here
+    handleAlert('Info', "User has been blocked", 'info');
     console.log("Blocked users:", selected);
     // You can send a request to your backend to block these users
   };
 
+  const handleAlertClose = () => {
+    setAlertOpen(false);
+  };
+
+  const handleAlert = (title, message, severity) => {
+    setAlertMessage({ title, message });
+    setAlertSeverity(severity);
+    setAlertOpen(true);
+    setTimeout(() => {
+      setAlertOpen(false);
+    }, 40000); // Close the alert after 3 seconds
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
+          {alertOpen && (
+        <Stack
+          sx={{
+            width: "auto",
+            zIndex: 999,
+            position: "fixed",
+            top: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+          spacing={2}
+        >
+          <Alert severity={alertSeverity} onClose={handleAlertClose}>
+            <strong>{alertMessage.title}</strong>
+            <br />
+            {alertMessage.message}
+          </Alert>
+        </Stack>
+      )} 
       <Paper sx={{ width: '100%', mb: 2 }}>
         <Toolbar
           sx={{

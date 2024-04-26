@@ -96,7 +96,6 @@ function SideBar({ sidebarOpen, courses, setFilteredCourses }) {
     <h2>Difficulty Level</h2>
     <Select
       className='dropdown-box'
-      isMulti
       options={difficultyLevels.map(level => ({ value: level, label: level }))}
       value={filters.difficultyLevels}
       onChange={(selectedOptions) => setFilters({ ...filters, difficultyLevels: selectedOptions })}
@@ -106,7 +105,6 @@ function SideBar({ sidebarOpen, courses, setFilteredCourses }) {
     <h2>Upload Date</h2>
     <Select
       className='dropdown-box'
-      isMulti
       options={uploadDates.map(date => ({ value: date, label: date }))}
       value={filters.uploadDates}
       onChange={(selectedOptions) => setFilters({ ...filters, uploadDates: selectedOptions })}
