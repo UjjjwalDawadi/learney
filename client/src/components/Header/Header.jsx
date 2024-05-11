@@ -3,9 +3,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios"; // Import axios for making API requests
 import { useAuth } from "../../authentication/AuthContext";
 import "./Header.css";
+import { useLoading } from '../Loading/LoadingContext';
+import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from "../../Tooltip/Tooltip";
-
 import { RiAccountCircleLine } from "react-icons/ri";
+
 import UserManagement from "../../resources/Images/UserManagement.png";
 import {
   MdOutlineShoppingCart,
@@ -18,11 +20,14 @@ import CourseGif from "../../resources/Images/Course.gif";
 
 const Header = () => {
   const [profileImage, setProfileImage] = useState("");
+  const { loading, startLoading, stopLoading } = useLoading();
   const { userRole, loggedIn, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [showAccountTooltip, setShowAccountTooltip] = useState(false);
   const [fullName, setFullName] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -37,24 +42,79 @@ const Header = () => {
       }
     };
 
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("/api/courses");
+        setSearchResults(response.data); // Assuming the response data is an array of courses
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+
     if (loggedIn) {
       fetchProfileImage();
+      fetchCourses();
     }
   }, [loggedIn, userId]);
   const handleNavigation = (path) => {
     navigate(path);
   };
+// Function to filter courses based on search query
+const searchCourses = () => {
+  try {
+    startLoading();
+        console.log("Search results before filtering:", searchResults); // Add this line
+    const filteredCourses = searchResults.filter(
+      (course) =>
+        course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        course.uploadedBy.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    console.log("Filtered courses:", filteredCourses); // Add this line
+    setSearchResults(filteredCourses);
+stopLoading();
+navigate("/courses", { state: { courses: filteredCourses } });
+
+ } catch (error) {
+    console.error("Error searching courses:", error);
+stopLoading();
+  }
+};
+
+// Handle search input change
+const handleSearchChange = (event) => {
+  setSearchQuery(event.target.value);
+  console.log("Search query:", event.target.value); 
+};
+
+
+// Handle search form submit
+const handleSearchSubmit = (event) => {
+  event.preventDefault();
+  console.log("Search form submitted"); // Add this line
+  searchCourses();
+};
+
+
 
   return (
     <nav className="header">
+      {loading && <CircularProgress style={{height:'110px', width:'110px',position:'absolute',top:'21%',left:'50%', zIndex:'10'}}/>}
       <div className="header-left">
         <span className="header-brand">Learney</span>
       </div>
       <div className="header-middle">
-        <span className="search-icon">
-          <FaSearch />
-          <input type="text" placeholder="Search anything... " />
-        </span>
+      <form onSubmit={handleSearchSubmit}>
+          <span className="search-icon">
+            <FaSearch />
+            <input
+              type="text"
+              placeholder="Search anything... "
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          </span>
+        </form>
       </div>
       <div className="header-right">
         <ul>

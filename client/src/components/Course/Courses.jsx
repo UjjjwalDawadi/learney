@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 import Course from './Course';
 import './Courses.css';
@@ -10,13 +10,17 @@ import axios from 'axios';
 
 function Courses() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const location = useLocation();
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState(null);
+  const headerFilteredCourses =location.state ? location.state.courses : [];
+  console.log(headerFilteredCourses,".....")
   const [statusFilter, setStatusFilter] = useState('approved');
-  const [ratings, setRatings] = useState({}); // State to store ratings for each course
-  const [reviewCounts, setReviewCounts] = useState({}); // State to store review counts for each course
+  const [ratings, setRatings] = useState({}); 
+  const [reviewCounts, setReviewCounts] = useState({}); 
   const userRole = localStorage.getItem('userRole');
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -25,7 +29,6 @@ function Courses() {
         const data = await response.json();
         console.log(data)
         setCourses(data)
-       
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
@@ -42,25 +45,29 @@ function Courses() {
           const ratings = response.data;
           const totalRatingValue = ratings.reduce((sum, rating) => sum + rating.ratingValue, 0);
           const averageRating = ratings.length > 0 ? totalRatingValue / ratings.length : 0;
+  
+          // Include filtering by rating here
+          if (filters.minRating !== '' && averageRating < parseFloat(filters.minRating)) {
+            return; // Skip this course if its average rating is below the minimum rating filter
+          }
+  
           setRatings((prevRatings) => ({ ...prevRatings, [course.id]: averageRating }));
           setReviewCounts((prevReviewCounts) => ({ ...prevReviewCounts, [course.id]: ratings.length }));
         });
-
+  
         await Promise.all(ratingPromises);
       } catch (error) {
         console.error('Error fetching ratings:', error);
       }
     };
-
+  
     fetchRatingsAndReviewCounts();
-  }, [courses]);
-
+  }, [courses, filters.minRating]);
+  
   // Filter courses based on status
   useEffect(() => {
-   
-      const filtered = courses.filter(course => course.status === statusFilter);
-      setFilteredCourses(filtered);
-    
+    const filtered = courses.filter(course => course.status === statusFilter);
+    setFilteredCourses(filtered);
   }, [courses, statusFilter]);
 
   const handleStatusFilterChange = (event) => {
@@ -82,39 +89,54 @@ function Courses() {
 
       <div className='course-items'>
         <div className='head'>
-        <h1>Available Courses</h1>
-        {userRole === 'Admin' && (
-        <div className='admin-course-filter'>
-          <select value={statusFilter} onChange={handleStatusFilterChange}>
-            <option value="approved">Approved</option>
-            <option value="pending">Pending</option>
-            <option value="rejected">Rejected</option>
-          </select>
+          <h1>Available Courses</h1>
+          {userRole === 'Admin' && (
+            <div className='admin-course-filter'>
+              <select value={statusFilter} onChange={handleStatusFilterChange}>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+          )}
         </div>
-      )}
-      </div>
         <div className="courses-list">
-          {(filteredCourses === null ? courses : filteredCourses).length > 0 ? (
-            (filteredCourses === null ? courses : filteredCourses).map((course) => {
-              return (
+          {(headerFilteredCourses && headerFilteredCourses.length > 0) ? (
+            headerFilteredCourses.map((course) => (
+              <Course
+                key={course.id}
+                courseId={course.id}
+                title={course.title}
+                courseDuration={course.courseDuration}
+                status={course.status}
+                price={course.price}
+                thumbnailPath={course.thumbnailPath}
+                uploadedBy={course.uploadedBy}
+                rating={ratings[course.id] || 0}
+                reviewCount={reviewCounts[course.id] || 0}
+              />
+            ))
+          ) : (
+            (filteredCourses === null || filteredCourses.length === 0) ? (
+              <div className='empty-page' style={{width: '95%'}}>
+                <img src={EmptyPage} alt="No data found" />
+              </div>
+            ) : (
+              filteredCourses.map((course) => (
                 <Course
                   key={course.id}
                   courseId={course.id}
                   title={course.title}
                   courseDuration={course.courseDuration}
-status = {course.status}
+                  status={course.status}
                   price={course.price}
                   thumbnailPath={course.thumbnailPath}
                   uploadedBy={course.uploadedBy}
-                  rating={ratings[course.id] || 0} 
-                  reviewCount={reviewCounts[course.id] || 0} 
+                  rating={ratings[course.id] || 0}
+                  reviewCount={reviewCounts[course.id] || 0}
                 />
-              );
-            })
-          ) : (
-            <div className='empty-page' style={{width: '95%'}}>
-            <img src={EmptyPage} alt="No data found" />
-          </div>
+              ))
+            )
           )}
         </div>
       </div>

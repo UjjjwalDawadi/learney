@@ -1,13 +1,11 @@
-import React from 'react';
-import './Loading.css';
+import * as React from 'react';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const LoadingCircle = () => {
+export default function CircularColor() {
   return (
-    <div className="loading-circle">
-      <div className="circle-inner"></div>
-      <div className="circle-outer"></div>
-    </div>
+    <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
+      <CircularProgress color="success" />
+    </Stack>
   );
-};
-
-export default LoadingCircle;
+}

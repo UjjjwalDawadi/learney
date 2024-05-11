@@ -18,6 +18,7 @@ function SideBar({ sidebarOpen, courses, setFilteredCourses }) {
   const handleFilter = () => {
     const filteredCourses = courses.filter((course) => {
       return (
+        (filters.minRating === '' || course.rating >= parseFloat(filters.minRating)) &&
         (filters.minPrice === '' || course.price >= parseFloat(filters.minPrice)) &&
         (filters.maxPrice === '' || course.price <= parseFloat(filters.maxPrice)) &&
         (filters.maxDuration === '' || course.duration <= parseFloat(filters.maxDuration)) &&

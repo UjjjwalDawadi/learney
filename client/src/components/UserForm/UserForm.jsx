@@ -101,7 +101,7 @@ const UserForm = () => {
 
         const token = parsedData.token;
 
-        console.log('token is ',token)
+     
         localStorage.setItem('token', token);
     localStorage.setItem('fullName', enteredFullName);
     localStorage.setItem('userEmail', enteredEmail);
@@ -146,22 +146,7 @@ const UserForm = () => {
               Sign In
             </button>
           )}
-          {/* <h1>Or continue with </h1> */}
-          {/* <div className="social-icons">
-        
-            <li>
-              <FaGoogle />
-            </li>
-            <li>
-              <FaFacebook />
-            </li>
-            <li>
-              <FaLinkedin />
-            </li>
-            <li>
-              <FaGithub />
-            </li>
-          </div> */}
+          
         </form>
       </div>
       <div className="toggle-container">

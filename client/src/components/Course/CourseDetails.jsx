@@ -5,7 +5,7 @@ import axios from "axios";
 import { IoTimeOutline, IoClose } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
 import { PiStudentDuotone, PiCellSignalHighLight } from "react-icons/pi";
-import CryptoJS from "crypto-js"; // Import CryptoJS library
+import CryptoJS from "crypto-js"; 
 
 import {
   FaRegBookmark,
@@ -13,6 +13,7 @@ import {
   FaRegHandPointRight,
   FaArrowAltCircleDown,
   FaVideo,
+  FaLock
 } from "react-icons/fa";
 import "./CourseDetails.css";
 import HoverRating from "../Course/HoverRating";
@@ -412,18 +413,26 @@ const CourseDetailsPage = () => {
                   {section.videos.map((video, videoIndex) => (
                     <li
                       key={videoIndex}
-                      onClick={() => handleVideoClick(video)}
+                      onClick={() => enrolled && handleVideoClick(video)}
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
                         paddingRight: "20px",
+                        cursor: enrolled ? 'pointer' : 'not-allowed',
                       }}
                     >
                       <span>
                         <FaVideo />
                         {video.title}{" "}
                       </span>
+                      <div>
                       <span className="duration">{video.duration}</span>
+                      {!enrolled && (
+      <span>
+        <FaLock style={{ color: '#7c6a6a', marginLeft: '20px' }} />
+      </span>
+    )}
+    </div>
                     </li>
                   ))}
                 </ul>
@@ -439,22 +448,20 @@ const CourseDetailsPage = () => {
             ) : (
               <ul>
                 {comments.map((combinedComment, index) => {
-                  // Split the combined comment string by the first occurrence of " "
                   const firstSpaceIndex = combinedComment.indexOf(" ");
                   const profileImage = combinedComment
                     .substring(0, firstSpaceIndex)
                     .trim(); // Extract the URL
                   const remainingComment = combinedComment
                     .substring(firstSpaceIndex + 1)
-                    .trim(); // Extract the rest of the comment
+                    .trim(); 
                   const parts = remainingComment.split(":");
-                  const fullName = parts[0].trim(); // Extract the full name
-                  const comment = parts[1].trim(); // Extract the comment
+                  const fullName = parts[0].trim(); 
+                  const comment = parts[1].trim(); 
 
                   return (
                     <li key={index}>
                       <div className="comment">
-                        {/* Ensure the profileImage variable contains the full URL */}
                         <img
                           src={profileImage}
                           alt="Profile"
@@ -481,7 +488,6 @@ const CourseDetailsPage = () => {
       <div className="course-details-right">
         <div className="upper-right">
           {enrolled ? (
-            // Render progress tracking if enrolled
             <div className="progress-tracking">
               <h2>Course Progress</h2>
               <div className="progress-info">

@@ -15,6 +15,7 @@ import LoadingCircle from "./components/Loading/Loading"; // Import the LoadingC
 import KhaltiPaymentComponent from "./components/Payments/KhaltiPayment";
 import CartPage from "./components/Cart/Cart";
 import EditCourseDetails from "./components/Dashboard/Pages/EditCourse";
+import Verification from "./components/Verification/Verification";
 
 const app = initializeApp(firebaseConfig);
 
@@ -23,6 +24,7 @@ function App() {
   const isUserFormRoute =
     location.pathname === "/userform" ||
     location.pathname === "/userrole" ||
+    location.pathname === "/verification" ||
     location.pathname === "/addcourse";
 
   const [loading, setLoading] = useState(true); // Initialize loading state
@@ -54,6 +56,7 @@ function App() {
         <Route path="/userrole" element={<UserRole />} />
         <Route path="/dashboard/*" element={<DashboardContainer />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/verification" element={<Verification />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/courses/:courseId/edit" element={<EditCourseDetails />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
