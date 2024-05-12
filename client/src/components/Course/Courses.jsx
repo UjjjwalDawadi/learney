@@ -45,25 +45,19 @@ function Courses() {
           const ratings = response.data;
           const totalRatingValue = ratings.reduce((sum, rating) => sum + rating.ratingValue, 0);
           const averageRating = ratings.length > 0 ? totalRatingValue / ratings.length : 0;
-  
-          // Include filtering by rating here
-          if (filters.minRating !== '' && averageRating < parseFloat(filters.minRating)) {
-            return; // Skip this course if its average rating is below the minimum rating filter
-          }
-  
           setRatings((prevRatings) => ({ ...prevRatings, [course.id]: averageRating }));
           setReviewCounts((prevReviewCounts) => ({ ...prevReviewCounts, [course.id]: ratings.length }));
         });
-  
+
         await Promise.all(ratingPromises);
       } catch (error) {
         console.error('Error fetching ratings:', error);
       }
     };
-  
+
     fetchRatingsAndReviewCounts();
-  }, [courses, filters.minRating]);
-  
+  }, [courses]);
+
   // Filter courses based on status
   useEffect(() => {
     const filtered = courses.filter(course => course.status === statusFilter);
@@ -73,7 +67,7 @@ function Courses() {
   const handleStatusFilterChange = (event) => {
     setStatusFilter(event.target.value);
   };
-
+console.log('fc',filteredCourses)
   return (
     <div style={{ display: 'flex' }}>
       {userRole === 'Student' && (

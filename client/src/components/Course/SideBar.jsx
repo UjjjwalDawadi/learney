@@ -14,20 +14,32 @@ function SideBar({ sidebarOpen, courses, setFilteredCourses }) {
     difficultyLevels: [],
     uploadDates: []
   });
-
-  const handleFilter = () => {
-    const filteredCourses = courses.filter((course) => {
-      return (
-        (filters.minRating === '' || course.rating >= parseFloat(filters.minRating)) &&
-        (filters.minPrice === '' || course.price >= parseFloat(filters.minPrice)) &&
-        (filters.maxPrice === '' || course.price <= parseFloat(filters.maxPrice)) &&
-        (filters.maxDuration === '' || course.duration <= parseFloat(filters.maxDuration)) &&
-        (filters.difficultyLevels.length === 0 || filters.difficultyLevels.includes(course.difficultyLevel)) &&
-        (filters.uploadDates.length === 0 || filters.uploadDates.includes(course.uploadDate))
+console.log('ccc',courses)
+const handleFilter = () => {
+  const filteredCourses = courses.filter(course => {
+    const passedFilters =
+      (filters.minRating === '' || course.rating >= parseFloat(filters.minRating)) &&
+      (filters.minPrice === '' || course.price >= parseFloat(filters.minPrice)) &&
+      (filters.maxPrice === '' || course.price <= parseFloat(filters.maxPrice)) &&
+      (filters.maxDuration === '' || course.duration <= parseFloat(filters.maxDuration)) &&
+      (
+        !Array.isArray(filters.difficultyLevels) || filters.difficultyLevels.length === 0 ||
+        filters.difficultyLevels.some(selected => selected.value === course.difficultyLevel)
+      ) &&
+      (
+        !Array.isArray(filters.uploadDates) || filters.uploadDates.length === 0 ||
+        filters.uploadDates.some(selected => selected.value === course.uploadDate)
       );
-    });
-    setFilteredCourses(filteredCourses);
-  };
+
+    return passedFilters;
+  });
+
+  console.log('Filtered Courses:', filteredCourses); // Add this line for debugging
+
+  setFilteredCourses(filteredCourses);
+};
+
+
 
   const handleReset = () => {
     setFilters({

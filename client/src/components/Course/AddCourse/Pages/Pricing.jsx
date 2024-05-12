@@ -1,10 +1,13 @@
 import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useLoading } from '../../../Loading/LoadingContext';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Pricing = ({ formData, setFormData }) => {
   const navigate = useNavigate();
   const [price, setPrice] = useState('');
+  const { loading, startLoading, stopLoading } = useLoading();
   const storage = getStorage();
   const uploadedBy = localStorage.getItem('fullName');
 
@@ -28,6 +31,7 @@ const Pricing = ({ formData, setFormData }) => {
     alert('Please enter a valid price.');
     return;
   }
+  startLoading();
 
     const courseImage = formData.imageFile;
 
@@ -48,10 +52,12 @@ const Pricing = ({ formData, setFormData }) => {
         let videoUrl = '';
         if (videoFile && videoFile.name) {
           console.log('Uploading video:', videoFile.name); // Log before uploading video
+          startLoading();
           const videoStorageRef = ref(storage, `course_videos/${videoFile.name}`);
           await uploadBytes(videoStorageRef, videoFile);
           videoUrl = await getDownloadURL(videoStorageRef);
           console.log('Video uploaded successfully. URL:', videoUrl); // Log after uploading video
+          stopLoading();
         } else {
           throw new Error("Video file is missing or invalid.");
         }
@@ -100,6 +106,10 @@ const Pricing = ({ formData, setFormData }) => {
 
   return (
     <div className="course-form-container">
+       {loading && 
+      <div style={{width:'100%',height:'100%', background:'#ccc',zIndex:'8',position:'absolute',left:'0',top:'0'}}>
+           <CircularProgress style={{height:'110px', width:'110px',position:'absolute',top:'21%',left:'50%', zIndex:'10'}}/>
+            </div>}
       <h1>Pricing</h1>
       <div className="add-course">
         <h2>Set Price</h2>

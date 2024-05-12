@@ -39,6 +39,9 @@ const CourseDetailsPage = () => {
   const [comments, setComments] = useState([]);
   const [status, setStatus] = useState("");
   const [enrolled, setIsEnrolled] = useState(false);
+  const [enrollmentCount, setEnrollmentCount] = useState(0);
+
+
 
 
   useEffect(() => {
@@ -122,7 +125,20 @@ const CourseDetailsPage = () => {
   
     fetchCourseDetails();
   }, [courseId, enrolled, courseProgress]);
-  
+  useEffect(() => {
+    const fetchEnrollmentCount = async () => {
+      try {
+        const response = await axios.get(`/api/enrollment-count/${courseId}`);
+        console.log(response,'rr')
+        setEnrollmentCount(response.data.count);
+      } catch (error) {
+        console.error('Error fetching enrollment count:', error);
+      }
+    };
+
+    fetchEnrollmentCount();    
+  }, [courseId]);
+
   useEffect(() => {
     const fetchCourseProgress = async () => {
       try {
@@ -550,7 +566,7 @@ const CourseDetailsPage = () => {
               <span className="right-icons">
                 <PiStudentDuotone />
               </span>{" "}
-              Students Enrolled {courseDetails.studentsEnrolled}
+              Students Enrolled - {enrollmentCount}
             </p>
             <p>
               <span className="right-icons">
@@ -562,7 +578,7 @@ const CourseDetailsPage = () => {
               <span className="right-icons">
                 <IoTimeOutline />
               </span>{" "}
-              Duration {courseDetails.course.courseDuration}
+              Duration - {courseDetails.course.courseDuration}
             </p>
             <p>
               <span className="right-icons">
