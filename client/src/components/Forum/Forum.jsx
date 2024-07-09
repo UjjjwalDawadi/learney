@@ -97,8 +97,14 @@ const Forum = () => {
             {/* Render existing questions */}
             {questions.map((question, index) => (
                 <div className='post-card' key={index}>
-                    {question.author}
+                    <div style={{display: 'flex'
+                    }}>
+                    <img src={question.authorImage} className="comment-image" alt='author-profile' style={{width: '35px'
+}}/>
+                    <span className='full-name'>{question.author}</span>
                     {question.createdAt}
+</div>
+
                     <h3>{question.title}</h3>
                     <p>{question.content}</p>
                 </div>

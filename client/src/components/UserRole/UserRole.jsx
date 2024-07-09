@@ -34,7 +34,7 @@ const UserRole = () => {
   const userId = jsonData.userId; // Access the userId property from the parsed JSON data
 localStorage.setItem('userId',userId)
       if (data.includes('Role updated successfully')) {
-        navigate('/verification');
+        navigate('/homepage');
       } else {
         console.error('Error');
       }
